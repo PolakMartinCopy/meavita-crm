@@ -257,7 +257,7 @@ class UsersController extends AppController {
 		
 		// vyprazdnim tabulky, kde nemam data
 		$tables = array(
-//			'addresses',
+			'addresses',
 			'anniversaries',
 			'b_p_c_s_rep_purchases',
 			'b_p_c_s_rep_sales',
@@ -266,7 +266,7 @@ class UsersController extends AppController {
 			'b_p_rep_sales',
 			'b_p_rep_transaction_items',
 			'business_partner_notes',
-//			'business_partners',
+			'business_partners',
 			'business_sessions',
 			'business_sessions_contact_people',
 			'business_sessions_users',
@@ -296,9 +296,9 @@ class UsersController extends AppController {
 			'm_c_storings',
 			'm_c_transaction_items',
 			'offers',
-//			'product_variants',
+			'product_variants',
 			'product_variants_transactions',
-//			'products',
+			'products',
 			'recursive_impositions',
 //			'rep_attributes',
 			'rep_store_items',
