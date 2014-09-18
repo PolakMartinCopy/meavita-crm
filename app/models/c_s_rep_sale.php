@@ -137,6 +137,8 @@ class CSRepSale extends AppModel {
 						'is_saleable' => true
 					)
 				);
+
+				$this->CSRep->CSRepStoreItem->create();
 			} else {
 				// vypocitam hodnoty
 				$quantity = $rep_store_item['CSRepStoreItem']['quantity'] + $c_s_rep_transaction_item['CSRepTransactionItem']['quantity'];
@@ -165,8 +167,6 @@ class CSRepSale extends AppModel {
 				$rep_store_item['CSRepStoreItem']['quantity'] = $quantity;
 				$rep_store_item['CSRepStoreItem']['price'] = $price;
 				$rep_store_item['CSRepStoreItem']['price_vat'] = $price_vat;
-				
-				$this->CSRep->CSRepStoreItem->create();
 			}
 			
 			// ulozim

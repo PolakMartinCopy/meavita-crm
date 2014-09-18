@@ -14,7 +14,7 @@
 <?php if (empty($b_p_c_s_rep_sales)) { ?>
 <p><em>V systému nejsou žádné prodeje.</em></p>
 <?php } else { ?>
-<?php echo $this->element('b_p_c_s_rep_sales/index_table', array('rep_tab' => 6, 'b_p_tab' => 18))?>
+<?php echo $this->element('b_p_c_s_rep_sales/index_table', array('rep_tab' => 6, 'b_p_tab' => 23))?>
 <?php } ?>
 <script type="text/javascript">
 	$("#search_form_show_b_p_c_s_rep_sales").click(function () {

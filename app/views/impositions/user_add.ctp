@@ -27,7 +27,7 @@
 			changeMonth: false,
 			numberOfMonths: 1,
 			onSelect: function( selectedDate ) {
-				var option = this.id == "RecursiveImpositionFrom" ? "minDate" : "maxDate",
+				var option = this.id == "RecursiveImpositionTo" ? "maxDate" : "minDate",
 					instance = $( this ).data( "datepicker" ),
 					date = $.datepicker.parseDate(
 						instance.settings.dateFormat ||

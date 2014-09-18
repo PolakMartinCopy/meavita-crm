@@ -26,8 +26,6 @@
 <ul>
 <?php if (isset($business_partner_id)) { ?>
 	<li><?php echo $html->link('Zpět na detail obchodního partnera', array('controller' => 'business_partners', 'action' => 'view', $business_partner_id))?></li>
-<?php } else { ?>
-	<li><?php echo $html->link('Zpět na seznam kontaktních osob', array('controller' => 'contact_people', 'action' => 'index'))?></li>
 <?php } ?>
 </ul>
 
@@ -102,7 +100,5 @@ if (isset($business_partner_id)) {
 <ul>
 <?php if (isset($business_partner_id)) { ?>
 	<li><?php echo $html->link('Zpět na detail obchodního partnera', array('controller' => 'business_partners', 'action' => 'view', $business_partner_id))?></li>
-<?php } else { ?>
-	<li><?php echo $html->link('Zpět na seznam kontaktních osob', array('controller' => 'contact_people', 'action' => 'index'))?></li>
 <?php } ?>
 </ul>

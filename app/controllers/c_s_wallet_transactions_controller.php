@@ -59,6 +59,7 @@ class CSWalletTransactionsController extends AppController {
 				'CSWalletTransaction.created',
 				'CSWalletTransaction.amount',
 				'CSWalletTransaction.amount_after',
+				'CSWalletTransaction.year',
 				
 				'CSRep.id',
 				'CSRep.first_name',

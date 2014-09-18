@@ -74,7 +74,7 @@ if (empty($contact_people)) {
 		<th><?php echo $paginator->sort('Mob. telefon', 'ContactPerson.cellular')?></th>
 		<th><?php echo $paginator->sort('Email', 'ContactPerson.email')?></th>
 		<th><?php echo $paginator->sort('Obchodní partner', 'BusinessPartner.name')?></th>
-		<th>Výročí</th>
+<!-- 	<th>Výročí</th> -->
 		<th>&nbsp;</th>
 	</tr>
 <?php
@@ -91,11 +91,20 @@ if (empty($contact_people)) {
 		<td><?php echo $contact_person['ContactPerson']['cellular']?></td>
 		<td><?php echo $html->link($contact_person['ContactPerson']['email'], 'mailto:' . $contact_person['ContactPerson']['email'])?></td>
 		<td><?php echo $html->link($contact_person['BusinessPartner']['name'], array('controller' => 'business_partner', 'action' => 'view', $contact_person['BusinessPartner']['id']))?></td>
-		<td><?php echo (empty($contact_person['Anniversary'])) ? 'ne' : 'ano'?></td>
-		<td class="actions">
-			<?php echo $html->link('Detail', array('controller' => 'contact_people', 'action' => 'view', $contact_person['ContactPerson']['id']))?>
-			<?php echo $html->link('Upravit', array('controller' => 'contact_people', 'action' => 'edit', $contact_person['ContactPerson']['id']))?>
-			<?php echo $html->link('Smazat', array('controller' => 'contact_people', 'action' => 'delete', $contact_person['ContactPerson']['id']), null, 'Opravdu chcete smazat kontatní osobu ' . $contact_person['ContactPerson']['first_name'] . ' ' . $contact_person['ContactPerson']['last_name'] . '?')?>
+<!-- 	<td><?php echo (empty($contact_person['Anniversary'])) ? 'ne' : 'ano'?></td> -->
+		<td class="actions"><?php 
+			$links = array();
+			if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/ContactPeople/user_view')) {
+				$links[] = $html->link('Detail', array('controller' => 'contact_people', 'action' => 'view', $contact_person['ContactPerson']['id']));
+			}
+			if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/ContactPeople/user_edit')) {
+				$links[] = $html->link('Upravit', array('controller' => 'contact_people', 'action' => 'edit', $contact_person['ContactPerson']['id']));
+			}
+			if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/ContactPeople/user_delete')) {
+				$links[] = $html->link('Smazat', array('controller' => 'contact_people', 'action' => 'delete', $contact_person['ContactPerson']['id']), null, 'Opravdu chcete smazat kontatní osobu ' . $contact_person['ContactPerson']['first_name'] . ' ' . $contact_person['ContactPerson']['last_name'] . '?');
+			}
+			echo implode(' | ', $links);
+		?></td>
 	</tr>
 <?php } // end foreach ?>
 </table>

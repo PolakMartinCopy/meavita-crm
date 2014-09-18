@@ -61,13 +61,16 @@ class BPCSRepTransactionItem extends AppModel {
 		$data = $this->data;
 		// pokud vkladam novou polozku
 		if ($created) {
+			
 			$conditions = array(
 				'CSRepStoreItem.product_variant_id' => $data['BPCSRepTransactionItem']['product_variant_id'],
-				'CSRepStoreItem.c_s_rep_id' => $data['BPCSRepTransactionItem']['c_s_rep_id']
+				'CSRepStoreItem.c_s_rep_id' => $data['BPCSRepTransactionItem']['c_s_rep_id'],
+				'CSRepStoreItem.is_saleable' => false
 			);
 			$quantity = $data['BPCSRepTransactionItem']['quantity'];
 			if ($data['BPCSRepTransactionItem']['parent_model'] == 'BPCSRepSale') {
 				$quantity = -$quantity;
+				$conditions['CSRepStoreItem.is_saleable'] = true;
 			}
 			// musim upravit stav polozek ve skladu
 			// podivam se, jestli mam pro daneho repa ve skladu polozku s touto variantou produktu
@@ -148,12 +151,20 @@ class BPCSRepTransactionItem extends AppModel {
 		if (isset($this->deleted['BPCSRepTransactionItem']['b_p_c_s_rep_purchase_id']) && !empty($this->deleted['BPCSRepTransactionItem']['b_p_c_s_rep_purchase_id'])) {
 			$model = 'BPCSRepPurchase';
 		}
+		
+		$conditions = array(
+			'CSRepStoreItem.c_s_rep_id' => $this->deleted[$model]['c_s_rep_id'],
+			'CSRepStoreItem.product_variant_id' => $this->deleted['BPCSRepTransactionItem']['product_variant_id']
+		);
+		
+		$conditions['CSRepStoreItem.is_saleable'] = false;
+		if ($model == 'BPCSRepSale') {
+			$conditions['CSRepStoreItem.is_saleable'] = true;
+		}
+
 		// ze skladu odberatele odectu, co jsem smazal z transakce
 		$store_item = $this->BPCSRepPurchase->CSRep->CSRepStoreItem->find('first', array(
-			'conditions' => array(
-				'CSRepStoreItem.c_s_rep_id' => $this->deleted[$model]['c_s_rep_id'],
-				'CSRepStoreItem.product_variant_id' => $this->deleted['BPCSRepTransactionItem']['product_variant_id']
-			),
+			'conditions' => $conditions,
 			'contain' => array(),
 			'fields' => array('CSRepStoreItem.id', 'CSRepStoreItem.quantity', 'CSRepStoreItem.price_vat')
 		));
@@ -169,11 +180,13 @@ class BPCSRepTransactionItem extends AppModel {
 				)
 			);
 		}
-		
+//debug($store_item); die();	
 		// pokud jsem mazal nakup, musim odecist ze skladu repa
 		if ($model == 'BPCSRepPurchase') {
 			$price_vat = 0;
 			$price = 0;
+//			debug($this->deleted);
+//			debug($store_item); die();
 			$quantity = $store_item['CSRepStoreItem']['quantity'] - $this->deleted['BPCSRepTransactionItem']['quantity'];
 			if ($quantity != 0) {
 				$price_vat = (($store_item['CSRepStoreItem']['price_vat'] * $store_item['CSRepStoreItem']['quantity'] - ($this->deleted['BPCSRepTransactionItem']['quantity'] * $this->deleted['BPCSRepTransactionItem']['price_vat'])) / ($store_item['CSRepStoreItem']['quantity'] - $this->deleted['BPCSRepTransactionItem']['quantity']));
@@ -208,7 +221,7 @@ class BPCSRepTransactionItem extends AppModel {
 		} else {
 			$store_item['CSRepStoreItem']['quantity'] += $this->deleted['BPCSRepTransactionItem']['quantity'];
 		}
-	
+//debug($store_item); die();
 		
 		$this->$model->CSRep->CSRepStoreItem->save($store_item);
 	}

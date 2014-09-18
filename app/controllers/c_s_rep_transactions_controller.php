@@ -22,7 +22,7 @@ class CSRepTransactionsController extends AppController {
 		
 		// rep muze vypisovat pouze svoje nakupy
 		if ($this->user['User']['user_type_id'] == 5) {
-			$conditions['CSRepTransaction.rep_id'] = $this->user['User']['id'];
+			$conditions['CSRepTransaction.c_s_rep_id'] = $this->user['User']['id'];
 		}
 		
 		// pokud chci vysledky vyhledavani

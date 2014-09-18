@@ -13,12 +13,24 @@ if (isset($this->params['named']['tab'])) {
 
 <div id="tabs">
 	<ul>
+<?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/BusinessPartners/user_view')) { ?>
 		<li><a href="#tabs-1">Info</a></li>
+<?php } ?>
+<?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/Addresses')) { ?>
 		<li><a href="#tabs-2">Adresy</a></li>
+<?php } ?>
+<?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/Addresses')) { ?>
 		<li><a href="#tabs-5">Pobočky</a></li>
+<?php } ?>
+<?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/Documents')) { ?>
 		<li><a href="#tabs-6">Dokumenty</a></li>
+<?php } ?>
+<?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/ContactPeople/user_view')) { ?>
 		<li><a href="#tabs-7">Kont. osoby</a></li>
+<?php } ?>
+<?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/BusinessSessions/user_view')) { ?>
 		<li><a href="#tabs-8">Obch. jednání</a></li>
+<?php } ?>
 <?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/StoreItems/index')) { ?>
 		<li><a href="#tabs-9">Sklad</a></li>
 <?php } ?>
@@ -77,6 +89,7 @@ if (isset($this->params['named']['tab'])) {
 	</ul>
 	
 <?php /* TAB 1 ****************************************************************************************************************/ ?>
+<?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/BusinessPartners/user_view')) { ?>
 	<div id="tabs-1">
 		<h2>Základní informace</h2>
 		<table class="left_heading">
@@ -133,8 +146,9 @@ if (isset($this->params['named']['tab'])) {
 			<li><?php echo $html->link('Upravit obchodního partnera', array('controller' => 'business_partners', 'action' => 'edit', $business_partner['BusinessPartner']['id']))?>
 		</ul>
 	</div>
-	
+<?php } ?>
 <?php /* TAB 2 ****************************************************************************************************************/ ?>
+<?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/Addresses')) { ?>
 	<div id="tabs-2">
 		<h2>Adresa sídla</h2>
 		<table class="left_heading">
@@ -176,7 +190,9 @@ if (isset($this->params['named']['tab'])) {
 			</tr>
 		</table>
 		<ul>
-			<li><?php echo $html->link('Upravit adresu sídla', array('controller' => 'addresses', 'action' => 'edit', $seat_address['Address']['id']))?>
+			<?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/Addresses/user_edit')) { ?>
+			<li><?php echo $html->link('Upravit adresu sídla', array('controller' => 'addresses', 'action' => 'edit', $seat_address['Address']['id']))?></li>
+			<?php } ?>
 		</ul>
 		
 		<h2>Fakturační adresa</h2>
@@ -225,8 +241,12 @@ if (isset($this->params['named']['tab'])) {
 			</tr>
 		</table>
 		<ul>
+			<?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/Addresses/edit')) { ?>
 			<li><?php echo $html->link('Upravit fakturační adresu', array('controller' => 'addresses', 'action' => 'edit', $invoice_address['Address']['id']))?></li>
+			<?php } ?>
+			<?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/Addresses/user_delete')) { ?>
 			<li><?php echo $html->link('Smazat fakturační adresu', array('controller' => 'addresses', 'action' => 'delete', $invoice_address['Address']['id']), null, 'Opravdu chcete smazat fakturační adresu ' . $invoice_address['Address']['name'] . '?')?></li>
+			<?php } ?>
 		</ul>
 		<?php } // end if?>
 		
@@ -234,7 +254,9 @@ if (isset($this->params['named']['tab'])) {
 		<?php if (empty($delivery_address)) { ?>
 		<p><em>Obchodní partner nemá zadánu doručovací adresu.</em></p>
 		<ul>
+			<?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/Addresses/user_add')) { ?>
 			<li><?php echo $html->link('Zadat doručovací adresu', array('controller' => 'addresses', 'action' => 'add', 'address_type_id' => 4, 'business_partner_id' => $business_partner['BusinessPartner']['id']))?>
+			<?php } ?>
 		</ul>
 		<?php } else { ?>
 		<table class="left_heading">
@@ -276,13 +298,18 @@ if (isset($this->params['named']['tab'])) {
 			</tr>
 		</table>
 		<ul>
+			<?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/Addresses/user_edit')) { ?>
 			<li><?php echo $html->link('Upravit doručovací adresu', array('controller' => 'addresses', 'action' => 'edit', $delivery_address['Address']['id']))?></li>
+			<?php } ?>
+			<?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/Addresses/user_delete')) { ?>
 			<li><?php echo $html->link('Smazat doručovací adresu', array('controller' => 'addresses', 'action' => 'delete', $delivery_address['Address']['id']), null, 'Opravdu chcete smazat doručovací adresu ' . $delivery_address['Address']['name'] . '?')?></li>
+			<?php } ?>
 		</ul>
 		<?php } // end if?>
 	</div>
-	
+<?php } ?>
 <?php /* TAB 5 ****************************************************************************************************************/ ?>
+<?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/Addresses')) { ?>
 	<div id="tabs-5">
 		<h2>Adresy poboček</h2>
 		
@@ -388,10 +415,16 @@ if (isset($this->params['named']['tab'])) {
 				<td><?php echo $branch_address['Address']['city']?></td>
 				<td><?php echo $branch_address['Address']['zip']?></td>
 				<td><?php echo $branch_address['Address']['region']?></td>
-				<td class="actions">
-					<?php echo $html->link('Upravit', array('controller' => 'addresses', 'action' => 'edit', $branch_address['Address']['id']))?>
-					<?php echo $html->link('Smazat', array('controller' => 'addresses', 'action' => 'delete', $branch_address['Address']['id']), null, 'Opravdu chcete adresu pobočky ' . $branch_address['Address']['name'] . ' smazat?')?>
-				</td>
+				<td class="actions"><?php 
+					$links = array();
+					if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/Addresses/user_edit')) {
+						$links[] = $html->link('Upravit', array('controller' => 'addresses', 'action' => 'edit', $branch_address['Address']['id']));
+					}
+					if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/Addresses/user_delete')) {
+						$links = $html->link('Smazat', array('controller' => 'addresses', 'action' => 'delete', $branch_address['Address']['id']), null, 'Opravdu chcete adresu pobočky ' . $branch_address['Address']['name'] . ' smazat?');
+					}
+					echo implode(' | ', $links);
+				?></td>
 			</tr>
 		<?php } // end foreach ?>
 		</table>
@@ -401,8 +434,9 @@ if (isset($this->params['named']['tab'])) {
 		echo $paginator->next(' Další »', null, null, array('class' => 'disabled'));
 	?>
 	</div>
-
+<?php } ?>
 <?php /* TAB 6 ****************************************************************************************************************/ ?>
+<?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/Documents')) { ?>
 	<div id="tabs-6">
 		<h2>Dokumenty</h2>
 		<button id="search_form_show_documents">vyhledávací formulář</button>
@@ -577,8 +611,9 @@ if (isset($this->params['named']['tab'])) {
 	echo $form->end();
 ?>
 	</div>
-
+<?php } ?>
 <?php /* TAB 7 ****************************************************************************************************************/ ?>
+<?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/ContactPeople/user_view')) { ?>
 	<div id="tabs-7">
 		<h2>Kontaktní osoby</h2>
 		<button id="search_form_show_contact_people">vyhledávací formulář</button>
@@ -680,17 +715,24 @@ if (isset($this->params['named']['tab'])) {
 				<td><?php echo $contact_person['ContactPerson']['cellular']?></td>
 				<td><?php echo $html->link($contact_person['ContactPerson']['email'], 'mailto:' . $contact_person['ContactPerson']['email'])?></td>
 				<td><?php echo $html->link($contact_person['BusinessPartner']['name'], array('controller' => 'business_partners', 'action' => 'view', $contact_person['BusinessPartner']['id']))?></td>
-				<td class="actions">
-					<?php echo $html->link('Upravit', array('controller' => 'contact_people', 'action' => 'edit', $contact_person['ContactPerson']['id'], 'business_partner_id' => $business_partner['BusinessPartner']['id']))?>
-					<?php echo $html->link('Smazat', array('controller' => 'contact_people', 'action' => 'delete', $contact_person['ContactPerson']['id'], 'business_partner_id' => $business_partner['BusinessPartner']['id']), null, 'Opravdu chcete smazat kontatní osobu ' . $contact_person['ContactPerson']['first_name'] . ' ' . $contact_person['ContactPerson']['last_name'] . '?')?>
-				</td>
+				<td class="actions"><?php 
+					$links = array();
+					if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/ContactPeople/user_edit')) {
+						$links[] = $html->link('Upravit', array('controller' => 'contact_people', 'action' => 'edit', $contact_person['ContactPerson']['id'], 'business_partner_id' => $business_partner['BusinessPartner']['id']));
+					}
+					if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/ContactPeople/user_delete')) {
+						$links[] = $html->link('Smazat', array('controller' => 'contact_people', 'action' => 'delete', $contact_person['ContactPerson']['id'], 'business_partner_id' => $business_partner['BusinessPartner']['id']), null, 'Opravdu chcete smazat kontatní osobu ' . $contact_person['ContactPerson']['first_name'] . ' ' . $contact_person['ContactPerson']['last_name'] . '?');
+					}
+					echo implode(' | ', $links);
+				?></td>
 			</tr>
 		<?php } // end foreach ?>
 		</table>
 		<?php } // end if ?>
 	</div>
-	
+<?php } ?>
 <?php /* TAB 8 ****************************************************************************************************************/ ?>
+<?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/BusinessSessions/user_view')) { ?>
 	<div id="tabs-8">
 		<h2>Obchodní jednání</h2>
 
@@ -808,17 +850,28 @@ if (isset($this->params['named']['tab'])) {
 				<td><?php echo $business_session['BusinessSession']['created']?></td>
 				<td><?php echo $business_session['User']['last_name']?></td>
 				<td><?php echo floatval($business_session[0]['celkem'])?></td>
-				<td class="actions">
-					<?php echo $html->link('Detail', array('controller' => 'business_sessions', 'action' => 'view', $business_session['BusinessSession']['id']))?>
-					<?php echo $html->link('Upravit', array('controller' => 'business_sessions', 'action' => 'edit', $business_session['BusinessSession']['id']))?>
-					<?php echo $html->link('Uzavřít', array('controller' => 'business_sessions', 'action' => 'close', $business_session['BusinessSession']['id']), null, 'Opravdu chcete obchnodní jednání ' . $business_session['BusinessSession']['id'] . ' označit jako uzavřené?')?>
-					<?php echo $html->link('Storno', array('controller' => 'business_sessions', 'action' => 'storno', $business_session['BusinessSession']['id']), null, 'Opravdu chcete obchodní jednání ' . $business_session['BusinessSession']['id'] . ' stornovat?')?>
-				</td>
+				<td class="actions"><?php 
+					$links = array();
+					if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/BusinessSessions/user_view')) {
+						$links[] = $html->link('Detail', array('controller' => 'business_sessions', 'action' => 'view', $business_session['BusinessSession']['id']));
+					}
+					if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/BusinessSessions/user_edit')) {
+						$links[] = $html->link('Upravit', array('controller' => 'business_sessions', 'action' => 'edit', $business_session['BusinessSession']['id']));
+					}
+					if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/BusinessSessions/user_close')) {
+						$links[] = $html->link('Uzavřít', array('controller' => 'business_sessions', 'action' => 'close', $business_session['BusinessSession']['id']), null, 'Opravdu chcete obchnodní jednání ' . $business_session['BusinessSession']['id'] . ' označit jako uzavřené?');
+					}
+					if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/BusinessSessions/user_storno')) {
+						$links[] = $html->link('Storno', array('controller' => 'business_sessions', 'action' => 'storno', $business_session['BusinessSession']['id']), null, 'Opravdu chcete obchodní jednání ' . $business_session['BusinessSession']['id'] . ' stornovat?');
+					}
+					echo implode(' | ', $links);
+				?></td>
 			</tr>
 		<?php } ?>
 		</table>
 		<?php } // end if ?>
 	</div>
+<?php } ?>
 <?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/StoreItems/index')) { ?>
 <?php /* TAB 9 ****************************************************************************************************************/ ?>
 	<div id="tabs-9">

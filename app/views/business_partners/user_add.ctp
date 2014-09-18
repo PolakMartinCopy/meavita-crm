@@ -1,7 +1,8 @@
 <h1>Přidat obchodního partnera</h1>
 <ul>
-	<li><?php echo $html->link('Zpět na seznam obchodních partnerů', array('controller' => 'business_partners', 'action' => 'index'))?></li>
+<?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/BusinessPartners/user_ares_search')) { ?>
 	<li><?php echo $html->link('Dohledat v systému ARES', array('controller' => 'business_partners', 'action' => 'ares_search'))?></li>
+<?php } ?>
 </ul>
 
 <?php echo $form->create('BusinessPartner', array('url' => array('controller' => 'business_partners', 'action' => 'add')))?>

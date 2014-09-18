@@ -22,11 +22,19 @@
 			<?php echo $business_partner['Address']['street']?>&nbsp;<?php echo $business_partner['Address']['number']?><br/>
 			<?php echo $business_partner['Address']['city']?><?php echo (!empty($business_partner['Address']['zip']) ? ', ' : '') . $business_partner['Address']['zip']?>
 		</td>
-		<td class="actions">
-			<?php echo $html->link('Detail', array('controller' => 'business_partners', 'action' => 'view', $business_partner['BusinessPartner']['id']))?>
-			<?php echo $html->link('Upravit', array('controller' => 'business_partners', 'action' => 'edit', $business_partner['BusinessPartner']['id']))?>
-			<?php echo $html->link('Smazat', array('controller' => 'business_partners', 'action' => 'delete', $business_partner['BusinessPartner']['id']), null, 'Opravdu chcete smazat obchodního partnera se vším, co k němu náleží?')?>
-		</td>
+		<td class="actions"><?php
+			$links = array(); 
+			if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/BusinessPartners/user_view')) {
+				$links[] = $html->link('Detail', array('controller' => 'business_partners', 'action' => 'view', $business_partner['BusinessPartner']['id']));
+			}
+			if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/BusinessPartners/user_edit')) {
+				$links[] = $html->link('Upravit', array('controller' => 'business_partners', 'action' => 'edit', $business_partner['BusinessPartner']['id']));
+			}
+			if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/BusinessPartners/user_delete')) {
+				$links[] = $html->link('Smazat', array('controller' => 'business_partners', 'action' => 'delete', $business_partner['BusinessPartner']['id']), null, 'Opravdu chcete smazat obchodního partnera se vším, co k němu náleží?');
+			}
+			echo implode(' | ', $links);
+		?></td>
 	</tr>
 <?php } // end foreach?>
 </table>

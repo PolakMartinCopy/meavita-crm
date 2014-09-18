@@ -14,7 +14,7 @@
 <?php if (empty($b_p_c_s_rep_purchases)) { ?>
 <p><em>V systému nejsou žádné nákupy.</em></p>
 <?php } else { ?>
-	<?php echo $this->element('b_p_c_s_rep_purchases/index_table', array('rep_tab' => 4, 'b_p_tab' => 19))?>
+	<?php echo $this->element('b_p_c_s_rep_purchases/index_table', array('rep_tab' => 4, 'b_p_tab' => 22))?>
 
 <?php } ?>
 <script type="text/javascript">

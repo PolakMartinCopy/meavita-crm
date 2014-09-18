@@ -50,6 +50,10 @@ class BusinessPartner extends AppModel {
 			'notEmpty' => array(
 				'rule' => 'notEmpty',
 				'message' => 'IČO nesmí zůstat prázdné'
+			),
+			'isUnique' => array(
+				'rule' => 'isUnique',
+				'message' => 'Obchodní partner se zadaným IČ už v systému existuje'
 			)
 		),
 		'active' => array(

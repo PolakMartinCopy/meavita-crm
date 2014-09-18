@@ -4,7 +4,7 @@
 		$hide = '';
 	}
 ?>
-<div id="search_form_b_p_rep_purchases"<?php echo $hide?>>
+<div id="search_form_b_p_c_s_rep_purchases"<?php echo $hide?>>
 
 <?php echo $form->create('BPCSRepPurchase', array('url' => $url))?>
 	<table class="left_heading">

@@ -16,9 +16,9 @@ class RepStoreItemsController extends AppController {
 			$this->redirect(array('controller' => 'rep_store_items', 'action' => 'index'));
 		}
 		
-		$conditions = array();
+		$conditions = array('RepStoreItem.quantity !=' => 0);
 		if ($this->user['User']['user_type_id'] == 4) {
-			$conditions = array('RepStoreItem.rep_id' => $this->user['User']['id']);
+			$conditions = array_merge($conditions, array('RepStoreItem.rep_id' => $this->user['User']['id']));
 		}
 		
 		// pokud chci vysledky vyhledavani

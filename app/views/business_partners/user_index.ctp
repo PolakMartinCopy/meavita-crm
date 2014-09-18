@@ -34,7 +34,3 @@
 ?>
 
 <?php } // end if?>
-
-<!-- <ul>
-	<li><?php echo $html->link('Přidat obchodního partnera', array('controller' => 'business_partners', 'action' => 'add'))?></li>
-</ul> -->

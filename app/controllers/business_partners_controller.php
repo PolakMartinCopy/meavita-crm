@@ -264,7 +264,7 @@ class BusinessPartnersController extends AppController {
 		}
 		
 		if ($this->Tool->is_rep($this->user['User']['user_type_id'])) {
-			$business_sessions_conditions[] = 'BusinessSessionsUser.user_id = ' . $this->user['User']['id'];
+			$conditions[] = '(BusinessSession.user_id = ' . $this->user['User']['user_type_id'] . ' OR BusinessSessionsUser.user_id = ' . $this->user['User']['user_type_id'] . ')';
 		}
 
 		// pokud chci vysledky vyhledavani
@@ -282,7 +282,7 @@ class BusinessPartnersController extends AppController {
 			$this->passedArgs['sort'] = $sort_field;
 			$this->passedArgs['direction'] = $sort_direction;
 		}
-		
+
 		$this->paginate = array();
 		$this->paginate['BusinessSession'] = array(
 			'conditions' => $business_sessions_conditions,

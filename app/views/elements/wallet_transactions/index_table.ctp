@@ -19,11 +19,13 @@
 		<td><?php echo $wallet_transaction['WalletTransaction']['amount_after']?></td>
 		<td><?php echo $wallet_transaction['User']['last_name']?></td>
 		<td><?php
-			$anchor = 'Příjmový doklad';
-			if ((float)$wallet_transaction['WalletTransaction']['amount'] > 0) {
-				$anchor = 'Výdajový doklad';
+			if ($wallet_transaction['WalletTransaction']['year']) {
+				$anchor = 'Příjmový doklad';
+				if ((float)$wallet_transaction['WalletTransaction']['amount'] > 0) {
+					$anchor = 'Výdajový doklad';
+				}
+				echo $this->Html->link($anchor, array('controller' => 'wallet_transactions', 'action' => 'cash_receipt', $wallet_transaction['WalletTransaction']['id']));
 			}
-			echo $this->Html->link($anchor, array('controller' => 'wallet_transactions', 'action' => 'cash_receipt', $wallet_transaction['WalletTransaction']['id']));
 		?></td>
 	</tr>
 	<?php } ?>

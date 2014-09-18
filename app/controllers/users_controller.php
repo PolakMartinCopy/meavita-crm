@@ -296,7 +296,7 @@ class UsersController extends AppController {
 			'm_c_storings',
 			'm_c_transaction_items',
 			'offers',
-			'product_variants',
+//			'product_variants',
 			'product_variants_transactions',
 //			'products',
 			'recursive_impositions',
@@ -317,6 +317,33 @@ class UsersController extends AppController {
 				die('nepodarilo se vyprazdnit tabulku ' . $table);
 			}
 		}
+		// vynuluju ucty vsem uzivatelum
+		$this->User->query('
+			UPDATE users
+			SET wallet = 0	
+		');
+		// vynuluju ukazatele posledniho nakupu
+		$this->User->query('
+			UPDATE c_s_rep_attributes
+			SET last_sale = null
+		');
+		$this->User->query('
+			UPDATE rep_attributes
+			SET last_sale = null
+		');
+		
+		// vynuluju pocty polozek na skladech a skladove ceny
+		$this->User->query('
+			UPDATE product_variants
+			SET meavita_quantity = 0,
+				meavita_reserved_quantity = 0,
+				meavita_future_quantity = 0,
+				meavita_price = 0,
+				m_c_quantity = 0,
+				m_c_reserved_quantity = 0,
+				m_c_future_quantity = 0,
+				m_c_price = 0
+		');
 		
 //		$this->User->deleteAll(array('user_type_id >' => 3));
 		
@@ -662,12 +689,19 @@ class UsersController extends AppController {
 		$this->Acl->allow('rep', 'controllers/BusinessPartners');
 		// zakazu mazat op
 		$this->Acl->deny('rep', 'controllers/BusinessPartners/user_delete');
+		// zakazu menit usera
+		$this->Acl->deny('rep', 'controllers/BusinessPartners/user_edit_user');
 		// povolim vse okolo obchodnich jednani
 		$this->Acl->allow('rep', 'controllers/BusinessSessions');
+		// zakazu mazat OJ
+		$this->Acl->deny('rep', 'controllers/BusinessSessions/user_delete');
 		// povolim vse okolo kontaktnich osob
 		$this->Acl->allow('rep', 'controllers/ContactPeople');
+		// zakazu mazat kontaktni osoby
+		$this->Acl->deny('rep', 'controllers/ContactPeople/user_delete');
 		// povolim vsechno okolo adres
 		$this->Acl->allow('rep', 'controllers/Addresses');
+		$this->Acl->deny('rep', 'controllers/Addresses/user_delete');
 		
 		// povolim mu autocomplete metody pro vyplneni formularu
 		$this->Acl->allow('rep', 'controllers/BusinessPartners/user_autocomplete_list');
@@ -677,6 +711,12 @@ class UsersController extends AppController {
 		
 		// povolim veci okolo ukolu
 		$this->Acl->allow('rep', 'controllers/Impositions');
+		// zakazu notifikaci
+		$this->Acl->deny('rep', 'controllers/Impositions/user_notify');
+		$this->Acl->allow('rep', 'controllers/Solutions');
+		
+		// povolim zobrazeni pokladnich dokladu
+		$this->Acl->allow('rep', 'controllers/WalletTransactions/user_cash_receipt');
 		
 		// CS Rep
 		$this->Acl->deny('c_s_rep', 'controllers');
@@ -704,12 +744,19 @@ class UsersController extends AppController {
 		$this->Acl->allow('c_s_rep', 'controllers/BusinessPartners');
 		// zakazu mazat op
 		$this->Acl->deny('c_s_rep', 'controllers/BusinessPartners/user_delete');
+		// zakazu menit usera
+		$this->Acl->deny('c_s_rep', 'controllers/BusinessPartners/user_edit_user');
 		// povolim vse okolo obchodnich jednani
 		$this->Acl->allow('c_s_rep', 'controllers/BusinessSessions');
+		// zakazu mazat OJ
+		$this->Acl->deny('c_s_rep', 'controllers/BusinessSessions/user_delete');
 		// povolim vse okolo kontaktnich osob
 		$this->Acl->allow('c_s_rep', 'controllers/ContactPeople');
+		// zakazu mazat kontaktni osoby
+		$this->Acl->deny('c_s_rep', 'controllers/ContactPeople/user_delete');
 		// povolim vsechno okolo adres
 		$this->Acl->allow('c_s_rep', 'controllers/Addresses');
+		$this->Acl->deny('c_s_rep', 'controllers/Addresses/user_delete');
 		
 		// povolim mu autocomplete metody pro vyplneni formularu
 		$this->Acl->allow('c_s_rep', 'controllers/BusinessPartners/user_autocomplete_list');
@@ -719,6 +766,9 @@ class UsersController extends AppController {
 		
 		// povolim veci okolo ukolu
 		$this->Acl->allow('c_s_rep', 'controllers/Impositions');
+		// zakazu notifikaci
+		$this->Acl->deny('c_s_rep', 'controllers/Impositions/user_notify');
+		$this->Acl->allow('c_s_rep', 'controllers/Solutions');
 		
 		// vsem zakazu editaci varianty produktu, aby mi sedely informace v systemu a na dokladech
 		$this->Acl->deny('admin', 'controllers/ProductVariants/user_edit');
@@ -726,6 +776,9 @@ class UsersController extends AppController {
 		$this->Acl->deny('user', 'controllers/ProductVariants/user_edit');
 		$this->Acl->deny('rep', 'controllers/ProductVariants/user_edit');
 		$this->Acl->deny('c_s_rep', 'controllers/ProductVariants/user_edit');
+		
+		// povolim zobrazeni pokladnich dokladu
+		$this->Acl->allow('c_s_rep', 'controllers/CSWalletTransactions/user_cash_receipt');
 		
 		die('hotovo');
 	}

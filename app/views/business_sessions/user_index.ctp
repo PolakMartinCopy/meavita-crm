@@ -109,8 +109,10 @@
 		<th><?php echo $paginator->sort('Stav jednání', 'BusinessSessionState.name')?></th>
 		<th><?php echo $paginator->sort('Datum vložení', 'BusinessSession.created')?></th>
 		<th><?php echo $paginator->sort('Založil', 'User.last_name')?></th>
+<!-- 
 		<th><?php echo $paginator->sort('Náklady', 'celkem')?></th>
 		<th>Nabídka</th>
+ -->
 		<th>&nbsp;</th>
 	</tr>
 <?php
@@ -126,15 +128,29 @@
 		<td><?php echo $business_session['BusinessSessionState']['name']?></td>
 		<td><?php echo $business_session['BusinessSession']['created']?></td>
 		<td><?php echo $business_session['User']['last_name']?></td>
+<!-- 
 		<td><?php echo floatval($business_session[0]['celkem'])?></td>
 		<td><?php echo (empty($business_session['Offer']) ? 'ne' : 'ano')?></td>
-		<td class="actions">
-			<?php echo $html->link('Detail', array('controller' => 'business_sessions', 'action' => 'view', $business_session['BusinessSession']['id']))?>
-			<?php echo $html->link('Upravit', array('controller' => 'business_sessions', 'action' => 'edit', $business_session['BusinessSession']['id']))?>
-			<?php echo $html->link('Uzavřít', array('controller' => 'business_sessions', 'action' => 'close', $business_session['BusinessSession']['id']), null, 'Opravdu chcete obchnodní jednání ' . $business_session['BusinessSession']['id'] . ' označit jako uzavřené?')?>
-			<?php echo $html->link('Storno', array('controller' => 'business_sessions', 'action' => 'storno', $business_session['BusinessSession']['id']), null, 'Opravdu chcete obchodní jednání ' . $business_session['BusinessSession']['id'] . ' stornovat?')?>
-			<?php echo $this->Html->link('Smazat', array('controller' => 'business_sessions', 'action' => 'delete', $business_session['BusinessSession']['id']), null, 'Opravdu chcete obchodní jednání ' . $business_session['BusinessSession']['id'] . ' smazat?')?>
-		</td>
+ -->
+		<td class="actions"><?php 
+			$links = array();
+			if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/BusinessSessions/user_view')) {
+				$links[] = $html->link('Detail', array('controller' => 'business_sessions', 'action' => 'view', $business_session['BusinessSession']['id']));
+			}
+			if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/BusinessSessions/user_edit')) {
+				$links[] = $html->link('Upravit', array('controller' => 'business_sessions', 'action' => 'edit', $business_session['BusinessSession']['id']));
+			}
+			if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/BusinessSessions/user_close')) {
+				$links[] = $html->link('Uzavřít', array('controller' => 'business_sessions', 'action' => 'close', $business_session['BusinessSession']['id']), null, 'Opravdu chcete obchnodní jednání ' . $business_session['BusinessSession']['id'] . ' označit jako uzavřené?');
+			}
+			if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/BusinessSessions/user_storno')) {
+				$links[] = $html->link('Storno', array('controller' => 'business_sessions', 'action' => 'storno', $business_session['BusinessSession']['id']), null, 'Opravdu chcete obchodní jednání ' . $business_session['BusinessSession']['id'] . ' stornovat?');
+			}
+			if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/BusinessSessions/user_delete')) {
+				$links[] = $this->Html->link('Smazat', array('controller' => 'business_sessions', 'action' => 'delete', $business_session['BusinessSession']['id']), null, 'Opravdu chcete obchodní jednání ' . $business_session['BusinessSession']['id'] . ' smazat?');
+			}
+			echo implode(' | ', $links);
+		?></td>
 	</tr>
 <?php } ?>
 </table>

@@ -137,6 +137,7 @@ class MCRepSale extends AppModel {
 						'is_saleable' => true
 					)
 				);
+				$this->Rep->RepStoreItem->create();
 			} else {
 				// vypocitam hodnoty
 				$quantity = $rep_store_item['RepStoreItem']['quantity'] + $m_c_rep_transaction_item['MCRepTransactionItem']['quantity'];
@@ -165,8 +166,6 @@ class MCRepSale extends AppModel {
 				$rep_store_item['RepStoreItem']['quantity'] = $quantity;
 				$rep_store_item['RepStoreItem']['price'] = $price;
 				$rep_store_item['RepStoreItem']['price_vat'] = $price_vat;
-				
-				$this->Rep->RepStoreItem->create();
 			}
 			
 			// ulozim

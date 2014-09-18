@@ -119,7 +119,7 @@ function productRow(count) {
 	var rowData = '<tr rel="' + count + '" class="product_row">';
 	rowData += '<td nowrap>';
 	rowData += '<input name="data[CSTransactionItem][' + count + '][product_name]" type="text" class="CSTransactionItemProductName" size="20" id="CSTransactionItem' + count + 'ProductName" />';
-	rowData += '<input type="hidden" name="data[CSTransactionItem][' + count + '][product_variant_id]" id="CSTransactionItem' + count + 'ProductVariantId" />';
+	rowData += '<input type="hidden" name="data[CSTransactionItem][' + count + '][product_id]" id="CSTransactionItem' + count + 'ProductId" />';
 	rowData += '<a href="#new_product_form" class="new_product_link"><img src="/images/icons/add.png" alt="Novy" /></a>';
 	rowData += '</td>';
 	rowData += '<td><input name="data[CSTransactionItem][' + count + '][product_variant_lot]" type="text" size="7" id="CSTransactionItem' + count + 'Lot"></td>';

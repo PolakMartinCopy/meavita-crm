@@ -59,6 +59,7 @@ class WalletTransactionsController extends AppController {
 				'WalletTransaction.created',
 				'WalletTransaction.amount',
 				'WalletTransaction.amount_after',
+				'WalletTransaction.year',
 				
 				'Rep.id',
 				'Rep.first_name',

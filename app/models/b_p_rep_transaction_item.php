@@ -63,11 +63,13 @@ class BPRepTransactionItem extends AppModel {
 		if ($created) {
 			$conditions = array(
 				'RepStoreItem.product_variant_id' => $data['BPRepTransactionItem']['product_variant_id'],
-				'RepStoreItem.rep_id' => $data['BPRepTransactionItem']['rep_id']
+				'RepStoreItem.rep_id' => $data['BPRepTransactionItem']['rep_id'],
+				'RepStoreItem.is_saleable' => false
 			);
 			$quantity = $data['BPRepTransactionItem']['quantity'];
 			if ($data['BPRepTransactionItem']['parent_model'] == 'BPRepSale') {
 				$quantity = -$quantity;
+				$conditions['RepStoreItem.is_saleable'] = true;
 			}
 			// musim upravit stav polozek ve skladu
 			// podivam se, jestli mam pro daneho repa ve skladu polozku s touto variantou produktu
@@ -146,12 +148,20 @@ class BPRepTransactionItem extends AppModel {
 		if (isset($this->deleted['BPRepTransactionItem']['b_p_rep_purchase_id']) && !empty($this->deleted['BPRepTransactionItem']['b_p_rep_purchase_id'])) {
 			$model = 'BPRepPurchase';
 		}
+		
+		$conditions = array(
+			'RepStoreItem.rep_id' => $this->deleted[$model]['rep_id'],
+			'RepStoreItem.product_variant_id' => $this->deleted['BPCSRepTransactionItem']['product_variant_id']
+		);
+		
+		$conditions['RepStoreItem.is_saleable'] = false;
+		if ($model == 'BPRepSale') {
+			$conditions['RepStoreItem.is_saleable'] = true;
+		}
+		
 		// ze skladu odberatele odectu, co jsem smazal z transakce
 		$store_item = $this->BPRepPurchase->Rep->RepStoreItem->find('first', array(
-			'conditions' => array(
-				'RepStoreItem.rep_id' => $this->deleted[$model]['rep_id'],
-				'RepStoreItem.product_variant_id' => $this->deleted['BPRepTransactionItem']['product_variant_id']
-			),
+			'conditions' => $conditions,
 			'contain' => array(),
 			'fields' => array('RepStoreItem.id', 'RepStoreItem.quantity', 'RepStoreItem.price_vat')
 		));

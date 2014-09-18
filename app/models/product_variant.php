@@ -135,7 +135,7 @@ class ProductVariant extends AppModel {
 		return json_encode($autocomplete_list);
 	}
 	
-	function get_id($product_id, $exp, $lot) {
+	function get_id($product_id, $lot, $exp) {
 		// pokusim se nalezt variantu produktu podle danych parametru
 		$product_variant = $this->find('first', array(
 			'conditions' => array(

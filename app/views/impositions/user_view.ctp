@@ -43,11 +43,17 @@ if (isset($this->params['named']['tab'])) {
 <h1>Detail úkolu</h1>
 <div id="tabs">
 	<ul>
+		<?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/Impositions/user_view')) {?>
 		<li><a href="#tabs-1">Info</a></li>
+		<?php } ?>
+		<?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/Documents')) {?>
 		<li><a href="#tabs-2">Dokumenty</a></li>
+		<?php } ?>
+		<?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/Solutions')) {?>
 		<li><a href="#tabs-3">Řešení</a></li>
+		<?php } ?>
 	</ul>
-	
+<?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/Impositions/user_view')) {?>
 <?php /* TAB 1 ****************************************************************************************************************/ ?>
 	<div id="tabs-1">
 		<h2>Základní informace</h2>
@@ -130,7 +136,8 @@ if (isset($this->params['named']['tab'])) {
 			<li><?php echo $html->link('Upravit úkol', array('controller' => 'impositions', 'action' => 'edit', $imposition['Imposition']['id']))?></li>
 		</ul>
 	</div>
-
+<?php } ?>
+<?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/Documents')) {?>
 <?php /* TAB 2 ****************************************************************************************************************/ ?>
 	<div id="tabs-2">
 		<h2>Dokumenty</h2>
@@ -305,6 +312,8 @@ if (isset($this->params['named']['tab'])) {
 ?>
 
 	</div>
+<?php } ?>
+<?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/Solutions')) {?>
 <?php /* TAB 3 ****************************************************************************************************************/ ?>
 	<?php $back_link = array('controller' => 'impositions', 'action' => 'view', $imposition['Imposition']['id'])?>
 	<div id="tabs-3">
@@ -332,4 +341,5 @@ if (isset($this->params['named']['tab'])) {
 			<?php } ?>
 		</table>
 	</div>
+<?php } ?>
 </div>

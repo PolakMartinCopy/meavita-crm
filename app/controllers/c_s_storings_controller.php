@@ -293,7 +293,7 @@ class CSStoringsController extends AppController {
 						unset($this->data['CSTransactionItem'][$index]);
 					} else {
 						// podle zadaneho id produktu, lot a exp zjistim id varianty produktu
-						if (!$transaction_item['product_variant_id'] = $this->CSStoring->CSTransactionItem->ProductVariant->get_id($transaction_item['product_id'], $transaction_item['product_variant_exp'], $transaction_item['product_variant_lot'])) {
+						if (!$transaction_item['product_variant_id'] = $this->CSStoring->CSTransactionItem->ProductVariant->get_id($transaction_item['product_id'], $transaction_item['product_variant_lot'], $transaction_item['product_variant_exp'])) {
 							$data_source->rollback($this->CSStoring);
 							die('chyba pri zjistovani id varianty produktu');
 						}

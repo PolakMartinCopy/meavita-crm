@@ -16,9 +16,9 @@ class CSRepStoreItemsController extends AppController {
 			$this->redirect(array('controller' => 'c_s_rep_store_items', 'action' => 'index'));
 		}
 		
-		$conditions = array();
+		$conditions = array('CSRepStoreItem.quantity !=' => 0);
 		if ($this->user['User']['user_type_id'] == 5) {
-			$conditions = array('CSRepStoreItem.c_s_rep_id' => $this->user['User']['id']);
+			$conditions = array_merge($conditions, array('CSRepStoreItem.c_s_rep_id' => $this->user['User']['id']));
 		}
 		
 		// pokud chci vysledky vyhledavani
@@ -80,6 +80,7 @@ class CSRepStoreItemsController extends AppController {
 				'CSRepStoreItem.price_vat',
 				'CSRepStoreItem.item_total_price',
 				'CSRepStoreItem.c_s_rep_name',
+				'CSRepStoreItem.is_saleable',
 		
 				'CSRep.id',
 		

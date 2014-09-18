@@ -14,12 +14,21 @@ if (isset($this->params['named']['tab'])) {
 
 <div id="tabs">
 	<ul>
+		<?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/BusinessSessions/user_view')) {?>
 		<li><a href="#tabs-1">Info</a></li>
+		<?php } ?>
+		<?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/ContactPeople/user_view')) {?>
 		<li><a href="#tabs-2">Přizvané KO</a></li>
+		<?php } ?>
+		<?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/Costs/user_view')) {?>
 		<li><a href="#tabs-3">Náklady</a></li>
+		<?php } ?>
+		<?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/Offers/user_view')) {?>
 		<li><a href="#tabs-4">Nabídky</a></li>
+		<?php } ?>
 	</ul>
 		
+<?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/BusinessSessions/user_view')) {?>
 <?php /* TAB 1 ****************************************************************************************************************/ ?>
 	<div id="tabs-1">
 		<h2>Základní informace</h2>
@@ -70,7 +79,8 @@ if (isset($this->params['named']['tab'])) {
 			</tr>
 		</table>
 	</div>
-	
+<?php } ?>
+<?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/ContactPeople/user_view')) {?>
 <?php /* TAB 2 ****************************************************************************************************************/ ?>
 	<div id="tabs-2">
 		<h2>Přizvané kontaktní osoby</h2>
@@ -148,7 +158,6 @@ if (isset($this->params['named']['tab'])) {
 				<th>Mobilní telefon</th>
 				<th>Email</th>
 				<th>Obchodní partner</th>
-				<th>&nbsp;</th>
 			</tr>
 		<?php
 			$odd = '';
@@ -164,17 +173,14 @@ if (isset($this->params['named']['tab'])) {
 				<td><?php echo $contact_person['ContactPerson']['cellular']?></td>
 				<td><?php echo $html->link($contact_person['ContactPerson']['email'], 'mailto:' . $contact_person['ContactPerson']['email'])?></td>
 				<td><?php echo $html->link($contact_person['BusinessPartner']['name'], array('controller' => 'business_partners', 'action' => 'view', $contact_person['BusinessPartner']['id']))?></td>
-				<td>
-					<?php echo $html->link('Upravit', array('controller' => 'contact_people', 'action' => 'edit', $contact_person['ContactPerson']['id']))?>
-					<?php echo $html->link('Smazat', array('controller' => 'contact_people', 'action' => 'delete', $contact_person['ContactPerson']['id']))?>
-				</td>
 			</tr>
 		<?php } ?>
 		</table>
 		<?php } ?>
 		<?php echo $html->link('Přizvat kontaktní osoby', array('controller' => 'business_sessions', 'action' => 'invite', $business_session['BusinessSession']['id']))?>
 	</div>
-	
+<?php } ?>
+<?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/Costs/user_view')) {?>	
 <?php /* TAB 3 ****************************************************************************************************************/ ?>
 	<div id="tabs-3">
 		<h2>Náklady</h2>
@@ -280,7 +286,8 @@ if (isset($this->params['named']['tab'])) {
 			<li><?php echo $html->link('Přidat náklady', array('controller' => 'costs', 'action' => 'add', 'business_session_id' => $business_session['BusinessSession']['id']))?></li>
 		</ul>
 	</div>
-	
+<?php } ?>
+<?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/Offers/user_view')) {?>
 <?php /* TAB 4 ****************************************************************************************************************/ ?>
 	<div id="tabs-4">
 		<h2>Nabídky</h2>
@@ -376,4 +383,5 @@ if (isset($this->params['named']['tab'])) {
 		<?php } ?>
 		<?php echo $html->link('Přidat nabídku', array('controller' => 'offers', 'action' => 'add', 'business_session_id' => $business_session['BusinessSession']['id']))?>
 	</div>
+	<?php } ?>
 </div>

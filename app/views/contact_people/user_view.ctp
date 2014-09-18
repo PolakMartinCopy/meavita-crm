@@ -2,10 +2,14 @@
 
 <div id="tabs">
 	<ul>
+		<?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/ContactPeople/user_view')) { ?>
 		<li><a href="#tabs-1">Info</a></li>
+		<?php } ?>
+		<?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/Anniversaries')) { ?>
 		<li><a href="#tabs-2">Výročí</a></li>
+		<?php } ?>
 	</ul>
-	
+<?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/ContactPeople/user_view')) { ?>
 <?php /* TAB 1 ****************************************************************************************************************/ ?>
 	<div id="tabs-1">
 		<h2>Základní informace</h2>
@@ -61,7 +65,8 @@
 			<li><?php echo $html->link('Upravit kontaktní osobu', array('controller' => 'contact_people', 'action' => 'edit', $contact_person['ContactPerson']['id']))?></li>
 		</ul>
 	</div>
-	
+<?php } ?>
+<?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/Anniversaries')) { ?>
 <?php /* TAB 2 ****************************************************************************************************************/ ?>
 	<div id="tabs-2">
 		<!-- funkce k vyrocim -->
@@ -99,4 +104,5 @@
 		</table>
 		<?php } // end if?>
 	</div>
+<?php } ?>
 </div>

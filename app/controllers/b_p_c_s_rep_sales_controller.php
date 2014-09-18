@@ -484,13 +484,13 @@ class BPCSRepSalesController extends AppController {
 		$dataSource = $this->BPCSRepSale->getDataSource();
 		$dataSource->begin($this->BPCSRepSale);
 		
-		$b_p_c_s_rep_transaction_items = $this->BPCSRepSale->BPCSRepTransactionItem->find('all', array(
-			'conditions' => array('BPCSRepTransactionItem.b_p_c_s_rep_sale_id' => $id),
-			'contain' => array('BPCSRepSale'),
-		));
-
 		if ($this->BPCSRepSale->save($b_p_c_s_rep_sale)) {
-			// prepocitam sklad
+/*
+	 		$b_p_c_s_rep_transaction_items = $this->BPCSRepSale->BPCSRepTransactionItem->find('all', array(
+				'conditions' => array('BPCSRepTransactionItem.b_p_c_s_rep_sale_id' => $id),
+				'contain' => array('BPCSRepSale'),
+			));
+  			// prepocitam sklad
 			foreach ($b_p_c_s_rep_transaction_items as $b_p_c_s_rep_transaction_item) {
 				$c_s_rep_store_item = $this->BPCSRepSale->CSRep->CSRepStoreItem->find('first', array(
 					'conditions' => array(
@@ -525,7 +525,7 @@ class BPCSRepSalesController extends AppController {
 					$this->Session->setFlash('nepodarilo se updatovat sklad repa');
 					$this->redirect($url);
 				}
-			}
+			} */
 			
 			// u repa si zapamatuju datum posledniho prodeje
 			$c_s_rep_attribute = $this->BPCSRepSale->find('first', array(

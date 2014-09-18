@@ -313,6 +313,7 @@ class BPCSRepPurchasesController extends AppController {
 		}
 		
 		if (isset($this->data)) {
+
 			if (isset($this->data['BPCSRepTransactionItem'])) {
 				// odstranim z formu prazdne radky pro vlozeni produktu
 
@@ -354,17 +355,10 @@ class BPCSRepPurchasesController extends AppController {
 						}
 					}
 				}
-
 				// pokud nemam zadne radky s produkty, neulozim
 				if (empty($this->data['BPCSRepTransactionItem'])) {
 					$this->Session->setFlash('Nákup neobsahuje žádné produkty a nelze jej proto uložit');
 				} else {
-					// pokud jsem prisel z karty repa
-					$url = array('controller' => 'b_p_c_s_rep_purchases', 'action' => 'index');
-					if (isset($this->params['named']['rep_id'])) {
-						$url = array('controller' => 'c_s_reps', 'action' => 'view', $this->params['named']['c_s_rep_id'], 'tab' => 4);
-					}
-
 					$data_source = $this->BPCSRepPurchase->getDataSource();
 					$data_source->begin($this->BPCSRepPurchase);
 					
@@ -376,7 +370,7 @@ class BPCSRepPurchasesController extends AppController {
 						'contain' => array(),
 						'fields' => array('BPCSRepTransactionItem.id')
 					));
-
+//debug($to_del_tis); die();
 					foreach ($to_del_tis as $to_del_ti) {
 						if (!$this->BPCSRepPurchase->BPCSRepTransactionItem->delete($to_del_ti['BPCSRepTransactionItem']['id'])) {
 							$data_source->rollback($this->BPCSRepPurchase);

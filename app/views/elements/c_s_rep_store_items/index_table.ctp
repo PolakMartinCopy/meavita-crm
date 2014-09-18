@@ -12,6 +12,7 @@
 		<th><?php echo $this->Paginator->sort('Cena', 'CSRepStoreItem.price_vat')?></th>
 		<th><?php echo $this->Paginator->sort('MJ', 'Unit.shortcut')?></th>
 		<th><?php echo $this->Paginator->sort('Kč', 'CSRepStoreItem.item_total_price')?></th>
+		<th><?php echo $this->Paginator->sort('K prodeji?', 'CSRepStoreItem.is_saleable')?></th>
 	</tr>
 	<?php
 	$odd = '';
@@ -31,6 +32,7 @@
 		<td><?php echo $c_s_rep_store_item['CSRepStoreItem']['price_vat']?></td>
 		<td><?php echo $c_s_rep_store_item['Unit']['shortcut']?></td>
 		<td><?php echo $c_s_rep_store_item['CSRepStoreItem']['item_total_price']?></td>
+		<td><?php echo ($c_s_rep_store_item['CSRepStoreItem']['is_saleable'] ? 'ano' : 'ne')?></td>
 	</tr>
 	<?php } ?>
 </table>
