@@ -1053,7 +1053,7 @@ class CSRepsController extends AppController {
 			$this->redirect(array('controller' => 'c_s_reps', 'action' => 'index'));
 		}
 		
-		$rep = $this->CSRep->find('first', array(
+		$c_s_rep = $this->CSRep->find('first', array(
 			'conditions' => array('CSRep.id' => $id),
 			'contain' => array()
 		));
