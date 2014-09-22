@@ -61,7 +61,7 @@ if (empty($products)) { ?>
 <table class="top_heading">
 	<tr>
 		<th><?php echo $this->Paginator->sort('Název', 'Product.name')?></th>
-		<th><?php echo $this->Paginator->sort('Název', 'Product.en_name')?></th>
+		<th><?php echo $this->Paginator->sort('Název ang.', 'Product.en_name')?></th>
 		<th><?php echo $this->Paginator->sort('Kód VZP', 'Product.vzp_code')?></th>
 		<th><?php echo $this->Paginator->sort('Kód skupiny', 'Product.group_code')?></th>
 		<th><?php echo $this->Paginator->sort('Referenční číslo', 'Product.referential_number')?></th>

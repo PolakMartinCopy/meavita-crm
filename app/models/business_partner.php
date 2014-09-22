@@ -40,6 +40,12 @@ class BusinessPartner extends AppModel {
 	);
 	
 	var $validate = array(
+		'branch_name' => array(
+			'notEmpty' => array(
+				'rule' => 'notEmpty',
+				'message' => 'Jméno nesmí zůstat prázdné'
+			)
+		),
 		'name' => array(
 			'notEmpty' => array(
 				'rule' => 'notEmpty',
@@ -51,10 +57,10 @@ class BusinessPartner extends AppModel {
 				'rule' => 'notEmpty',
 				'message' => 'IČO nesmí zůstat prázdné'
 			),
-			'isUnique' => array(
+/*			'isUnique' => array(
 				'rule' => 'isUnique',
 				'message' => 'Obchodní partner se zadaným IČ už v systému existuje'
-			)
+			) */
 		),
 		'active' => array(
 			'bool' => array(
