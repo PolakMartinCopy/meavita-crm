@@ -3025,7 +3025,10 @@ class BusinessPartnersController extends AppController {
 			}
 
 			$url = 'http://wwwinfo.mfcr.cz/cgi-bin/ares/ares_es.cgi?jazyk=cz&obch_jm=' . urlencode($iso_data['BusinessPartner']['company']) . '&ico=' . $iso_data['BusinessPartner']['ico'] . '&cestina=cestina&obec=' . urlencode($iso_data['BusinessPartner']['city']) . '&k_fu=&maxpoc=' . $iso_data['BusinessPartner']['items'] . '&ulice=' . urlencode($iso_data['BusinessPartner']['street']) . '&cis_or=' . $iso_data['BusinessPartner']['number'] . '&cis_po=' . $iso_data['BusinessPartner']['number'] . '&setrid=' . $iso_data['BusinessPartner']['sort'] . '&pr_for=' . $iso_data['BusinessPartner']['law_form'] . '&nace=' . $iso_data['BusinessPartner']['cz_nace'] . '&xml=0&filtr=' . $iso_data['BusinessPartner']['filter'];
-			if (!$ares_xml = file_get_contents($url)) {
+			App::import('Model', 'Tool');
+			$this->Tool = &new Tool;
+			
+			if (!$ares_xml = $this->Tool->download_url($url)) {
 				$this->Session->setFlash('Dokument se nepodařilo stáhnout.');
 			} else {
 	

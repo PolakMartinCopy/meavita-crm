@@ -19,7 +19,7 @@
 		<td><?php echo $form->input('BusinessPartner.ico', array('label' => false))?></td>
 	</tr>
 	<tr>
-		<th>DIČ</th>
+		<th>DIČ<sup>*</sup></th>
 		<td><?php echo $form->input('BusinessPartner.dic', array('label' => false))?></td>
 	</tr>
 	<tr>
