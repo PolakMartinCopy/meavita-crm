@@ -1,7 +1,7 @@
 <h1>Sklady repů</h1>
 <button id="search_form_show">vyhledávací formulář</button>
 <?php
-	echo $this->element('search_forms/c_s_rep_store_items', array('url' => array('controller' => 'rep_store_items', 'action' => 'index')));
+	echo $this->element('search_forms/c_s_rep_store_items', array('url' => array('controller' => 'c_s_rep_store_items', 'action' => 'index')));
 
 	echo $form->create('CSV', array('url' => array('controller' => 'c_s_rep_store_items', 'action' => 'xls_export')));
 	echo $form->hidden('data', array('value' => serialize($find)));
