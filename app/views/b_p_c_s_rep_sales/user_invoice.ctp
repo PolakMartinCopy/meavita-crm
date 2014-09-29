@@ -19,8 +19,11 @@ $tcpdf->SetFillColor(255,255,255);
 $tcpdf->SetFont($textfont, 'B', 14);
 $tcpdf->Cell(190, 0, 'Faktura č. ' . $b_p_c_s_rep_sale['BPCSRepSale']['code'], 0, 0, 'L', false);
 
+// logo meavita
+$tcpdf->Image('img/meavita-small.png', 10, 15, 60, 15, 'PNG', '', '', false, 300, '', false, false, 0, false, false, false);
+
 // mezera
-$tcpdf->Cell(190, 15, "", 0, 1, 'L', false);
+$tcpdf->Cell(190, 22, "", 0, 1, 'L', false);
 
 $tcpdf->SetFont($textfont,'B',11);
 $tcpdf->Cell(100, 0, 'Dodavatel', 0, 0, 'L', false);

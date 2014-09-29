@@ -44,7 +44,7 @@
 	</div>
 
 	<div id="content_container_center">
-		<div id="top_lista_left">CRM - neco</div>
+		<div id="top_lista_left">CRM</div>
 		<div id="top_lista_right">
 		<?php if (in_array($this->params['controller'], $meavita_controllers) || ($this->params['controller'] == 'product_variants' && $this->params['action'] == 'user_meavita_index')) {?>
 			Nacházíte se v <em>MEAVITA</em> sekci -

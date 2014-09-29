@@ -722,7 +722,7 @@ class BPCSRepSalesController extends AppController {
 		$this->set('b_p_c_s_rep_sale', $b_p_c_s_rep_sale);
 		$this->layout = 'pdf'; //this will use the pdf.ctp layout
 	}
-	
+
 	function user_invoice($id = null) {
 		if (!$id) {
 			$this->Session->setFlash('Není zadáno, který dodací list chcete zobrazit');
@@ -734,7 +734,7 @@ class BPCSRepSalesController extends AppController {
 		if ($this->user['User']['user_type_id'] == 4) {
 			$conditions['BPCSRepSale.c_s_rep_id'] = $this->user['User']['id'];
 		}
-		
+
 		$b_p_c_s_rep_sale = $this->BPCSRepSale->find('first', array(
 			'conditions' => $conditions,
 			'contain' => array(
