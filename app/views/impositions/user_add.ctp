@@ -75,7 +75,7 @@
 		<td><?php echo $form->input('Solution.accomplishment_date', array('label' => false, 'type' => 'text'))?></td>
 	</tr>
 	<tr>
-		<th>Rekurzivní?</th>
+		<th>Opakující se?</th>
 		<td>
 			<?php echo $form->input('Imposition.recursive', array('type' => 'checkbox', 'label' => false, 'value' => (isset($this->data['Imposition']['recursive'])) ? $this->data['Imposition']['recursive'] : false, 'div' => false))?>
 			<?php echo $form->input('RecursiveImposition.imposition_period_id', array('label' => false, 'options' => $period_options, 'empty' => false, 'div' => false))?>

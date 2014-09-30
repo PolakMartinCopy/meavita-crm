@@ -602,7 +602,7 @@ class ImpositionsController extends AppController {
 							$this->Imposition->Solution->create();
 							$solution['solution_state_id'] = 2;
 							if (!$this->Imposition->Solution->save($solution)) {
-								throw new Exception('Nepodařilo se uložit nový požadavek na řešení při zrušení rekurzivity úkolu');
+								throw new Exception('Nepodařilo se uložit nový požadavek na řešení při zrušení opakování úkolu');
 							}
 							// a zapamatuju si ho, abych si ho pak nesmazal
 							$not_to_del_solution_id = $this->Imposition->Solution->id;
@@ -612,12 +612,12 @@ class ImpositionsController extends AppController {
 							'Solution.imposition_id' => $this->data['Imposition']['id'],
 							'Solution.solution_state_id' => 2
 						))) {
-							throw new Exception('Nepodařilo se odstranit nadbytečné požadavky na řešení při zrušení rekurzivity úkolu');
+							throw new Exception('Nepodařilo se odstranit nadbytečné požadavky na řešení při zrušení opakování úkolu');
 						}
 	
 						if ($imposition['RecursiveImposition']['id']) {
 							if (!$this->Imposition->RecursiveImposition->delete($imposition['RecursiveImposition']['id'])) {
-								throw new Exception('Nepodařilo se odstranit info o rekurzi při zrušení rekurzivity úkolu');
+								throw new Exception('Nepodařilo se odstranit info o opakování při zrušení opakujícího se úkolu');
 							}
 						}
 					} else {
@@ -682,7 +682,7 @@ class ImpositionsController extends AppController {
 	
 						$this->data['RecursiveImposition']['imposition_id'] = $this->data['Imposition']['id'];
 						if (!$this->Imposition->RecursiveImposition->save($this->data)) {
-							throw new Exception('Nepodařilo se uložit info o rekurzi úkolu');
+							throw new Exception('Nepodařilo se uložit info o opakování úkolu');
 						}
 					}
 				} catch (Exception $e) {

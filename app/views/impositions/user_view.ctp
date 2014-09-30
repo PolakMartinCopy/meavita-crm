@@ -106,16 +106,16 @@ if (isset($this->params['named']['tab'])) {
 				<td><?php echo $html->link($imposition['BusinessPartner']['name'], array('controller' => 'business_partners', 'action' => 'view', $imposition['BusinessPartner']['id']))?></td>
 			</tr>
 			<tr>
-				<th>Rekurzivní?</th>
+				<th>Opakující se?</th>
 				<td><?php echo ($imposition['RecursiveImposition']['id']) ? 'ano' : 'ne'?></td>
 			</tr>
 			<?php if ($imposition['RecursiveImposition']['id']) { ?>
 			<tr>
-				<th>Rekurze od</th>
+				<th>Opakování od</th>
 				<td><?php echo czech_date($imposition['RecursiveImposition']['from'])?></td>
 			</tr>
 			<tr>
-				<th>Rekurze do</th>
+				<th>Opakování do</th>
 				<td><?php
 					if ($imposition['RecursiveImposition']['to']) {
 						echo czech_date($imposition['RecursiveImposition']['to']);

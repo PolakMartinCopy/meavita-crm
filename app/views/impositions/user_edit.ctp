@@ -86,7 +86,7 @@
 		</td>
 	</tr>
 	<tr>
-		<th>Rekurzivní?</th>
+		<th>Opakující se?</th>
 		<td><?php
 			echo $form->input('Imposition.recursive', array('type' => 'checkbox', 'label' => false, 'div' => false));
 			if ($this->data['RecursiveImposition']['id']) {
