@@ -4,7 +4,13 @@ class BusinessPartner extends AppModel {
 	
 	var $actsAs = array('Containable');
 	
-	var $belongsTo = array('User');
+	var $belongsTo = array(
+		'User',
+		'Owner' => array(
+			'className' => 'User',
+			'foreignKey' => 'owner_id'
+		)
+	);
 	
 	var $hasMany = array(
 		'ContactPerson' => array(
@@ -202,6 +208,24 @@ class BusinessPartner extends AppModel {
 			);
 		}
 		return json_encode($autocomplete_business_partners);
+	}
+	
+	function findOwnersList($session) {
+		App::import('Model', 'Tool');
+		$this->Tool = &new Tool;
+		
+		$owners_conditions = array('Owner.user_type_id' => array(4,5), 'Owner.active' => true);
+		if (isset($session['User']['user_type_id']) && $this->Tool->is_rep($session['User']['user_type_id'])) {
+			$owners_conditions = array('Owner.id' => $this->Session->read('User.id'));
+		}
+		$owners = $this->Owner->find('all', array(
+			'conditions' => $owners_conditions,
+			'contain' => array(),
+			'fields' => array('Owner.id', 'Owner.first_name', 'Owner.last_name'),
+			'order' => array('Owner.last_name' => 'asc')
+		));
+		$owners = Set::combine($owners, '{n}.Owner.id', array('{0} {1}', '{n}.Owner.last_name', '{n}.Owner.first_name'));
+		return $owners;
 	}
 	
 }

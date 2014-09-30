@@ -60,12 +60,14 @@ class BusinessPartnersController extends AppController {
 		$this->paginate['BusinessPartner'] = array(
 			'conditions' => $conditions,
 			'limit' => 30,
-			'contain' => array('User'),
+			'contain' => array('User', 'Owner'),
 			'fields' => array(
 				'BusinessPartner.*',
 				'Address.*',
 				'User.*',
-				'CONCAT(User.last_name, " ", User.first_name) as full_name'
+				'CONCAT(User.last_name, " ", User.first_name) as full_name',
+				'Owner.*',
+				'CONCAT(Owner.last_name, " ", Owner.first_name) as owner_full_name',
 			),
 			'joins' => array(
 				array(
@@ -106,6 +108,7 @@ class BusinessPartnersController extends AppController {
 			array('field' => 'Address.zip', 'position' => '["Address"]["zip"]', 'alias' => 'Address.zip'),
 			array('field' => 'Address.region', 'position' => '["Address"]["region"]', 'alias' => 'Address.region'),
 			array('field' => 'CONCAT(User.first_name, " ", User.last_name) AS fullname', 'position' => '[0]["fullname"]', 'alias' => 'User.fullname'),
+			array('field' => 'CONCAT(Owner.first_name, " ", Owner.last_name) AS owner_fullname', 'position' => '[0]["owner_fullname"]', 'alias' => 'Owner.fullname'),
 		);
 		$this->set('export_fields', $export_fields);
 	}
@@ -3019,6 +3022,9 @@ class BusinessPartnersController extends AppController {
 				
 			}
 		}
+		
+		$owners = $this->BusinessPartner->findOwnersList($this->Session->read());
+		$this->set('owners', $owners);
 	}
 	
 	function user_ares_search() {
@@ -3152,6 +3158,9 @@ class BusinessPartnersController extends AppController {
 		} else {
 			$this->data = $business_partner;
 		}
+		
+		$owners = $this->BusinessPartner->findOwnersList($this->Session->read());
+		$this->set('owners', $owners);
 	}
 	
 	function user_edit_user($id = null) {

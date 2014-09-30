@@ -37,11 +37,15 @@
 	</tr>
 	<tr>
 		<th>Aktivní</th>
-		<td><?php echo $form->input('BusinessPartner.active', array('label' => false))?></td>
+		<td><?php echo $form->input('BusinessPartner.active', array('label' => false, 'checked' => true))?></td>
 	</tr>
 	<tr>
 		<th>Poznámka</th>
 		<td><?php echo $form->input('BusinessPartner.note', array('label' => false))?></td>
+	</tr>
+	<tr>
+		<th>Vlastník</th>
+		<td><?php echo $this->Form->input('BusinessPartner.owner_id', array('label' => false, 'options' => $owners))?></td>
 	</tr>
 	<tr>
 	<?php if (!isset($this->data['BusinessPartner']['bonity']) || $this->data['BusinessPartner']['bonity'] == 0) {
@@ -126,14 +130,14 @@
 	</tr>
 	<tr>
 		<th>Shodná s adresou sídla</th>
-		<td><?php echo $form->input('InvoiceAddress.same', array('type' => 'checkbox', 'checked' => false, 'label' => false))?></td>
+		<td><?php echo $form->input('InvoiceAddress.same', array('type' => 'checkbox', 'checked' => true, 'label' => false))?></td>
 	</tr>
 	<tr>
 		<td colspan="2">Doručovací adresa</td>
 	</tr>
 	<tr>
 		<th>Shodná s adresou sídla</th>
-		<td><?php echo $form->input('DeliveryAddress.same', array('type' => 'checkbox', 'checked' => false, 'label' => false))?></td>
+		<td><?php echo $form->input('DeliveryAddress.same', array('type' => 'checkbox', 'checked' => true, 'label' => false))?></td>
 	</tr>
 </table>
 

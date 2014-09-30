@@ -43,6 +43,10 @@
 		<td><?php echo $form->input('BusinessPartner.note', array('label' => false))?></td>
 	</tr>
 	<tr>
+		<th>Vlastník</th>
+		<td><?php echo $this->Form->input('BusinessPartner.owner_id', array('label' => false, 'options' => $owners))?></td>
+	</tr>
+	<tr>
 		<th>Bonita</th>
 		<td>
 			<table>
