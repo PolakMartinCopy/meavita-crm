@@ -23,6 +23,10 @@
 		<td><?php echo $form->input('BusinessPartner.dic', array('label' => false))?></td>
 	</tr>
 	<tr>
+		<th>IČZ<sup>*</sup></th>
+		<td><?php echo $form->input('BusinessPartner.icz', array('label' => false))?></td>
+	</tr>
+	<tr>
 		<th>Email</th>
 		<td><?php echo $form->input('BusinessPartner.email', array('label' => false))?></td>
 	</tr>

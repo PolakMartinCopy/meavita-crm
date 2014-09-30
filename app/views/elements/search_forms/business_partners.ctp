@@ -13,46 +13,19 @@
 			<td colspan="6">Společnost</td>
 		</tr>
 		<tr>
+			<th>Název pobočky</th>
+			<td><?php echo $this->Form->input('BusinessPartner.branch_name', array('label' => false))?></td>
 			<th>Název</th>
 			<td><?php echo $form->input('BusinessPartner.name', array('label' => false))?></td>
+			<td colspan="2">&nbsp;</td>
+		</tr>
+		<tr>
 			<th>IČO</th>
 			<td><?php echo $form->input('BusinessPartner.ico', array('label' => false))?></td>
 			<th>DIČ</th>
 			<td><?php echo $form->input('BusinessPartner.dic', array('label' => false))?></td>
-		</tr>
-		<tr>
-			<th>Poznámka</th>
-			<td><?php echo $form->input('BusinessPartner.note', array('label' => false))?></td>
-			<th>Bonita</th>
-			<td colspan="6">
-				<table>
-					<tr>
-						<th>&nbsp;</th>
-						<th>A</th>
-						<th>B</th>
-						<th>C</th>
-					</tr>
-					<tr>
-						<th>1</th>
-						<td><input type="checkbox" name="data[BusinessPartner][bonity][1]" value="1"<?php echo (isset($this->data['BusinessPartner']['bonity'][1]) ) ? ' checked ' : ''?>/></td>
-						<td><input type="checkbox" name="data[BusinessPartner][bonity][4]" value="4"<?php echo (isset($this->data['BusinessPartner']['bonity'][4]) ) ? ' checked ' : ''?>/></td>
-						<td><input type="checkbox" name="data[BusinessPartner][bonity][7]" value="7"<?php echo (isset($this->data['BusinessPartner']['bonity'][7]) ) ? ' checked ' : ''?>/></td>
-					</tr>
-					<tr>
-						<th>2</th>
-						<td><input type="checkbox" name="data[BusinessPartner][bonity][2]" value="2"<?php echo (isset($this->data['BusinessPartner']['bonity'][2]) ) ? ' checked ' : ''?>/></td>
-						<td><input type="checkbox" name="data[BusinessPartner][bonity][5]" value="5"<?php echo (isset($this->data['BusinessPartner']['bonity'][5]) ) ? ' checked ' : ''?>/></td>
-						<td><input type="checkbox" name="data[BusinessPartner][bonity][8]" value="8"<?php echo (isset($this->data['BusinessPartner']['bonity'][8]) ) ? ' checked ' : ''?>/></td>
-					</tr>
-					<tr>
-						<th>3</th>
-						<td><input type="checkbox" name="data[BusinessPartner][bonity][3]" value="3"<?php echo (isset($this->data['BusinessPartner']['bonity'][3]) ) ? ' checked ' : ''?>/></td>
-						<td><input type="checkbox" name="data[BusinessPartner][bonity][6]" value="6"<?php echo (isset($this->data['BusinessPartner']['bonity'][6]) ) ? ' checked ' : ''?>/></td>
-						<td><input type="checkbox" name="data[BusinessPartner][bonity][9]" value="9"<?php echo (isset($this->data['BusinessPartner']['bonity'][9]) ) ? ' checked ' : ''?>/></td>
-					</tr>
-				</table>
-			</td>
-		</tr>
+			<th>IČZ</th>
+			<td><?php echo $this->Form->input('BusinessPartner.icz', array('label' => false))?></td>
 		<tr>
 			<td colspan="6">Adresa sídla</td>
 		</tr>

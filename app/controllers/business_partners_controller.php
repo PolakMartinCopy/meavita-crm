@@ -61,7 +61,12 @@ class BusinessPartnersController extends AppController {
 			'conditions' => $conditions,
 			'limit' => 30,
 			'contain' => array('User'),
-			'fields' => array('BusinessPartner.*', 'Address.*', 'User.*', 'CONCAT(User.last_name, " ", User.first_name) as full_name'),
+			'fields' => array(
+				'BusinessPartner.*',
+				'Address.*',
+				'User.*',
+				'CONCAT(User.last_name, " ", User.first_name) as full_name'
+			),
 			'joins' => array(
 				array(
 					'table' => 'addresses',
@@ -88,9 +93,11 @@ class BusinessPartnersController extends AppController {
 		
 		$export_fields = array(
 			array('field' => 'BusinessPartner.id', 'position' => '["BusinessPartner"]["id"]', 'alias' => 'BusinessPartner.id'),
+			array('field' => 'BusinessPartner.branch_name', 'position' => '["BusinessPartner"]["branch_name"]', 'alias' => 'BusinessPartner.branch_name'),
 			array('field' => 'BusinessPartner.name', 'position' => '["BusinessPartner"]["name"]', 'alias' => 'BusinessPartner.name'),
 			array('field' => 'BusinessPartner.ico', 'position' => '["BusinessPartner"]["ico"]', 'alias' => 'BusinessPartner.ico'),
 			array('field' => 'BusinessPartner.dic', 'position' => '["BusinessPartner"]["dic"]', 'alias' => 'BusinessPartner.dic'),
+			array('field' => 'BusinessPartner.icz', 'position' => '["BusinessPartner"]["icz"]', 'alias' => 'BusinessPartner.icz'),
 			array('field' => 'Address.name', 'position' => '["Address"]["name"]', 'alias' => 'Address.name'),
 			array('field' => 'Address.person_first_name', 'position' => '["Address"]["person_first_name"]', 'alias' => 'Address.person_first_name'),
 			array('field' => 'Address.person_last_name', 'position' => '["Address"]["person_last_name"]', 'alias' => 'Address.person_last_name'),

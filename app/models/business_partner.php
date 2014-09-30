@@ -112,18 +112,21 @@ class BusinessPartner extends AppModel {
 	);
 	
 	function do_form_search($conditions, $data){
+		if ( !empty($data['BusinessPartner']['branch_name']) ){
+			$conditions[] = 'BusinessPartner.branch_name LIKE \'%%' . $data['BusinessPartner']['branch_name'] . '%%\'';
+		}
 		if ( !empty($data['BusinessPartner']['name']) ){
 			$conditions[] = 'BusinessPartner.name LIKE \'%%' . $data['BusinessPartner']['name'] . '%%\'';
 		}
-		
 		if ( !empty($data['BusinessPartner']['ico']) ){
 			$conditions[] = 'BusinessPartner.ico LIKE \'%%' . $data['BusinessPartner']['ico'] . '%%\'';
 		}
-		
 		if ( !empty($data['BusinessPartner']['dic']) ){
 			$conditions[] = 'BusinessPartner.dic LIKE \'%%' . $data['BusinessPartner']['dic'] . '%%\'';
 		}
-		
+		if ( !empty($data['BusinessPartner']['icz']) ){
+			$conditions[] = 'BusinessPartner.icz LIKE \'%%' . $data['BusinessPartner']['icz'] . '%%\'';
+		}
 		if ( !empty($data['BusinessPartner']['note']) ){
 			$conditions[] = 'BusinessPartner.note LIKE \'%%' . $data['BusinessPartner']['note'] . '%%\'';
 		}
@@ -177,7 +180,7 @@ class BusinessPartner extends AppModel {
 			$conditions = array('BusinessPartner.user_id' => $user['User']['id']);
 		}
 		if ($term) {
-			$conditions['BusinessPartner.name LIKE'] = '%' . $term . '%';
+			$conditions['CONCAT(BusinessPartner.branch_name, " ", BusinessPartner.name, " ", BusinessPartner.ico, " ", BusinessPartner.dic, " ", BusinessPartner.icz) LIKE'] = '%' . $term . '%';
 		}
 		
 		$business_partners = $this->find('all', array(
@@ -188,13 +191,13 @@ class BusinessPartner extends AppModel {
 					'conditions' => array('Address.address_type_id' => 1)
 				)
 			),
-			'fields' => array('BusinessPartner.name')
+			'fields' => array('BusinessPartner.branch_name', 'BusinessPartner.name')
 		));
 		
 		$autocomplete_business_partners = array();
 		foreach ($business_partners as $business_partner) {
 			$autocomplete_business_partners[] = array(
-				'label' => $business_partner['BusinessPartner']['name'] . ', ' . $business_partner['Address'][0]['street'] . ' ' . $business_partner['Address'][0]['number'] . ', ' . $business_partner['Address'][0]['city'] . ', ' . $business_partner['Address'][0]['zip'],
+				'label' => $business_partner['BusinessPartner']['branch_name'] . ', ' . $business_partner['BusinessPartner']['name'] . ', ' . $business_partner['Address'][0]['street'] . ' ' . $business_partner['Address'][0]['number'] . ', ' . $business_partner['Address'][0]['city'] . ', ' . $business_partner['Address'][0]['zip'],
 				'value' => $business_partner['BusinessPartner']['id']
 			);
 		}
