@@ -40,7 +40,7 @@ class BusinessSessionsController extends AppController {
 			$this->data['BusinessSessionSearch2'] = $this->Session->read('Search.BusinessSessionSearch2');
 			$conditions = $this->BusinessSession->do_form_search($conditions, $this->data['BusinessSessionSearch2']);
 		}
-	
+
 		$order = array('BusinessSession.date' => 'desc');
 		if (isset($this->params['named']['sort']) && $this->params['named']['sort'] == 'celkem') {
 			$order = array($this->params['named']['sort'] => $this->params['named']['direction']);
@@ -67,7 +67,6 @@ class BusinessSessionsController extends AppController {
 			'fields' => array('*', 'SUM(Cost.amount) as celkem'),
 			'limit' => 30,
 		);
-		
 		$business_sessions = $this->paginate('BusinessSession');
 		$this->set('business_sessions', $business_sessions);
 
@@ -90,7 +89,16 @@ class BusinessSessionsController extends AppController {
 			array('field' => 'SUM(Cost.amount) AS total_amount', 'position' => '[0]["total_amount"]', 'alias' => 'Cost.total_amount')
 		);
 		$this->set('export_fields', $export_fields);
-}
+		
+		$users = $this->BusinessSession->User->find('all', array(
+			'conditions' => array('User.active' => true),
+			'contain' => array(),
+			'fields' => array('User.id', 'User.first_name', 'User.last_name'),
+			'order' => array('User.last_name' => 'asc', 'User.first_name' => 'asc')
+		));
+		$users = Set::combine($users, '{n}.User.id', array('{0} {1}', '{n}.User.last_name', '{n}.User.first_name'));
+		$this->set('users', $users);
+	}
 	
 	function user_view($id = null) {
 		if (!$id) {

@@ -54,6 +54,14 @@
 			<td><?php echo $form->input('Address.region', array('label' => false))?></td>
 		</tr>
 		<tr>
+			<td colspan="6">Uživatel</td>
+		</tr>
+		<tr>
+			<th>Vlastník</th>
+			<td><?php echo $this->Form->input('BusinessPartner.owner_id', array('label' => false, 'options' => $owners, 'empty' => true))?></td>
+			<td colspan="4">&nbsp;</td>
+		</tr>
+		<tr>
 			<td colspan="6">
 				<?php
 					echo $html->link('reset filtru', array('controller' => 'business_partners', 'reset' => true))

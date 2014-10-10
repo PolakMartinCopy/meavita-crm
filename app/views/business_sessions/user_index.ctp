@@ -12,35 +12,46 @@
 		<?php echo $form->create('BusinessSession', array('url' => $_SERVER['REQUEST_URI'])); ?>
 		<table class="left_heading">
 			<tr>
+				<td colspan="6">Obchodní partner</td>
+			</tr>
+			<tr>
 				<th>Pobočka</th>
 				<td><?php echo $form->input('BusinessSessionSearch2.BusinessSession.business_partner_brach_name', array('label' => false, 'type' => 'text'))?></td>
 				<th>Obchodní partner</th>
 				<td><?php echo $form->input('BusinessSessionSearch2.BusinessSession.business_partner_name', array('label' => false, 'type' => 'text'))?></td>
+				<td colspan="2">&nbsp;</td>
+			</tr>
+			<tr>
+				<td colspan="6">Obchodní jednání</td>
 			</tr>
 			<tr>
 				<th>Datum jednání od</th>
 				<td><?php echo $form->input('BusinessSessionSearch2.BusinessSession.date_from', array('label' => false, 'type' => 'text'))?></td>
 				<th>Datum jednání do</th>
 				<td><?php echo $form->input('BusinessSessionSearch2.BusinessSession.date_to', array('label' => false, 'type' => 'text'))?></td>
-			</tr>
-			<tr>
 				<th>Datum vložení od</th>
 				<td><?php echo $form->input('BusinessSessionSearch2.BusinessSession.created_from', array('label' => false, 'type' => 'text'))?></td>
-				<th>Datum vložení do</th>
-				<td><?php echo $form->input('BusinessSessionSearch2.BusinessSession.created_to', array('label' => false, 'type' => 'text'))?></td>
 			</tr>
 			<tr>
+				<th>Datum vložení do</th>
+				<td><?php echo $form->input('BusinessSessionSearch2.BusinessSession.created_to', array('label' => false, 'type' => 'text'))?></td>
 				<th>Typ jednání</th>
 				<td><?php echo $form->input('BusinessSessionSearch2.BusinessSession.business_session_type_id', array('options' => $business_session_types, 'empty' => true, 'label' => false))?></td>
 				<th>Popis</th>
 				<td><?php echo $form->input('BusinessSessionSearch2.BusinessSession.description', array('label' => false, 'type' => 'text'))?></td>
 			</tr>
 			<tr>
-				<td colspan="4">
-					<?php
-						echo $html->link('reset filtru', array('controller' => 'business_sessions', 'action' => 'index', 'reset' => 'business_sessions'));
-					?>
-				</td>
+				<th colspan="6">Uživatel</th>
+			</tr>
+			<tr>
+				<th>Uživatel</th>
+				<td><?php echo $this->Form->input('BusinessSessionSearch2.BusinessSession.user_id', array('label' => false, 'options' => $users, 'empty' => true))?></td>
+				<td colspan="4">&nbsp;</td>
+			</tr>
+			<tr>
+				<td colspan="8"><?php
+					echo $html->link('reset filtru', array('controller' => 'business_sessions', 'action' => 'index', 'reset' => 'business_sessions'));
+				?></td>
 			</tr>
 		</table>
 		<?php

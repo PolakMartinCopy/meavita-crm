@@ -98,7 +98,9 @@ class BusinessSession extends AppModel {
 		if ( !empty($data['BusinessSession']['description']) ){
 			$conditions[] = 'BusinessSession.description LIKE \'%%' . $data['BusinessSession']['description'] . '%%\'';
 		}
-		
+		if (!empty($data['BusinessSession']['user_id'])) {
+			$conditions[] = 'BusinessSession.user_id = ' . $data['BusinessSession']['user_id'];
+		}
 		return $conditions;
 	}
 	
@@ -116,7 +118,6 @@ class BusinessSession extends AppModel {
 			business_sessions_users AS BusinessSessionsUser ON (BusinessSession.id = BusinessSessionsUser.business_session_id) LEFT JOIN
 			business_partners AS BusinessPartner ON (BusinessSession.business_partner_id = BusinessPartner.id)
 		WHERE ' . $conditions;
-
 		return $query;
 	}
 	

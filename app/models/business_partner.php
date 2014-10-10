@@ -186,7 +186,9 @@ class BusinessPartner extends AppModel {
 		if ( !empty($data['Address']['region']) ){
 			$conditions[] = 'Address.region LIKE \'%%' . $data['Address']['region'] . '%%\'';
 		}
-				
+		if (!empty($data['BusinessPartner']['owner_id'])) {
+			$conditions['BusinessPartner.owner_id'] = $data['BusinessPartner']['owner_id'];
+		}
 		return $conditions;
 	}
 	
