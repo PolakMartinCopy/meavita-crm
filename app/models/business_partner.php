@@ -49,7 +49,7 @@ class BusinessPartner extends AppModel {
 		'branch_name' => array(
 			'notEmpty' => array(
 				'rule' => 'notEmpty',
-				'message' => 'Jméno nesmí zůstat prázdné'
+				'message' => 'Název (lékárny) nesmí zůstat prázdný'
 			)
 		),
 		'name' => array(

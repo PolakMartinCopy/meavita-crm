@@ -2983,12 +2983,6 @@ class BusinessPartnersController extends AppController {
 					$invoice_address['address_type_id'] = 3;
 					$this->data['Address'][] = $invoice_address;
 				}
-				
-				if ($this->data['DeliveryAddress']['same']) {
-					$delivery_address = $this->data['Address'][0];
-					$delivery_address['address_type_id'] = 4;
-					$this->data['Address'][] = $delivery_address;
-				}
 	
 				if ($this->BusinessPartner->saveAll($this->data, array('validate' => 'first'))) {
 					$this->Session->setFlash('Obchodní partner byl vytvořen');
@@ -2998,6 +2992,7 @@ class BusinessPartnersController extends AppController {
 				}
 			} else {
 				$this->Session->setFlash('Údaje o obchodním partnerovi byly doplněny ze systému Ares');
+				$this->data['BusinessPartner']['owner_id'] = $this->user['User']['id'];
 			}
 		} else {
 			if (isset($this->params['named']['data'])) {
@@ -3021,6 +3016,7 @@ class BusinessPartnersController extends AppController {
 				}
 				
 			}
+			$this->data['BusinessPartner']['owner_id'] = $this->user['User']['id'];
 		}
 		
 		$owners = $this->BusinessPartner->findOwnersList($this->Session->read());
