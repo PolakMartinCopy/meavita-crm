@@ -76,7 +76,7 @@ class BusinessPartnersController extends AppController {
 					'alias' => 'Address',
 					'conditions' => array(
 						'BusinessPartner.id = Address.business_partner_id',
-						'Address.address_type_id = 1'
+						'Address.address_type_id = 4'
 					)
 				)
 			)
@@ -2978,12 +2978,6 @@ class BusinessPartnersController extends AppController {
 		
 		if (isset($this->data)) {
 			if (!isset($this->data['BusinessPartner']['ares_search'])) {
-				if ($this->data['InvoiceAddress']['same']) {
-					$invoice_address = $this->data['Address'][0];
-					$invoice_address['address_type_id'] = 3;
-					$this->data['Address'][] = $invoice_address;
-				}
-	
 				if ($this->BusinessPartner->saveAll($this->data, array('validate' => 'first'))) {
 					$this->Session->setFlash('Obchodní partner byl vytvořen');
 					$this->redirect(array('controller' => 'business_partners', 'action' => 'view', $this->BusinessPartner->id));
