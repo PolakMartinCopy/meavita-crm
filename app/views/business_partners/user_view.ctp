@@ -9,7 +9,7 @@ if (isset($this->params['named']['tab'])) {
 	</script>
 <?php } ?>
 
-<h1><?php echo $business_partner['BusinessPartner']['branch_name'] . ', ' . $business_partner['BusinessPartner']['name']?></h1>
+<h1><?php echo (!empty($business_partner['BusinessPartner']['branch_name']) ? $business_partner['BusinessPartner']['branch_name'] . ', ' : '') . $business_partner['BusinessPartner']['name']?></h1>
 
 <div id="tabs">
 	<ul>
