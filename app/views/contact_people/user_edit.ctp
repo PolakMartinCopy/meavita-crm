@@ -89,6 +89,10 @@ if (isset($business_partner_id)) {
 		<th>Koníčky</th>
 		<td><?php echo $form->input('ContactPerson.hobby', array('label' => false))?></td>
 	</tr>
+	<tr>
+		<th>Je hlavní?</th>
+		<td><?php echo $this->Form->input('ContactPerson.is_main', array('label' => false))?></td>
+	</tr>
 </table>
 <?php echo $form->hidden('ContactPerson.id')?>
 <?php echo $form->submit('Upravit')?>

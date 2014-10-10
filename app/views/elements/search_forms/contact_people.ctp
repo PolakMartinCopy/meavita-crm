@@ -25,9 +25,12 @@
 			<td><?php echo $form->input('ContactPersonSearch.ContactPerson.email', array('label' => false))?></td>
 		</tr>
 		<tr>
+		<th>Je hlavní?</th>
+			<td><?php echo $this->Form->input('ContactPersonSearch.ContactPerson.is_main', array('label' => false, 'options' => array(0 => 'Ne', 'Ano'), 'empty' => true))?>
+			<th>Pobočka</th>
+			<td><?php echo $this->Form->input('ContactPersonSearch.BusinessPartner.branch_name', array('label' => false))?></td>
 			<th>Obchodní partner</th>
 			<td><?php echo $form->input('ContactPersonSearch.BusinessPartner.name', array('label' => false))?></td>
-			<td colspan="4">&nbsp;</td>
 		</tr>
 		<tr>
 			<td colspan="6">

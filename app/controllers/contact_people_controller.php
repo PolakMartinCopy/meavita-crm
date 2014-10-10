@@ -80,7 +80,8 @@ class ContactPeopleController extends AppController {
 			array('field' => 'ContactPerson.email', 'position' => '["ContactPerson"]["email"]', 'alias' => 'ContactPerson.email'),
 			array('field' => 'ContactPerson.note', 'position' => '["ContactPerson"]["note"]', 'alias' => 'ContactPerson.note'),
 			array('field' => 'ContactPerson.hobby', 'position' => '["ContactPerson"]["hobby"]', 'alias' => 'ContactPerson.hobby'),
-			array('field' => 'ContactPerson.active', 'position' => '["ContactPerson"]["active"]', 'alias' => 'ContactPerson.active')
+			array('field' => 'ContactPerson.active', 'position' => '["ContactPerson"]["active"]', 'alias' => 'ContactPerson.active'),
+			array('field' => 'ContactPerson.is_main', 'position' => '["ContactPerson"]["is_main"]', 'alias' => 'ContactPerson.is_main')
 		);
 		$this->set('export_fields', $export_fields);
 	}
@@ -206,6 +207,22 @@ class ContactPeopleController extends AppController {
 			}
 			
 			if ($this->ContactPerson->saveAll($this->data)) {
+				// pokud je kontaktni osoba hlavni, musim se podivat, jestli jina kontaktni osoba nebyla hlavni a odnastavit ji priznak
+				if ($this->data['ContactPerson']['is_main']) {
+					$old_main_contact_person = $this->ContactPerson->find('first', array(
+						'conditions' => array(
+							'ContactPerson.id !=' => $this->ContactPerson->id,
+							'ContactPerson.is_main' => true,
+							'ContactPerson.business_partner_id' => $this->data['ContactPerson']['business_partner_id']
+						),
+						'contain' => array(),
+						'fields' => array('ContactPerson.id')
+					));
+					if (!empty($old_main_contact_person)) {
+						$old_main_contact_person['ContactPerson']['is_main'] = false;
+						$this->ContactPerson->save($old_main_contact_person);
+					}
+				}
 				$this->Session->setFlash('Kontaktní osoba byla uložena');
 				if (isset($this->params['named']['business_partner_id'])) {
 					$this->redirect(array('controller' => 'business_partners', 'action' => 'view', $this->params['named']['business_partner_id']));
@@ -332,8 +349,23 @@ class ContactPeopleController extends AppController {
 					$this->ContactPerson->Anniversary->delete($db_name_day['Anniversary']['id']);
 				}
 			}
-
 			if ($this->ContactPerson->saveAll($this->data)) {
+				// pokud je kontaktni osoba hlavni, musim se podivat, jestli jina kontaktni osoba nebyla hlavni a odnastavit ji priznak
+				if ($this->data['ContactPerson']['is_main']) {
+					$old_main_contact_person = $this->ContactPerson->find('first', array(
+							'conditions' => array(
+								'ContactPerson.id !=' => $this->ContactPerson->id,
+								'ContactPerson.is_main' => true,
+								'ContactPerson.business_partner_id' => $this->data['ContactPerson']['business_partner_id']
+							),
+							'contain' => array(),
+							'fields' => array('ContactPerson.id')
+					));
+					if (!empty($old_main_contact_person)) {
+						$old_main_contact_person['ContactPerson']['is_main'] = false;
+						$this->ContactPerson->save($old_main_contact_person);
+					}
+				}
 				$this->Session->setFlash('Kontaktní osoba byla upravena');
 				if (isset($this->params['named']['business_partner_id'])) {
 					$this->redirect(array('controller' => 'business_partners', 'action' => 'view', $this->params['named']['business_partner_id']));

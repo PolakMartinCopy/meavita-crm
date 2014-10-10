@@ -26,11 +26,12 @@
 			<td><?php echo $form->input('ContactPersonSearch2.ContactPerson.email', array('label' => false))?></td>
 		</tr>
 		<tr>
+			<th>Je hlavní?</th>
+			<td><?php echo $this->Form->input('ContactPersonSearch2.ContactPerson.is_main', array('label' => false, 'options' => array(0 => 'Ne', 'Ano'), 'empty' => true))?>
 			<th>Pobočka</th>
 			<td><?php echo $this->Form->input('ContactPersonSearch2.BusinessPartner.branch_name', array('label' => false))?></td>
 			<th>Obchodní partner</th>
 			<td><?php echo $form->input('ContactPersonSearch2.BusinessPartner.name', array('label' => false))?></td>
-			<td colspan="2">&nbsp;</td>
 		</tr>
 		<tr>
 			<td colspan="6">
@@ -77,6 +78,7 @@ if (empty($contact_people)) {
 		<th><?php echo $paginator->sort('Email', 'ContactPerson.email')?></th>
 		<th><?php echo $paginator->sort('Pobočka', 'BusinessPartner.branch_name')?></th>
 		<th><?php echo $paginator->sort('Obchodní partner', 'BusinessPartner.name')?></th>
+		<th><?php echo $this->Paginator->sort('Je hlavní?', 'ContactPerson.is_main')?></th>
 <!-- 	<th>Výročí</th> -->
 		<th>&nbsp;</th>
 	</tr>
@@ -96,6 +98,7 @@ if (empty($contact_people)) {
 		<td><?php echo $html->link($contact_person['BusinessPartner']['branch_name'], array('controller' => 'business_partners', 'action' => 'view', $contact_person['BusinessPartner']['id']))?></td>
 		<td><?php echo $html->link($contact_person['BusinessPartner']['name'], array('controller' => 'business_partners', 'action' => 'view', $contact_person['BusinessPartner']['id']))?></td>
 <!-- 	<td><?php echo (empty($contact_person['Anniversary'])) ? 'ne' : 'ano'?></td> -->
+		<td><?php echo ($contact_person['ContactPerson']['is_main']) ? 'ano' : 'ne'?></td>
 		<td class="actions"><?php 
 			$links = array();
 			if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/ContactPeople/user_view')) {

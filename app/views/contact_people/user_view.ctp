@@ -63,6 +63,10 @@
 				<th>Aktivní</th>
 				<td><?php echo ($contact_person['ContactPerson']['active'] ? 'ano' : 'ne')?></td>
 			</tr>
+			<tr>
+				<th>Je hlavní?</th>
+				<td><?php echo ($contact_person['ContactPerson']['is_main'] ? 'ano' : 'ne')?></td>
+			</tr>
 		</table>
 		
 		<ul>

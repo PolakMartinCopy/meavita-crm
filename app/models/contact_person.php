@@ -120,6 +120,9 @@ class ContactPerson extends AppModel {
 		if (!empty($data['BusinessPartner']['name'])) {
 			$conditions[] = 'BusinessPartner.name LIKE \'%%' . $data['BusinessPartner']['name'] . '%%\'';
 		}
+		if (array_key_exists('is_main', $data['ContactPerson']) && $data['ContactPerson']['is_main'] != null) {
+			$conditions['ContactPerson.is_main'] = $data['ContactPerson']['is_main'];
+		}
 		
 		return $conditions;
 	}
