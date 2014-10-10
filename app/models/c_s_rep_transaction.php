@@ -26,7 +26,8 @@ class CSRepTransaction extends AppModel {
 		return array(
 			array('field' => 'CSRepTransaction.id', 'position' => '["CSRepTransaction"]["id"]', 'alias' => 'CSRepTransaction.id'),
 			array('field' => 'CSRepTransaction.created', 'position' => '["CSRepTransaction"]["created"]', 'alias' => 'CSRepTransaction.created'),
-			array('field' => 'CSRepTransaction__rep_name', 'position' => '[0]["CSRepTransaction__rep_name"]', 'alias' => 'CSRepTransaction.rep_name'),
+			array('field' => 'CSRepTransaction.c_s_rep_first_name', 'position' => '["CSRepTransaction"]["c_s_rep_first_name"]', 'alias' => 'CSRep.first_name'),
+			array('field' => 'CSRepTransaction.c_s_rep_last_name', 'position' => '["CSRepTransaction"]["c_s_rep_last_name"]', 'alias' => 'CSRep.last_name'),
 			array('field' => 'CSRepTransaction.business_partner_name', 'position' => '["CSRepTransaction"]["business_partner_name"]', 'alias' => 'BusinessPartner.name'),
 			array('field' => 'CSRepTransaction.item_product_name', 'position' => '["CSRepTransaction"]["item_product_name"]', 'alias' => 'BPCSRepTransactionItem.product_name'),
 			array('field' => 'CSRepTransaction__abs_quantity', 'position' => '[0]["CSRepTransaction__abs_quantity"]', 'alias' => 'CSRepTransaction.abs_quantity'),
@@ -42,7 +43,7 @@ class CSRepTransaction extends AppModel {
 	
 	function do_form_search($conditions, $data) {
 		if (isset($data['CSRep']['name']) && !empty($data['CSRep']['name'])) {
-			$conditions[] = 'CSRepTransaction__rep_name LIKE \'%%' . $data['CSRep']['name'] . '%%\'';
+			$conditions[] = 'CSRepTransaction__c_s_rep_name LIKE \'%%' . $data['CSRep']['name'] . '%%\'';
 		}
 		if (isset($data['CSRepAttribute']['ico']) && !empty($data['CSRepAttribute']['ico'])) {
 			$conditions[] = 'CSRepTransaction.rep_ico LIKE \'%% ' . $data['CSRepAttribute']['ico'] . '%%\'';

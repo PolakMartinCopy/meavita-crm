@@ -70,7 +70,7 @@ class CSRepsController extends AppController {
 		$this->CSRep->virtualFields['name'] = $this->CSRep->name_field;
 		$c_s_rep = $this->CSRep->find('first', array(
 			'conditions' => array('CSRep.id' => $id),
-			'contain' => array()
+			'contain' => array('CSRepAttribute')
 		));
 		unset($this->CSRep->virtualFields['name']);
 		
@@ -92,7 +92,7 @@ class CSRepsController extends AppController {
 				unset($this->data['CSRep']['password']);
 			}
 		} else {
-			$this->data['CSRep'] = $c_s_rep['CSRep'];
+			$this->data = $c_s_rep;
 			unset($this->data['CSRep']['password']);
 		}
 		

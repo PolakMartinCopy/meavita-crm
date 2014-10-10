@@ -105,37 +105,37 @@ class BPCSRepPurchase extends AppModel {
 			$conditions[] = $this->CSRep->name_field . ' LIKE \'%%' . $data['CSRep']['name'] . '%%\'';
 		}
 		if (isset($data['CSRepAttribute']['ico']) && !empty($data['CSRepAttribute']['ico'])) {
-			$conditions[] = 'CSRepAttribute.ico LIKE \'%% ' . $data['CSRepAttribute']['ico'] . '%%\'';
+			$conditions[] = 'CSRepAttribute.ico LIKE \'%%' . $data['CSRepAttribute']['ico'] . '%%\'';
 		}
 		if (isset($data['CSRepAttribute']['dic']) && !empty($data['CSRepAttribute']['dic'])) {
-			$conditions[] = 'CSRepAttribute.dic LIKE \'%% ' . $data['CSRepAttribute']['dic'] . '%%\'';
+			$conditions[] = 'CSRepAttribute.dic LIKE \'%%' . $data['CSRepAttribute']['dic'] . '%%\'';
 		}
 		if (isset($data['CSRepAttribute']['street']) && !empty($data['CSRepAttribute']['street'])) {
-			$conditions[] = 'CSRepAttribute.street LIKE \'%% ' . $data['CSRepAttribute']['street'] . '%%\'';
+			$conditions[] = 'CSRepAttribute.street LIKE \'%%' . $data['CSRepAttribute']['street'] . '%%\'';
 		}
 		if (isset($data['CSRepAttribute']['city']) && !empty($data['CSRepAttribute']['city'])) {
-			$conditions[] = 'CSRepAttribute.city LIKE \'%% ' . $data['CSRepAttribute']['city'] . '%%\'';
+			$conditions[] = 'CSRepAttribute.city LIKE \'%%' . $data['CSRepAttribute']['city'] . '%%\'';
 		}
 		if (isset($data['CSRepAttribute']['zip']) && !empty($data['CSRepAttribute']['zip'])) {
-			$conditions[] = 'CSRepAttribute.zip LIKE \'%% ' . $data['CSRepAttribute']['zip'] . '%%\'';
+			$conditions[] = 'CSRepAttribute.zip LIKE \'%%' . $data['CSRepAttribute']['zip'] . '%%\'';
 		}
 		if (isset($data['BusinessPartner']['name']) && !empty($data['BusinessPartner']['name'])) {
-			$conditions[] = 'BusinessPartner.name LIKE \'%% ' . $data['BusinessPartner']['name'] . '%%\'';
+			$conditions[] = 'BusinessPartner.name LIKE \'%%' . $data['BusinessPartner']['name'] . '%%\'';
 		}
 		if (isset($data['BusinessPartner']['ico']) && !empty($data['BusinessPartner']['ico'])) {
-			$conditions[] = 'BusinessPartner.ico LIKE \'%% ' . $data['BusinessPartner']['ico'] . '%%\'';
+			$conditions[] = 'BusinessPartner.ico LIKE \'%%' . $data['BusinessPartner']['ico'] . '%%\'';
 		}
 		if (isset($data['BusinessPartner']['dic']) && !empty($data['BusinessPartner']['dic'])) {
-			$conditions[] = 'BusinessPartner.dic LIKE \'%% ' . $data['BusinessPartner']['dic'] . '%%\'';
+			$conditions[] = 'BusinessPartner.dic LIKE \'%%' . $data['BusinessPartner']['dic'] . '%%\'';
 		}
 		if (isset($data['BusinessPartner']['street']) && !empty($data['BusinessPartner']['street'])) {
-			$conditions[] = 'BusinessPartner.street LIKE \'%% ' . $data['BusinessPartner']['street'] . '%%\'';
+			$conditions[] = 'BusinessPartner.street LIKE \'%%' . $data['BusinessPartner']['street'] . '%%\'';
 		}
 		if (isset($data['BusinessPartner']['city']) && !empty($data['BusinessPartner']['city'])) {
-			$conditions[] = 'BusinessPartner.city LIKE \'%% ' . $data['BusinessPartner']['city'] . '%%\'';
+			$conditions[] = 'BusinessPartner.city LIKE \'%%' . $data['BusinessPartner']['city'] . '%%\'';
 		}
 		if (isset($data['BusinessPartner']['zip']) && !empty($data['BusinessPartner']['zip'])) {
-			$conditions[] = 'BusinessPartner.zip LIKE \'%% ' . $data['BusinessPartner']['zip'] . '%%\'';
+			$conditions[] = 'BusinessPartner.zip LIKE \'%%' . $data['BusinessPartner']['zip'] . '%%\'';
 		}
 		if (isset($data['Product']['name']) && !empty($data['Product']['name'])) {
 			$conditions[] = 'Product.name LIKE \'%%' . $data['Product']['name'] . '%%\'';

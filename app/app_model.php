@@ -56,6 +56,8 @@ class AppModel extends Model {
 			'MCInvoice.date_of_issue',
 			'MCCreditNote.date_of_issue',
 			'MCTransaction.date_of_issue',
+			'BPCSRepSale.created',
+			'CSRepTransaction.created'
 		);
 		
 		// pole kde jsou data typu date

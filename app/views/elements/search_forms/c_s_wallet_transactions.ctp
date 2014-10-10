@@ -12,9 +12,8 @@
 		</tr>
 		<tr>
 			<th>Jméno</th>
-			<td><?php echo $form->input('CSWalletTransactionForm.CSRep.first_name', array('label' => false))?></td>
-			<th>Příjmení</th>
-			<td><?php echo $form->input('CSWalletTransactionForm.CSRep.last_name', array('label' => false))?></td>
+			<td><?php echo $form->input('CSWalletTransactionForm.CSRep.name', array('label' => false))?></td>
+			<td colspan="2">&nbsp;</td>
 		</tr>
 		<tr>
 			<th>Datum od</th>

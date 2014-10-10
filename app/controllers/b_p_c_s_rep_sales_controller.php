@@ -28,14 +28,14 @@ class BPCSRepSalesController extends AppController {
 		if ($this->user['User']['user_type_id'] == 5) {
 			$conditions['CSRep.id'] = $this->user['User']['id'];
 		}
-		
+
 		// pokud chci vysledky vyhledavani
-		if (isset($this->data['BPCSRepSale']['search_form']) && $this->data['BPCSRepSale']['search_form'] == 1){
-			$this->Session->write('Search.BPCSRepSaleForm', $this->data);
-			$conditions = $this->BPCSRepSale->do_form_search($conditions, $this->data);
+		if (isset($this->data['BPCSRepSaleForm']['BPCSRepSale']['search_form']) && $this->data['BPCSRepSaleForm']['BPCSRepSale']['search_form'] == 1){
+			$this->Session->write('Search.BPCSRepSaleForm', $this->data['BPCSRepSaleForm']);
+			$conditions = $this->BPCSRepSale->do_form_search($conditions, $this->data['BPCSRepSaleForm']);
 		} elseif ($this->Session->check('Search.BPCSRepSaleForm')) {
-			$this->data = $this->Session->read('Search.BPCSRepSaleForm');
-			$conditions = $this->BPCSRepSale->do_form_search($conditions, $this->data);
+			$this->data['BPCSRepSaleForm'] = $this->Session->read('Search.BPCSRepSaleForm');
+			$conditions = $this->BPCSRepSale->do_form_search($conditions, $this->data['BPCSRepSaleForm']);
 		}
 		
 		// aby mi to radilo i podle poli modelu, ktere nemam primo navazane na delivery note, musim si je naimportovat
@@ -148,6 +148,8 @@ class BPCSRepSalesController extends AppController {
 				'Unit.shortcut',
 				
 				'CSRep.id',
+				'CSRep.first_name',
+				'CSRep.last_name',
 				
 				'CSRepAttribute.id',
 				'CSRepAttribute.ico',

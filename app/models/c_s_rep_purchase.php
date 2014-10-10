@@ -75,7 +75,8 @@ class CSRepPurchase extends AppModel {
 		return array(
 			array('field' => 'CSRepPurchase.id', 'position' => '["CSRepPurchase"]["id"]', 'alias' => 'CSRepPurchase.id'),
 			array('field' => 'CSRepPurchase.created', 'position' => '["CSRepPurchase"]["created"]', 'alias' => 'CSRepPurchase.created'),
-			array('field' => 'CSRepPurchase.rep_name', 'position' => '["CSRepPurchase"]["rep_name"]', 'alias' => 'CSRepPurchase.rep_name'),
+			array('field' => 'CSRep.first_name', 'position' => '["CSRep"]["first_name"]', 'alias' => 'CSRep.first_name'),
+			array('field' => 'CSRep.last_name', 'position' => '["CSRep"]["last_name"]', 'alias' => 'CSRep.last_name'),
 			array('field' => 'CSRepTransactionItem.product_name', 'position' => '["CSRepTransactionItem"]["product_name"]', 'alias' => 'CSRepTransactionItem.product_name'),
 			array('field' => 'CSRepPurchase.abs_quantity', 'position' => '["CSRepPurchase"]["abs_quantity"]', 'alias' => 'CSRepPurchase.abs_quantity'),
 			array('field' => 'Unit.shortcut', 'position' => '["Unit"]["shortcut"]', 'alias' => 'Unit.shortcut'),
@@ -90,22 +91,22 @@ class CSRepPurchase extends AppModel {
 	
 	function do_form_search($conditions, $data) {
 		if (isset($data['CSRep']['name']) && !empty($data['CSRep']['name'])) {
-			$conditions[] = 'CSRep.name LIKE \'%% ' . $data['CSRep']['name'] . '%%\'';
+			$conditions[] = $this->CSRep->name_field . ' LIKE \'%%' . $data['CSRep']['name'] . '%%\'';
 		}
 		if (isset($data['CSRepAttribute']['ico']) && !empty($data['CSRepAttribute']['ico'])) {
-			$conditions[] = 'CSRepAttribute.ico LIKE \'%% ' . $data['CSRepAttribute']['ico'] . '%%\'';
+			$conditions[] = 'CSRepAttribute.ico LIKE \'%%' . $data['CSRepAttribute']['ico'] . '%%\'';
 		}
 		if (isset($data['CSRepAttribute']['dic']) && !empty($data['CSRepAttribute']['dic'])) {
-			$conditions[] = 'CSRepAttribute.dic LIKE \'%% ' . $data['CSRepAttribute']['dic'] . '%%\'';
+			$conditions[] = 'CSRepAttribute.dic LIKE \'%%' . $data['CSRepAttribute']['dic'] . '%%\'';
 		}
 		if (isset($data['CSRepAttribute']['street']) && !empty($data['CSRepAttribute']['street'])) {
-			$conditions[] = 'CSRepAttribute.street LIKE \'%% ' . $data['CSRepAttribute']['street'] . '%%\'';
+			$conditions[] = 'CSRepAttribute.street LIKE \'%%' . $data['CSRepAttribute']['street'] . '%%\'';
 		}
 		if (isset($data['CSRepAttribute']['city']) && !empty($data['CSRepAttribute']['city'])) {
-			$conditions[] = 'CSRepAttribute.city LIKE \'%% ' . $data['CSRepAttribute']['city'] . '%%\'';
+			$conditions[] = 'CSRepAttribute.city LIKE \'%%' . $data['CSRepAttribute']['city'] . '%%\'';
 		}
 		if (isset($data['CSRepAttribute']['zip']) && !empty($data['CSRepAttribute']['zip'])) {
-			$conditions[] = 'CSRepAttribute.zip LIKE \'%% ' . $data['CSRepAttribute']['zip'] . '%%\'';
+			$conditions[] = 'CSRepAttribute.zip LIKE \'%%' . $data['CSRepAttribute']['zip'] . '%%\'';
 		}
 		if (isset($data['Product']['name']) && !empty($data['Product']['name'])) {
 			$conditions[] = 'Product.name LIKE \'%%' . $data['Product']['name'] . '%%\'';

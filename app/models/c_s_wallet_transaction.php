@@ -145,11 +145,8 @@ class CSWalletTransaction extends AppModel {
 	}
 	
 	function do_form_search($conditions = array(), $data) {
-		if (!empty($data['CSRep']['first_name'])) {
-			$conditions[] = 'CSRep.first_name LIKE \'%%' . $data['CSRep']['first_name'] . '%%\'';
-		}
-		if (!empty($data['CSRep']['last_name'])) {
-			$conditions[] = 'CSRep.last_name LIKE \'%%' . $data['CSRep']['last_name'] . '%%\'';
+		if (!empty($data['CSRep']['name'])) {
+			$conditions[] = $this->CSRep->name_field . ' LIKE \'%%' . $data['CSRep']['name'] . '%%\'';
 		}
 		if (!empty($data['CSWalletTransaction']['created_from'])) {
 			$date_from = explode('.', $data['CSWalletTransaction']['created_from']);

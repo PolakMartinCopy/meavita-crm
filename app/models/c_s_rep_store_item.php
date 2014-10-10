@@ -22,7 +22,8 @@ class CSRepStoreItem extends AppModel {
 	function export_fields() {
 		return array(
 			array('field' => 'CSRepStoreItem.id', 'position' => '["CSRepStoreItem"]["id"]', 'alias' => 'CSRepStoreItem.id'),
-			array('field' => 'CSRep.name', 'position' => '["CSRep"]["name"]', 'alias' => 'CSRep.name'),
+			array('field' => 'CSRep.first_name', 'position' => '["CSRep"]["first_name"]', 'alias' => 'CSRep.first_name'),
+			array('field' => 'CSRep.last_name', 'position' => '["CSRep"]["last_name"]', 'alias' => 'CSRep.last_name'),
 			array('field' => 'CSRepAttribute.city', 'position' => '["CSRepAttribute"]["city"]', 'alias' => 'CSRepAttribute.city'),
 			array('field' => 'Product.id', 'position' => '["Product"]["id"]', 'alias' => 'Product.id'),
 			array('field' => 'Product.vzp_code', 'position' => '["Product"]["vzp_code"]', 'alias' => 'Product.vzp_code'),
