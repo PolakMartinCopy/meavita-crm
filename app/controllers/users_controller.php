@@ -253,7 +253,7 @@ class UsersController extends AppController {
 	}
 	
 	// vymazu testovaci data ze systemu
-	function user_init_truncate() {
+	function user_init_truncate() { die("nemazat");
 		
 		// vyprazdnim tabulky, kde nemam data
 		$tables = array(
