@@ -158,9 +158,9 @@
 		</ul>
 	</li>
 <?php } ?>
-<?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/UserRegions/user_index')) { ?>
+<?php /*if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/UserRegions/user_index')) { ?>
 	<li><?php echo $html->link('Oblasti', array('controller' => 'user_regions', 'action' => 'index'), array('class' => ($active_tab == 'user_regions' ? 'active' : '')))?></li>
-<?php } 
+<?php } */
 	if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/users/user_setting')) { ?>
 		<li><?php echo $html->link('Nastavení', array('controller' => 'anniversary_types', 'action' => 'index'), array('class' => ($active_tab == 'settings' ? 'active' : '')))?></li>
 <?php } ?>
