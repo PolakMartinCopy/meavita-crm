@@ -44,10 +44,10 @@ class User extends AppModel {
 				'rule' => array('email', true),
 				'message' => 'Zadejte platnou emailovou adresu'
 			),
-			'isUnique' => array(
+/*			'isUnique' => array(
 				'rule' => 'isUnique',
 				'message' => 'Zadaná emailová adresa již v systému existuje, zadejte prosím jinou.'
-			)
+			) */
 		),
 		'login' => array(
 			'notEmpty' => array(

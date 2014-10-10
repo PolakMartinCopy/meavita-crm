@@ -34,7 +34,7 @@ class UsersController extends AppController {
 		
 		$conditions = array('User.active' => true);
 		if ($this->user['User']['user_type_id'] == 2) {
-			$conditions = array('User.user_type_id !=' => 1);
+			$conditions = array_merge($conditions, array('User.user_type_id !=' => 1));
 		}
 		
 		if (isset($this->params['named']['reset']) && $this->params['named']['reset'] == 'users') {
@@ -108,7 +108,8 @@ class UsersController extends AppController {
 	}
 	
 	function user_edit($id = null) {
-		if ($this->user['User']['user_type_id'] == 3 && $id != $this->user['User']['id']) {
+		// pokud jsem prihlaseny jako rep a chci upravovat nekoho jineho nez sebe
+		if (in_array($this->user['User']['user_type_id'], array(3,4,5)) && $id != $this->user['User']['id']) {
 			$this->Session->setFlash('Neoprávněný přístup');
 			$this->redirect(array('controller' => 'anniversaries', 'action' => 'index'));
 		} else {
@@ -133,14 +134,15 @@ class UsersController extends AppController {
 			$this->redirect(array('controller' => 'users', 'action' => 'index'));
 		}
 		
-		if ($this->user['User']['user_type_id'] != 2 && $user['User']['user_type_id'] != 1) {
+		// pokud je prihlaseny jako manager, nemuze upravovat admina
+		if ($this->user['User']['user_type_id'] == 2 && $user['User']['user_type_id'] == 1) {
 			$this->Session->setFlash('Neoprávněný přístup. Nemáte právo upravovat zvoleného uživatele.');
 			$this->redirect(array('controller' => 'users', 'action' => 'index'));
 		}
 		
-		$conditions = array('UserType.id != 4');
+		$conditions = array('UserType.id NOT IN (3,4)');
 		if ($this->user['User']['user_type_id'] == 2) {
-			$conditions = array('UserType.id !=' => 1);
+			$conditions = array_merge($conditions, array('UserType.id !=' => 1));
 		}
 		$user_types = $this->User->UserType->find('list', array(
 			'conditions' => $conditions
