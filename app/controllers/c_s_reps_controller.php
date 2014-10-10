@@ -66,7 +66,12 @@ class CSRepsController extends AppController {
 			$this->Session->setFlash('Není zadáno, kterého repa chcete zobrazit');
 			$this->redirect(array('controller' => 'c_s_reps', 'action' => 'index'));
 		}
-	
+
+		if ($this->user['User']['user_type_id'] == '5'  && $this->user['User']['id'] != $id) {
+			$this->Session->setFlash('Nemáte povolení detail repa zobrazit');
+			$this->redirect(array('controller' => 'c_s_reps', 'action' => 'index'));
+		}
+		
 		$this->CSRep->virtualFields['name'] = $this->CSRep->name_field;
 		$c_s_rep = $this->CSRep->find('first', array(
 			'conditions' => array('CSRep.id' => $id),
@@ -84,6 +89,10 @@ class CSRepsController extends AppController {
 		$this->set('c_s_rep', $c_s_rep);
 
 		if (isset($this->data['CSRep']['edit_rep_form'])) {
+			if (empty($this->data['CSRep']['password'])) {
+				unset($this->data['CSRep']['password']);
+			}
+			
 			if ($this->CSRep->save($this->data)) {
 				$this->Session->setFlash('Rep byl upraven');
 				$this->redirect(array('controller' => 'c_s_reps', 'action' => 'view', $id, 'tab' => 1));
@@ -251,6 +260,7 @@ class CSRepsController extends AppController {
 					'CSRepStoreItem.price_vat',
 					'CSRepStoreItem.item_total_price',
 					'CSRepStoreItem.c_s_rep_name',
+					'CSRepStoreItem.is_saleable',
 			
 					'CSRep.id',
 			

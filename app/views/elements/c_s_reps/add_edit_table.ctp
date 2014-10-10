@@ -32,6 +32,10 @@
 		<td><?php echo $this->Form->input('CSRepAttribute.dic', array('label' => false))?></td>
 	</tr>
 	<tr>
+		<th>Notifikace povoleny</th>
+		<td><?php echo $this->Form->input('CSRep.notification_allowed', array('label' => false))?></td>
+	</tr>
+	<tr>
 		<th>Ulice<sup>*</sup></th>
 		<td><?php echo $this->Form->input('CSRepAttribute.street', array('label' => false))?></td>
 	</tr>

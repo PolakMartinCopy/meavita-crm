@@ -728,6 +728,7 @@ class UsersController extends AppController {
 		$this->Acl->allow('c_s_rep', 'controllers/Users/user_logout');
 		// rep muze videt index repu (to, ze tam uvidi jen informace o sobe, je osetreno v metode)
 		$this->Acl->allow('c_s_rep', 'controllers/CSReps/user_index');
+		$this->Acl->allow('c_s_rep', 'controllers/CSReps/user_view');
 		// povolim repovi vsechno okolo skladu, to, ze uvidi jen svoje data, je osetreno v metode
 		$this->Acl->allow('c_s_rep', 'controllers/CSRepStoreItems');
 		// rep muze videt index transakci v penezence (to, ze tam uvidi jen informace o sobe, je osetreno v metode)

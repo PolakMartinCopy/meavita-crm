@@ -26,6 +26,10 @@
 		<th>Heslo<sup>**</sup></th>
 		<td><?php echo $form->input('User.password', array('label' => false))?></td>
 	</tr>
+	<tr>
+		<th>Notifikace povoleny</th>
+		<td><?php echo $this->Form->input('User.notification_allowed', array('label' => false))?></td>
+	</tr>
 <?php if (!isset($own)) { ?>
 	<tr>
 		<th>Typ uživatele<sup>*</sup></th>

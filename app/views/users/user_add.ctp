@@ -27,6 +27,10 @@
 		<td><?php echo $form->input('User.password', array('label' => false))?></td>
 	</tr>
 	<tr>
+		<th>Notifikace povoleny</th>
+		<td><?php echo $this->Form->input('User.notification_allowed', array('label' => false))?></td>
+	</tr>
+	<tr>
 		<th>Typ uživatele<sup>*</sup></th>
 		<td><?php echo $form->input('User.user_type_id', array('options' => $user_types, 'empty' => false, 'label' => false))?></td>
 	</tr>
