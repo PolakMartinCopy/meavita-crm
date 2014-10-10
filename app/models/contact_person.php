@@ -114,6 +114,9 @@ class ContactPerson extends AppModel {
 		if (!empty($data['ContactPerson']['email'])) {
 			$conditions[] = 'ContactPerson.email LIKE \'%%' . $data['ContactPerson']['email'] . '%%\'';
 		}
+		if (!empty($data['BusinessPartner']['branch_name'])) {
+			$conditions[] = 'BusinessPartner.branch_name LIKE \'%%' . $data['BusinessPartner']['branch_name'] . '%%\'';
+		}
 		if (!empty($data['BusinessPartner']['name'])) {
 			$conditions[] = 'BusinessPartner.name LIKE \'%%' . $data['BusinessPartner']['name'] . '%%\'';
 		}

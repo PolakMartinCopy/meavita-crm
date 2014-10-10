@@ -9,6 +9,8 @@
 	<?php echo $form->create('Imposition', array('url' => array('controller' => 'impositions', 'action' => 'index', $date))); ?>
 	<table class="left_heading">
 		<tr>
+			<th>Pobočka</th>
+			<td><?php echo $form->input('ImpositionForm.BusinessPartner.branch_name', array('label' => false))?></td>
 			<th>Obchodní partner</th>
 			<td><?php echo $form->input('ImpositionForm.BusinessPartner.name', array('label' => false))?></td>
 			<th>Zadavatel</th>
@@ -23,13 +25,11 @@
 			<td><?php echo $form->input('ImpositionForm.Solution.accomplishment_date_from', array('label' => false, 'type' => 'text'))?></td>
 			<th>Do</th>
 			<td><?php echo $form->input('ImpositionForm.Solution.accomplishment_date_to', array('label' => false, 'type' => 'text'))?></td>
-		</tr>
-		<tr>
-			<th>Stav</th>
+						<th>Stav</th>
 			<td><?php echo $form->input('ImpositionForm.Solution.solution_state_id', array('label' => false, 'type' => 'select', 'options' => $solution_states, 'selected' => (isset($this->data['ImpositionForm']['Solution']['solution_state_id']) ? $this->data['ImpositionForm']['Solution']['solution_state_id'] : 2)))?></td>
 		</tr>
 		<tr>
-			<td colspan="6">
+			<td colspan="8">
 				<?php
 					echo $html->link('reset filtru', array('controller' => 'impositions', 'action' => 'index', $date, 'reset' => 'impositions'))
 				?>

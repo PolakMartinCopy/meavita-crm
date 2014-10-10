@@ -1,6 +1,5 @@
 <script>
 	$(document).ready(function(){
-		data = <?php echo $business_partners?>;
 		$('input.BusinessSessionBusinessPartnerName').each(function() {
 			var autoCompelteElement = this;
 			var formElementName = $(this).attr('name');
@@ -10,7 +9,7 @@
 			/* create new hidden input with name of orig input */
 			$(this).after("<input type=\"hidden\" name=\"" + hiddenElementName + "\" id=\"" + hiddenElementID + "\" />");
 			$(this).autocomplete({
-				source: data, 
+				source: '/user/business_partners/autocomplete_list', 
 				select: function(event, ui) {
 					var selectedObj = ui.item;
 					$(autoCompelteElement).val(selectedObj.label);
@@ -58,7 +57,7 @@ echo $form->create('BusinessSession', array('url' => $url));
 				echo $form->input('BusinessSession.business_partner_id', array('options' => $business_partners, 'selected' => $business_partner_id, 'empty' => false, 'label' => false, 'disabled' => true));
 				echo $form->hidden('BusinessSession.business_partner_id', array('value' => $business_partner_id));
 			} else {
-				echo $form->input('BusinessSession.business_partner_name', array('label' => false, 'type' => 'text', 'class' => 'BusinessSessionBusinessPartnerName'));
+				echo $form->input('BusinessSession.business_partner_name', array('label' => false, 'type' => 'text', 'class' => 'BusinessSessionBusinessPartnerName', 'size' => 70));
 				echo $form->error('BusinessSession.business_partner_id');
 			}
 ?>

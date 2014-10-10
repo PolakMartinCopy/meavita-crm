@@ -9,7 +9,7 @@ if (!isset($b_p_tab)) {
 	<tr>
 		<th><?php echo $this->Paginator->sort('Datum', 'BPCSRepPurchase.created')?></th>
 		<th><?php echo $this->Paginator->sort('Rep', 'BPCSRepPurchase.c_s_rep_name')?></th>
-		<th><?php echo $this->Paginator->sort('Odběratel', 'BusinessPartner.name')?></th>
+		<th><?php echo $this->Paginator->sort('Dodavatel', 'BusinessPartner.name')?></th>
 		<th><?php echo $this->Paginator->sort('Název zboží', 'BPRepTransactionItem.product_name')?></th>
 		<th><?php echo $this->Paginator->sort('Mn.', 'BPCSRepPurchase.abs_quantity')?></th>
 		<th><?php echo $this->Paginator->sort('MJ', 'Unit.shortcut')?></th>

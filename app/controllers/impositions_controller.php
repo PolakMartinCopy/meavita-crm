@@ -53,10 +53,11 @@ class ImpositionsController extends AppController {
 		}
 		
 		$users = $this->Imposition->User->find('all', array(
+			'conditions' => array('User.active' => true),
 			'contain' => array(),
 			'fields' => array('id', 'first_name', 'last_name')
 		));
-		
+
 		$users = Set::combine($users, '{n}.User.id', array('{0} {1}', '{n}.User.last_name', '{n}.User.first_name'));
 		$this->set('users', $users);
 		$this->set('impositions_users', $users);
@@ -102,6 +103,7 @@ class ImpositionsController extends AppController {
 			array('field' => 'Solution.accomplishment_date', 'position' => '["Solution"]["accomplishment_date"]', 'alias' => 'Solution.accomplishment_date'),
 			array('field' => 'SolutionState.name', 'position' => '["SolutionState"]["name"]', 'alias' => 'SolutionState.name'),
 			array('field' => 'Imposition.description', 'position' => '["Imposition"]["description"]', 'alias' => 'Imposition.description'),
+			array('field' => 'BusinessPartner.branch_name', 'position' => '["BusinessPartner"]["branch_name"]', 'alias' => 'BusinessPartner.branch_name'),
 			array('field' => 'BusinessPartner.name', 'position' => '["BusinessPartner"]["name"]', 'alias' => 'BusinessPartner.name'),
 			array('field' => 'CONCAT(User.first_name, " ", User.last_name) AS fullname', 'position' => '[0]["fullname"]', 'alias' => 'User.fullname'),
 		);
@@ -153,7 +155,7 @@ class ImpositionsController extends AppController {
 			'DISTINCT Imposition.id, Solution.accomplishment_date',
 			'Imposition.id', 'Imposition.description', 'Imposition.title',
 			'Solution.id', 'Solution.accomplishment_date', 'Solution.solution_state_id',
-			'BusinessPartner.id', 'BusinessPartner.name',
+			'BusinessPartner.id', 'BusinessPartner.name', 'BusinessPartner.branch_name',
 			'User.id', 'User.first_name', 'User.last_name',
 			'SolutionState.name',
 			'RecursiveImposition.id',
@@ -300,6 +302,7 @@ class ImpositionsController extends AppController {
 		$this->set('user_id', $user_id);
 		
 		$users = $this->Imposition->ImpositionsUser->User->find('all', array(
+			'conditions' => array('User.active' => true),
 			'fields' => array('User.id', 'CONCAT(User.last_name, " ", User.first_name) as full_name'),
 			'order' => array('full_name' => 'asc'),
 			'contain' => array()
@@ -462,6 +465,7 @@ class ImpositionsController extends AppController {
 		$this->set('period_options', $period_options);
 		
 		$users = $this->Imposition->ImpositionsUser->User->find('all', array(
+			'conditions' => array('User.active' => true),
 			'fields' => array('User.id', 'CONCAT(User.last_name, " ", User.first_name) as full_name'),
 			'order' => array('full_name' => 'asc'),
 			'contain' => array()

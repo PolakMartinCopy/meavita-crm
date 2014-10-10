@@ -59,6 +59,9 @@ class BusinessSession extends AppModel {
 	}
 	
 	function do_form_search($conditions, $data){
+		if ( !empty($data['BusinessSession']['business_partner_branch_name']) ){
+			$conditions[] = 'BusinessPartner.brach_name LIKE \'%%' . $data['BusinessSession']['business_partner_branch_name'] . '%%\'';
+		}
 		if ( !empty($data['BusinessSession']['business_partner_name']) ){
 			$conditions[] = 'BusinessPartner.name LIKE \'%%' . $data['BusinessSession']['business_partner_name'] . '%%\'';
 		}

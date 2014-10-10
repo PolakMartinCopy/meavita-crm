@@ -32,6 +32,10 @@
 				<td><?php echo $contact_person['ContactPerson']['prefix']?></td>
 			</tr>
 			<tr>
+				<th>Pobočka</th>
+				<td><?php echo $html->link($contact_person['BusinessPartner']['branch_name'], array('controller' => 'business_partners', 'action' => 'view', $contact_person['BusinessPartner']['id']))?></td>
+			</tr>
+			<tr>
 				<th>Obchodní partner</th>
 				<td><?php echo $html->link($contact_person['BusinessPartner']['name'], array('controller' => 'business_partners', 'action' => 'view', $contact_person['BusinessPartner']['id']))?></td>
 			</tr>
@@ -57,7 +61,7 @@
 			</tr>
 			<tr>
 				<th>Aktivní</th>
-				<td><?php echo $contact_person['ContactPerson']['active']?></td>
+				<td><?php echo ($contact_person['ContactPerson']['active'] ? 'ano' : 'ne')?></td>
 			</tr>
 		</table>
 		

@@ -82,6 +82,7 @@ class BusinessSessionsController extends AppController {
 			array('field' => 'BusinessSession.id', 'position' => '["BusinessSession"]["id"]', 'alias' => 'BusinessSession.id'),
 			array('field' => 'BusinessSession.date', 'position' => '["BusinessSession"]["date"]', 'alias' => 'BusinessSession.date'),
 			array('field' => 'BusinessSession.created', 'position' => '["BusinessSession"]["created"]', 'alias' => 'BusinessSession.created'),
+			array('field' => 'BusinessPartner.branch_name', 'position' => '["BusinessPartner"]["branch_name"]', 'alias' => 'BusinessPartner.branch_name'),
 			array('field' => 'BusinessPartner.name', 'position' => '["BusinessPartner"]["name"]', 'alias' => 'BusinessPartner.name'),
 			array('field' => 'BusinessSessionType.name', 'position' => '["BusinessSessionType"]["name"]', 'alias' => 'BusinessSessionType.name'),
 			array('field' => 'BusinessSessionState.name', 'position' => '["BusinessSessionState"]["name"]', 'alias' => 'BusinessSessionState.name'),
@@ -467,7 +468,7 @@ class BusinessSessionsController extends AppController {
 		$this->set('monthNames', $this->monthNames);
 		
 		$users = $this->BusinessSession->BusinessSessionsUser->User->find('all', array(
-			'conditions' => array('User.id !=' => $user_id),
+			'conditions' => array('User.id !=' => $user_id, 'User.active' => true),
 			'fields' => array(
 				'id',
 				'CONCAT(User.first_name, " ", User.last_name) AS name'
@@ -570,7 +571,7 @@ class BusinessSessionsController extends AppController {
 		$this->set('monthNames', $this->monthNames);
 		
 		$users = $this->BusinessSession->BusinessSessionsUser->User->find('all', array(
-			'conditions' => array('User.id !=' => $user_id),
+			'conditions' => array('User.id !=' => $user_id, 'User.active' => true),
 			'fields' => array(
 				'id',
 				'CONCAT(User.first_name, " ", User.last_name) AS name'
@@ -662,7 +663,7 @@ class BusinessSessionsController extends AppController {
 			$date = $time[0];
 			$this->data['BusinessSession']['time'] = $time[1];
 			$this->data['BusinessSession']['date'] = db2cal_date($date);
-			$this->data['BusinessSession']['business_partner_name'] = $business_session['BusinessPartner']['name'] . ', ' . $business_session['BusinessPartner']['Address'][0]['street'] . ' ' . $business_session['BusinessPartner']['Address'][0]['number'] . ', ' . $business_session['BusinessPartner']['Address'][0]['city'] . ', ' . $business_session['BusinessPartner']['Address'][0]['zip'];
+			$this->data['BusinessSession']['business_partner_name'] = $business_session['BusinessPartner']['branch_name'] . ', ' . $business_session['BusinessPartner']['name'] . ', ' . $business_session['BusinessPartner']['Address'][0]['street'] . ' ' . $business_session['BusinessPartner']['Address'][0]['number'] . ', ' . $business_session['BusinessPartner']['Address'][0]['city'] . ', ' . $business_session['BusinessPartner']['Address'][0]['zip'];
 			unset($this->data['BusinessSessionsUser']);
 			foreach ($business_session['BusinessSessionsUser'] as $user) {
 				$this->data['BusinessSessionsUser']['user_id'][] = $user['User']['id'];

@@ -26,9 +26,11 @@
 			<td><?php echo $form->input('ContactPersonSearch2.ContactPerson.email', array('label' => false))?></td>
 		</tr>
 		<tr>
+			<th>Pobočka</th>
+			<td><?php echo $this->Form->input('ContactPersonSearch2.BusinessPartner.branch_name', array('label' => false))?></td>
 			<th>Obchodní partner</th>
 			<td><?php echo $form->input('ContactPersonSearch2.BusinessPartner.name', array('label' => false))?></td>
-			<td colspan="4">&nbsp;</td>
+			<td colspan="2">&nbsp;</td>
 		</tr>
 		<tr>
 			<td colspan="6">
@@ -73,6 +75,7 @@ if (empty($contact_people)) {
 		<th><?php echo $paginator->sort('Telefon', 'ContactPerson.phone')?></th>
 		<th><?php echo $paginator->sort('Mob. telefon', 'ContactPerson.cellular')?></th>
 		<th><?php echo $paginator->sort('Email', 'ContactPerson.email')?></th>
+		<th><?php echo $paginator->sort('Pobočka', 'BusinessPartner.branch_name')?></th>
 		<th><?php echo $paginator->sort('Obchodní partner', 'BusinessPartner.name')?></th>
 <!-- 	<th>Výročí</th> -->
 		<th>&nbsp;</th>
@@ -90,7 +93,8 @@ if (empty($contact_people)) {
 		<td><?php echo $contact_person['ContactPerson']['phone']?></td>
 		<td><?php echo $contact_person['ContactPerson']['cellular']?></td>
 		<td><?php echo $html->link($contact_person['ContactPerson']['email'], 'mailto:' . $contact_person['ContactPerson']['email'])?></td>
-		<td><?php echo $html->link($contact_person['BusinessPartner']['name'], array('controller' => 'business_partner', 'action' => 'view', $contact_person['BusinessPartner']['id']))?></td>
+		<td><?php echo $html->link($contact_person['BusinessPartner']['branch_name'], array('controller' => 'business_partners', 'action' => 'view', $contact_person['BusinessPartner']['id']))?></td>
+		<td><?php echo $html->link($contact_person['BusinessPartner']['name'], array('controller' => 'business_partners', 'action' => 'view', $contact_person['BusinessPartner']['id']))?></td>
 <!-- 	<td><?php echo (empty($contact_person['Anniversary'])) ? 'ne' : 'ano'?></td> -->
 		<td class="actions"><?php 
 			$links = array();

@@ -1,6 +1,6 @@
 <script>
 	$(document).ready(function(){
-		data = <?php echo $business_partners?>;
+//		data = <?php echo $business_partners?>;
 		$('input.ImpositionBusinessPartnerName').each(function() {
 			var autoCompelteElement = this;
 			var formElementName = $(this).attr('name');
@@ -10,7 +10,7 @@
 			/* create new hidden input with name of orig input */
 			$(this).after("<input type=\"hidden\" name=\"" + hiddenElementName + "\" id=\"" + hiddenElementID + "\" />");
 			$(this).autocomplete({
-				source: data, 
+				source: '/user/business_partners/autocomplete_list', 
 				select: function(event, ui) {
 					var selectedObj = ui.item;
 					$(autoCompelteElement).val(selectedObj.label);

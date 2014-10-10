@@ -42,9 +42,9 @@
 
 <?php }
 	} ?>
-<?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/Addresses/user_add')) { ?>
+<?php /*if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/Addresses/user_add')) { ?>
 	<li><?php echo $html->link('Přidat adresu pobočky', array('controller' => 'addresses', 'action' => 'add', 'address_type_id' => 5, 'business_partner_id' => $business_partner['BusinessPartner']['id']))?></li>
-<?php } ?>
+<?php } */?>
 <?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/Documents/user_add')) { ?>
 	<li><?php echo $html->link('Přidat dokument', array('controller' => 'documents', 'action' => 'add', 'business_partner_id' => $business_partner['BusinessPartner']['id']))?></li>
 <?php } ?>

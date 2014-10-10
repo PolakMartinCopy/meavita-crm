@@ -3,6 +3,7 @@
 		<th>ID</th>
 		<th>Předmět</th>
 		<th>Termín splnění</th>
+		<th>Pobočka</th>
 		<th>Obchodní partner</th>
 		<th>Zadavatel</th>
 		<th>Řešitelé</th>
@@ -22,6 +23,7 @@
 		<td><?php echo $solution['Imposition']['id']?></td>
 		<td><?php echo $html->link($solution['Imposition']['title'], array('controller' => 'impositions', 'action' => 'view', $solution['Imposition']['id']))?></td>
 		<td><?php echo $solution['Solution']['accomplishment_date']?></td>
+		<td><?php echo $html->link($solution['BusinessPartner']['branch_name'], array('controller' => 'business_partners', 'action' => 'view', $solution['BusinessPartner']['id']))?></td>
 		<td><?php echo $html->link($solution['BusinessPartner']['name'], array('controller' => 'business_partners', 'action' => 'view', $solution['BusinessPartner']['id']))?></td>
 		<td><?php echo $solution['User']['last_name'] . ' ' . $solution['User']['first_name']?></td>
 		<td>

@@ -103,7 +103,7 @@ if (isset($this->params['named']['tab'])) {
 			</tr>
 			<tr>
 				<th>Obchodní partner</th>
-				<td><?php echo $html->link($imposition['BusinessPartner']['name'], array('controller' => 'business_partners', 'action' => 'view', $imposition['BusinessPartner']['id']))?></td>
+				<td><?php echo $html->link($imposition['BusinessPartner']['branch_name'] . ', ' . $imposition['BusinessPartner']['name'], array('controller' => 'business_partners', 'action' => 'view', $imposition['BusinessPartner']['id']))?></td>
 			</tr>
 			<tr>
 				<th>Opakující se?</th>

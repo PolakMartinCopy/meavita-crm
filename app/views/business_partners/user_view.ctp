@@ -9,7 +9,7 @@ if (isset($this->params['named']['tab'])) {
 	</script>
 <?php } ?>
 
-<h1><?php echo $business_partner['BusinessPartner']['name']?></h1>
+<h1><?php echo $business_partner['BusinessPartner']['branch_name'] . ', ' . $business_partner['BusinessPartner']['name']?></h1>
 
 <div id="tabs">
 	<ul>
@@ -19,9 +19,10 @@ if (isset($this->params['named']['tab'])) {
 <?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/Addresses')) { ?>
 		<li><a href="#tabs-2">Adresy</a></li>
 <?php } ?>
-<?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/Addresses')) { ?>
+<?php
+/* if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/Addresses')) { ?>
 		<li><a href="#tabs-5">Pobočky</a></li>
-<?php } ?>
+<?php } */ ?>
 <?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/Documents')) { ?>
 		<li><a href="#tabs-6">Dokumenty</a></li>
 <?php } ?>
@@ -98,6 +99,10 @@ if (isset($this->params['named']['tab'])) {
 				<td><?php echo $business_partner['BusinessPartner']['id']?></td>
 			</tr>
 			<tr>
+				<th>Pobočka</th>
+				<td><?php echo $business_partner['BusinessPartner']['branch_name']?></td>
+			</tr>
+			<tr>
 				<th>Jméno firmy</th>
 				<td><?php echo $business_partner['BusinessPartner']['name']?></td>
 			</tr>
@@ -112,6 +117,10 @@ if (isset($this->params['named']['tab'])) {
 			<tr>
 				<th>DIČ</th>
 				<td><?php echo $business_partner['BusinessPartner']['dic']?></td>
+			</tr>
+			<tr>
+				<th>IČZ</th>
+				<td><?php echo $business_partner['BusinessPartner']['icz']?></td>
 			</tr>
 			<tr>
 				<th>Email</th>
@@ -309,6 +318,7 @@ if (isset($this->params['named']['tab'])) {
 	</div>
 <?php } ?>
 <?php /* TAB 5 ****************************************************************************************************************/ ?>
+<?php /* ?>
 <?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/Addresses')) { ?>
 	<div id="tabs-5">
 		<h2>Adresy poboček</h2>
@@ -435,6 +445,7 @@ if (isset($this->params['named']['tab'])) {
 	?>
 	</div>
 <?php } ?>
+<?php */ ?>
 <?php /* TAB 6 ****************************************************************************************************************/ ?>
 <?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/Documents')) { ?>
 	<div id="tabs-6">

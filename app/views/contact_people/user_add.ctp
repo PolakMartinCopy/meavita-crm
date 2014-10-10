@@ -1,6 +1,6 @@
 <script>
 	$(document).ready(function(){
-		data = <?php echo $business_partners?>;
+//		data = <?php echo $business_partners?>;
 		$('input.ContactPersonBusinessPartnerName').each(function() {
 			var autoCompelteElement = this;
 			var formElementName = $(this).attr('name');
@@ -10,7 +10,7 @@
 			/* create new hidden input with name of orig input */
 			$(this).after("<input type=\"hidden\" name=\"" + hiddenElementName + "\" id=\"" + hiddenElementID + "\" />");
 			$(this).autocomplete({
-				source: data, 
+				source: '/user/business_partners/autocomplete_list', 
 				select: function(event, ui) {
 					var selectedObj = ui.item;
 					$(autoCompelteElement).val(selectedObj.label);
@@ -73,7 +73,7 @@ if (isset($business_partner_id)) {
 				echo $form->input('ContactPerson.business_partner_id', array('type' => 'select', 'options' => $business_partners, 'label' => false, 'empty' => false, 'selected' => $business_partner_id, 'disabled' => true));
 				echo $form->hidden('ContactPerson.business_partner_id', array('value' => $business_partner_id));
 			} else {
-				echo $form->input('ContactPerson.business_partner_name', array('label' => false, 'type' => 'text', 'class' => 'ContactPersonBusinessPartnerName'));
+				echo $form->input('ContactPerson.business_partner_name', array('label' => false, 'type' => 'text', 'class' => 'ContactPersonBusinessPartnerName', 'size' => 70));
 				echo $form->error('ContactPerson.business_partner_id');
 				if (!empty($this->data['ContactPerson']['business_partner_id'])) {
 					echo $form->hidden('ContactPerson.business_partner_id_old', array('value' => $this->data['ContactPerson']['business_partner_id']));

@@ -12,28 +12,31 @@
 		<?php echo $form->create('BusinessSession', array('url' => $_SERVER['REQUEST_URI'])); ?>
 		<table class="left_heading">
 			<tr>
+				<th>Pobočka</th>
+				<td><?php echo $form->input('BusinessSessionSearch2.BusinessSession.business_partner_brach_name', array('label' => false, 'type' => 'text'))?></td>
 				<th>Obchodní partner</th>
 				<td><?php echo $form->input('BusinessSessionSearch2.BusinessSession.business_partner_name', array('label' => false, 'type' => 'text'))?></td>
+			</tr>
+			<tr>
 				<th>Datum jednání od</th>
 				<td><?php echo $form->input('BusinessSessionSearch2.BusinessSession.date_from', array('label' => false, 'type' => 'text'))?></td>
 				<th>Datum jednání do</th>
 				<td><?php echo $form->input('BusinessSessionSearch2.BusinessSession.date_to', array('label' => false, 'type' => 'text'))?></td>
 			</tr>
 			<tr>
-				<th>Popis</th>
-				<td><?php echo $form->input('BusinessSessionSearch2.BusinessSession.description', array('label' => false, 'type' => 'text'))?></td>
 				<th>Datum vložení od</th>
 				<td><?php echo $form->input('BusinessSessionSearch2.BusinessSession.created_from', array('label' => false, 'type' => 'text'))?></td>
 				<th>Datum vložení do</th>
 				<td><?php echo $form->input('BusinessSessionSearch2.BusinessSession.created_to', array('label' => false, 'type' => 'text'))?></td>
 			</tr>
-			<tr colspan>
+			<tr>
 				<th>Typ jednání</th>
 				<td><?php echo $form->input('BusinessSessionSearch2.BusinessSession.business_session_type_id', array('options' => $business_session_types, 'empty' => true, 'label' => false))?></td>
-				<td colspan="4">&nbsp;</td>
+				<th>Popis</th>
+				<td><?php echo $form->input('BusinessSessionSearch2.BusinessSession.description', array('label' => false, 'type' => 'text'))?></td>
 			</tr>
 			<tr>
-				<td colspan="6">
+				<td colspan="4">
 					<?php
 						echo $html->link('reset filtru', array('controller' => 'business_sessions', 'action' => 'index', 'reset' => 'business_sessions'));
 					?>
@@ -104,6 +107,7 @@
 	<tr>
 		<th><?php echo $paginator->sort('ID', 'BusinessSession.id')?></th>
 		<th><?php echo $paginator->sort('Datum jednání', 'BusinessSession.date')?></th>
+		<th><?php echo $this->Paginator->sort('Pobočka', 'BusinessPartner.branch_name')?></th>
 		<th><?php echo $paginator->sort('Obchodní partner', 'BusinessPartner.name')?></th>
 		<th><?php echo $paginator->sort('Typ jednání', 'BusinessSessionType.name')?></th>
 		<th><?php echo $paginator->sort('Stav jednání', 'BusinessSessionState.name')?></th>
@@ -123,6 +127,7 @@
 	<tr<?php echo $odd?>>
 		<td><?php echo $business_session['BusinessSession']['id']?></td>
 		<td><?php echo $business_session['BusinessSession']['date']?></td>
+		<td><?php echo $html->link($business_session['BusinessPartner']['branch_name'], array('controller' => 'business_partners', 'action' => 'view', $business_session['BusinessPartner']['id']))?></td>
 		<td><?php echo $html->link($business_session['BusinessPartner']['name'], array('controller' => 'business_partners', 'action' => 'view', $business_session['BusinessPartner']['id']))?></td>
 		<td><?php echo $business_session['BusinessSessionType']['name']?></td>
 		<td><?php echo $business_session['BusinessSessionState']['name']?></td>
