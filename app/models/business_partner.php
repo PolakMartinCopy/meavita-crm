@@ -74,6 +74,16 @@ class BusinessPartner extends AppModel {
 				'message' => 'DIČnesmí zůstat prázdné'
 			),
 		),
+		'icz' => array(
+			'notEmpty' => array(
+				'rule' => 'notEmpty',
+				'message' => 'IČZ nesmí zůstat prázdné'
+			),
+			'isUnique' => array(
+				'rule' => 'isUnique',
+				'message' => 'Obchodní partner se zadaným IČZ už v systému existuje'
+			)
+		),
 		'active' => array(
 			'bool' => array(
 				'rule' => 'boolean',
