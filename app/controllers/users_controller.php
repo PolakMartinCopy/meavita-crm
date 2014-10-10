@@ -780,6 +780,32 @@ class UsersController extends AppController {
 		// povolim zobrazeni pokladnich dokladu
 		$this->Acl->allow('c_s_rep', 'controllers/CSWalletTransactions/user_cash_receipt');
 		
+		// DOCASNE ZAKAZU VSEM VSECHNO OKOLO MEDICAL CORPU
+		$roles = array('admin', 'manager', 'user', 'rep', 'c_s_rep');
+		foreach ($roles as $role) {
+			// zakazu vsechno okolo skladu medical corp
+			$this->Acl->deny($role, 'controllers/MCCreditNotes');
+			$this->Acl->deny($role, 'controllers/MCInvoices');
+			$this->Acl->deny($role, 'controllers/MCStorings');
+			$this->Acl->deny($role, 'controllers/MCTransactionItems');
+			$this->Acl->deny($role, 'controllers/MCTransactions');
+			
+			// zakazu vsechno okolo repu medical corpu
+			$this->Acl->deny($role, 'controllers/Reps');
+			$this->Acl->deny($role, 'controllers/WalletTransactions');
+			$this->Acl->deny($role, 'controllers/BPRepPurchases');
+			$this->Acl->deny($role, 'controllers/BPRepSales');
+			$this->Acl->deny($role, 'controllers/BPRepTransactionItems');
+			$this->Acl->deny($role, 'controllers/BPRepPurchases');
+			$this->Acl->deny($role, 'controllers/RepTransactions');
+			
+			// zakazu mu vsechno okolo prevodu mezi sklady mea a mc
+			$this->Acl->deny($role, 'controllers/ProductVariants/user_m_c_index');
+			$this->Acl->deny($role, 'controllers/CSMCTransactionItems');
+			$this->Acl->deny($role, 'controllers/CSMCSales');
+			$this->Acl->deny($role, 'controllers/CSMCPurchases');
+		}
+		
 		die('hotovo');
 	}
 }
