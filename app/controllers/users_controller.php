@@ -687,6 +687,7 @@ class UsersController extends AppController {
 		$this->Acl->deny('rep', 'controllers/MCRepSales/user_confirm');
 		// povolim mu vsechno okolo BP
 		$this->Acl->allow('rep', 'controllers/BusinessPartners');
+		$this->Acl->allow('rep', 'controllers/BusinessPartnerNotes');
 		// zakazu mazat op
 		$this->Acl->deny('rep', 'controllers/BusinessPartners/user_delete');
 		// zakazu menit usera
@@ -742,6 +743,7 @@ class UsersController extends AppController {
 		$this->Acl->deny('c_s_rep', 'controllers/CSRepSales/user_confirm');
 		// povolim mu vsechno okolo BP
 		$this->Acl->allow('c_s_rep', 'controllers/BusinessPartners');
+		$this->Acl->allow('c_s_rep', 'controllers/BusinessPartnerNotes');
 		// zakazu mazat op
 		$this->Acl->deny('c_s_rep', 'controllers/BusinessPartners/user_delete');
 		// zakazu menit usera
