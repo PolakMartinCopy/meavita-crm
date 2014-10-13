@@ -47,6 +47,9 @@ class ContactPeopleController extends AppController {
 			'contain' => array(
 				'Anniversary' => array(
 					'fields' => array('id')
+				),
+				'MailingCampaign' => array(
+					'fields' => array('id', 'name')
 				)
 			),
 			'joins' => array(
@@ -67,23 +70,13 @@ class ContactPeopleController extends AppController {
 		unset($find['fields']);
 		$this->set('find', $find);
 		
-		$export_fields = array(
-			array('field' => 'ContactPerson.id', 'position' => '["ContactPerson"]["id"]', 'alias' => 'ContactPerson.id'),
-			array('field' => 'ContactPerson.first_name', 'position' => '["ContactPerson"]["first_name"]', 'alias' => 'ContactPerson.first_name'),
-			array('field' => 'ContactPerson.last_name', 'position' => '["ContactPerson"]["last_name"]', 'alias' => 'ContactPerson.last_name'),
-			array('field' => 'ContactPerson.prefix', 'position' => '["ContactPerson"]["prefix"]', 'alias' => 'ContactPerson.prefix'),
-			array('field' => 'ContactPerson.suffix', 'position' => '["ContactPerson"]["suffix"]', 'alias' => 'ContactPerson.suffix'),
-			array('field' => 'BusinessPartner.branch_name', 'position' => '["BusinessPartner"]["branch_name"]', 'alias' => 'BusinessPartner.branch_name'),
-			array('field' => 'BusinessPartner.name', 'position' => '["BusinessPartner"]["name"]', 'alias' => 'BusinessPartner.name'),
-			array('field' => 'ContactPerson.phone', 'position' => '["ContactPerson"]["phone"]', 'alias' => 'ContactPerson.phone'),
-			array('field' => 'ContactPerson.cellular', 'position' => '["ContactPerson"]["cellular"]', 'alias' => 'ContactPerson.cellular'),
-			array('field' => 'ContactPerson.email', 'position' => '["ContactPerson"]["email"]', 'alias' => 'ContactPerson.email'),
-			array('field' => 'ContactPerson.note', 'position' => '["ContactPerson"]["note"]', 'alias' => 'ContactPerson.note'),
-			array('field' => 'ContactPerson.hobby', 'position' => '["ContactPerson"]["hobby"]', 'alias' => 'ContactPerson.hobby'),
-			array('field' => 'ContactPerson.active', 'position' => '["ContactPerson"]["active"]', 'alias' => 'ContactPerson.active'),
-			array('field' => 'ContactPerson.is_main', 'position' => '["ContactPerson"]["is_main"]', 'alias' => 'ContactPerson.is_main')
-		);
-		$this->set('export_fields', $export_fields);
+		$this->set('export_fields', $this->ContactPerson->export_fields);
+		
+		$mailing_campaigns = $this->ContactPerson->MailingCampaign->find('list', array(
+			'conditions' => array('active' => true),
+			'contain' => array()
+		));
+		$this->set('mailing_campaigns', $mailing_campaigns);
 	}
 	
 	function user_view($id = null) {
@@ -96,6 +89,7 @@ class ContactPeopleController extends AppController {
 			'conditions' => array('ContactPerson.id' => $id),
 			'contain' => array(
 				'BusinessPartner',
+				'MailingCampaign'
 			)
 		));
 		
@@ -233,6 +227,9 @@ class ContactPeopleController extends AppController {
 				$this->Session->setFlash('Kontaktní osobu se nepodařilo uložit, opravte chyby ve formuláři a opakujte prosím akci');
 			}
 		}
+		
+		$mailing_campaigns = $this->ContactPerson->MailingCampaign->find('list');
+		$this->set('mailing_campaigns', $mailing_campaigns);
 	}
 	
 	function user_edit($id = null) {
@@ -379,6 +376,9 @@ class ContactPeopleController extends AppController {
 			$this->data = $contact_person;
 			$this->data['ContactPerson']['business_partner_name'] = $contact_person['BusinessPartner']['name'] . ', ' . $contact_person['BusinessPartner']['Address'][0]['street'] . ' ' . $contact_person['BusinessPartner']['Address'][0]['number'] . ', ' . $contact_person['BusinessPartner']['Address'][0]['city'] . ', ' . $contact_person['BusinessPartner']['Address'][0]['zip'];
 		}
+		
+		$mailing_campaigns = $this->ContactPerson->MailingCampaign->find('list');
+		$this->set('mailing_campaigns', $mailing_campaigns);
 	}
 	
 	function user_delete($id = null) {

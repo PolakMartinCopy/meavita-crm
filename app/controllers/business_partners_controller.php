@@ -248,6 +248,7 @@ class BusinessPartnersController extends AppController {
 
 		$this->paginate['ContactPerson'] = array(
 			'conditions' => $contact_people_conditions,
+			'contain' => array('MailingCampaign', 'BusinessPartner'),
 			'limit' => 30
 		);
 		$contact_people = $this->paginate('ContactPerson');
@@ -259,20 +260,13 @@ class BusinessPartnersController extends AppController {
 		unset($contact_people_find['fields']);
 		$this->set('contact_people_find', $contact_people_find);
 		
-		$contact_people_export_fields = array(
-			array('field' => 'ContactPerson.id', 'position' => '["ContactPerson"]["id"]', 'alias' => 'ContactPerson.id'),
-			array('field' => 'ContactPerson.first_name', 'position' => '["ContactPerson"]["first_name"]', 'alias' => 'ContactPerson.first_name'),
-			array('field' => 'ContactPerson.last_name', 'position' => '["ContactPerson"]["last_name"]', 'alias' => 'ContactPerson.last_name'),
-			array('field' => 'ContactPerson.prefix', 'position' => '["ContactPerson"]["prefix"]', 'alias' => 'ContactPerson.prefix'),
-			array('field' => 'BusinessPartner.name', 'position' => '["BusinessPartner"]["name"]', 'alias' => 'BusinessPartner.name'),
-			array('field' => 'ContactPerson.phone', 'position' => '["ContactPerson"]["phone"]', 'alias' => 'ContactPerson.phone'),
-			array('field' => 'ContactPerson.cellular', 'position' => '["ContactPerson"]["cellular"]', 'alias' => 'ContactPerson.cellular'),
-			array('field' => 'ContactPerson.email', 'position' => '["ContactPerson"]["email"]', 'alias' => 'ContactPerson.email'),
-			array('field' => 'ContactPerson.note', 'position' => '["ContactPerson"]["note"]', 'alias' => 'ContactPerson.note'),
-			array('field' => 'ContactPerson.hobby', 'position' => '["ContactPerson"]["hobby"]', 'alias' => 'ContactPerson.hobby'),
-			array('field' => 'ContactPerson.active', 'position' => '["ContactPerson"]["active"]', 'alias' => 'ContactPerson.active')
-		);
-		$this->set('contact_people_export_fields', $contact_people_export_fields);
+		$this->set('contact_people_export_fields', $this->BusinessPartner->ContactPerson->export_fields);
+		
+		$mailing_campaigns = $this->BusinessPartner->ContactPerson->MailingCampaign->find('list', array(
+			'conditions' => array('active' => true),
+			'contain' => array()
+		));
+		$this->set('mailing_campaigns', $mailing_campaigns);
 		
 		// OBCHODNI JEDNANI TOHOTO OBCHODNIHO PARTNERA
 		$business_sessions_conditions[] = 'BusinessSession.business_partner_id = ' . $id;

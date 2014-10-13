@@ -67,6 +67,10 @@
 				<th>Je hlavní?</th>
 				<td><?php echo ($contact_person['ContactPerson']['is_main'] ? 'ano' : 'ne')?></td>
 			</tr>
+			<tr>
+				<th>Třída mailingové kampaně</th>
+				<td><?php echo $contact_person['MailingCampaign']['name']?></td>
+			</tr>
 		</table>
 		
 		<ul>

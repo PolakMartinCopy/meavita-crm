@@ -10,24 +10,24 @@
 	<?php echo $form->create('ContactPerson', array('url' => array('controller' => 'contact_people', 'action' => 'index'))); ?>
 	<table class="left_heading">
 		<tr>
-			<th>Titul</th>
-			<td><?php echo $form->input('ContactPersonSearch2.ContactPerson.prefix', array('label' => false))?></td>
 			<th>Jméno</th>
 			<td><?php echo $form->input('ContactPersonSearch2.ContactPerson.first_name', array('label' => false))?></td>
 			<th>Příjmení</th>
 			<td><?php echo $form->input('ContactPersonSearch2.ContactPerson.last_name', array('label' => false))?></td>
+			<th>Email</th>
+			<td><?php echo $form->input('ContactPersonSearch2.ContactPerson.email', array('label' => false))?></td>
 		</tr>
 		<tr>
 			<th>Telefon</th>
 			<td><?php echo $form->input('ContactPersonSearch2.ContactPerson.phone', array('label' => false))?></td>
 			<th>Mobil</th>
 			<td><?php echo $form->input('ContactPersonSearch2.ContactPerson.cellular', array('label' => false))?></td>
-			<th>Email</th>
-			<td><?php echo $form->input('ContactPersonSearch2.ContactPerson.email', array('label' => false))?></td>
-		</tr>
-		<tr>
 			<th>Je hlavní?</th>
 			<td><?php echo $this->Form->input('ContactPersonSearch2.ContactPerson.is_main', array('label' => false, 'options' => array(0 => 'Ne', 'Ano'), 'empty' => true))?>
+		</tr>
+		<tr>
+			<th>Třída kampaní</th>
+			<td><?php echo $this->Form->input('ContactPersonSearch2.ContactPerson.mailing_campaign_id', array('label' => false, 'options' => $mailing_campaigns, 'empty' => true))?></td>
 			<th>Pobočka</th>
 			<td><?php echo $this->Form->input('ContactPersonSearch2.BusinessPartner.branch_name', array('label' => false))?></td>
 			<th>Obchodní partner</th>
@@ -79,6 +79,7 @@ if (empty($contact_people)) {
 		<th><?php echo $paginator->sort('Pobočka', 'BusinessPartner.branch_name')?></th>
 		<th><?php echo $paginator->sort('Obchodní partner', 'BusinessPartner.name')?></th>
 		<th><?php echo $this->Paginator->sort('Je hlavní?', 'ContactPerson.is_main')?></th>
+		<th><?php echo $this->Paginator->sort('Třída kampaní', 'MailingCampaign.name')?></th>
 <!-- 	<th>Výročí</th> -->
 		<th>&nbsp;</th>
 	</tr>
@@ -99,6 +100,7 @@ if (empty($contact_people)) {
 		<td><?php echo $html->link($contact_person['BusinessPartner']['name'], array('controller' => 'business_partners', 'action' => 'view', $contact_person['BusinessPartner']['id']))?></td>
 <!-- 	<td><?php echo (empty($contact_person['Anniversary'])) ? 'ne' : 'ano'?></td> -->
 		<td><?php echo ($contact_person['ContactPerson']['is_main']) ? 'ano' : 'ne'?></td>
+		<td><?php echo $contact_person['MailingCampaign']['name']?></td>
 		<td class="actions"><?php 
 			$links = array();
 			if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/ContactPeople/user_view')) {
