@@ -13,4 +13,5 @@
 	<li><?php echo $this->Html->link('Jednotky zboží', array('controller' => 'units', 'action' => 'index'))?></li>
 	<li><?php echo $this->Html->link('Typy transakcí', array('controller' => 'transaction_types', 'action' => 'index'))?></li>
 	<li><?php echo $this->Html->link('Daňové třídy', array('controller' => 'tax_classes', 'action' => 'index'))?></li>
+	<li><?php echo $this->Html->link('Třídy mailingových kampaní', array('controller' => 'mailing_campaigns', 'action' => 'index'))?></li>
 </ul>

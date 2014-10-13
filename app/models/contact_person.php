@@ -4,7 +4,7 @@ class ContactPerson extends AppModel {
 	
 	var $actsAs = array('Containable');
 	
-	var $belongsTo = array('BusinessPartner');
+	var $belongsTo = array('BusinessPartner', 'MailingCampaign');
 	
 	var $hasMany = array(
 		'Anniversary' => array(

@@ -604,6 +604,7 @@ class UsersController extends AppController {
 		$this->Acl->deny('manager' ,'controllers/TaxClasses');
 		$this->Acl->deny('manager', 'controllers/TransactionTypes');
 		$this->Acl->deny('manager', 'controllers/BPRepSalePayments');
+		$this->Acl->deny('manager', 'controllers/MailingCampaigns');
 		
 		$this->Acl->deny('manager', 'controllers/BPCSRepPurchases/user_index');
 		$this->Acl->deny('manager', 'controllers/BPRepPurchases/user_index');
@@ -631,6 +632,7 @@ class UsersController extends AppController {
 		$this->Acl->deny('user', 'controllers/Units');
 		$this->Acl->deny('user' ,'controllers/TaxClasses');
 		$this->Acl->deny('user', 'controllers/TransactionTypes');
+		$this->Acl->deny('user', 'controllers/MailingCampaigns');
 		
 		// zakazu vsechno okolo centralniho skladu
 		$this->Acl->deny('user', 'controllers/CSCreditNotes');
