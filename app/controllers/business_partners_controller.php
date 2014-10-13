@@ -72,7 +72,7 @@ class BusinessPartnersController extends AppController {
 			'joins' => array(
 				array(
 					'table' => 'addresses',
-					'type' => 'INNER',
+					'type' => 'LEFT',
 					'alias' => 'Address',
 					'conditions' => array(
 						'BusinessPartner.id = Address.business_partner_id',
