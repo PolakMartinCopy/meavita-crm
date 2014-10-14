@@ -7,7 +7,7 @@ if (!isset($b_p_tab)) {
 ?>
 <table class="top_heading">
 	<tr>
-		<th><?php echo $this->Paginator->sort('Datum', 'BPCSRepPurchase.created')?></th>
+		<th><?php echo $this->Paginator->sort('Datum', 'BPCSRepPurchase.date')?></th>
 		<th><?php echo $this->Paginator->sort('Rep', 'BPCSRepPurchase.c_s_rep_name')?></th>
 		<th><?php echo $this->Paginator->sort('Dodavatel', 'BusinessPartner.name')?></th>
 		<th><?php echo $this->Paginator->sort('Název zboží', 'BPRepTransactionItem.product_name')?></th>
@@ -27,7 +27,7 @@ if (!isset($b_p_tab)) {
 		$odd = ( $odd == ' class="odd"' ? '' : ' class="odd"' );
 	?>
 	<tr<?php echo $odd?>>
-		<td><?php echo czech_date($b_p_c_s_rep_purchase['BPCSRepPurchase']['created'])?></td>
+		<td><?php echo czech_date($b_p_c_s_rep_purchase['BPCSRepPurchase']['date'])?></td>
 		<td><?php echo $this->Html->link($b_p_c_s_rep_purchase['BPCSRepPurchase']['c_s_rep_name'], array('controller' => 'c_s_reps', 'action' => 'view', $b_p_c_s_rep_purchase['CSRep']['id'], 'tab' => $rep_tab)) ?></td>
 		<td><?php echo $this->Html->link($b_p_c_s_rep_purchase['BusinessPartner']['name'], array('controller' => 'business_partners', 'action' => 'view', $b_p_c_s_rep_purchase['BusinessPartner']['id'], 'tab' => $b_p_tab)) ?></td>
 		<td><?php echo $b_p_c_s_rep_purchase['BPCSRepTransactionItem']['product_name']?></td>

@@ -78,6 +78,16 @@ class BPCSRepPurchase extends AppModel {
 		if (isset($this->data['BPCSRepPurchase']['business_partner_id']) && isset($this->data['BPCSRepPurchase']['business_partner_name']) && empty($this->data['BPCSRepPurchase']['business_partner_name'])) {
 			$this->data['BPCSRepPurchase']['business_partner_id'] = null;
 		}
+		
+		// uprava tvaru data z dd.mm.YYYY na YYYY-mm-dd
+		if (isset($this->data['BPCSRepPurchase']['date']) && preg_match('/\d{2}\.\d{2}\.\d{4}/', $this->data['BPCSRepPurchase']['date'])) {
+			$date = explode('.', $this->data['BPCSRepPurchase']['date']);
+		
+			if (!isset($date[2]) || !isset($date[1]) || !isset($date[0])) {
+				return false;
+			}
+			$this->data['BPCSRepPurchase']['date'] = $date[2] . '-' . $date[1] . '-' . $date[0];
+		}
 	
 		return true;
 	}
@@ -85,8 +95,9 @@ class BPCSRepPurchase extends AppModel {
 	function export_fields() {
 		return array(
 			array('field' => 'BPCSRepPurchase.id', 'position' => '["BPCSRepPurchase"]["id"]', 'alias' => 'BPCSRepPurchase.id'),
-			array('field' => 'BPCSRepPurchase.created', 'position' => '["BPCSRepPurchase"]["created"]', 'alias' => 'BPCSRepPurchase.created'),
-			array('field' => 'BPCSRepPurchase.rep_name', 'position' => '["BPCSRepPurchase"]["rep_name"]', 'alias' => 'BPCSRepPurchase.rep_name'),
+			array('field' => 'BPCSRepPurchase.date', 'position' => '["BPCSRepPurchase"]["date"]', 'alias' => 'BPCSRepPurchase.date'),
+			array('field' => 'CSRep.first_name', 'position' => '["CSRep"]["first_name"]', 'alias' => 'CSRep.first_name'),
+			array('field' => 'CSRep.last_name', 'position' => '["CSRep"]["last_name"]', 'alias' => 'CSRep.last_name'),
 			array('field' => 'BusinessPartner.name', 'position' => '["BusinessPartner"]["name"]', 'alias' => 'BusinessPartner.name'),
 			array('field' => 'BPCSRepTransactionItem.product_name', 'position' => '["BPCSRepTransactionItem"]["product_name"]', 'alias' => 'BPCSRepTransactionItem.product_name'),
 			array('field' => 'BPCSRepPurchase.abs_quantity', 'position' => '["BPCSRepPurchase"]["abs_quantity"]', 'alias' => 'BPCSRepPurchase.abs_quantity'),
@@ -158,12 +169,12 @@ class BPCSRepPurchase extends AppModel {
 		if (!empty($data['BPCSRepPurchase']['date_from'])) {
 			$date_from = explode('.', $data['BPCSRepPurchase']['date_from']);
 			$date_from = $date_from[2] . '-' . $date_from[1] . '-' . $date_from[0];
-			$conditions['BPCSRepPurchase.created >='] = $date_from;
+			$conditions['BPCSRepPurchase.date >='] = $date_from;
 		}
 		if (!empty($data['BPCSRepPurchase']['date_to'])) {
 			$date_to = explode('.', $data['BPCSRepPurchase']['date_to']);
 			$date_to = $date_to[2] . '-' . $date_to[1] . '-' . $date_to[0];
-			$conditions['BPCSRepPurchase.created <='] = $date_to;
+			$conditions['BPCSRepPurchase.date <='] = $date_to;
 		}
 		
 		return $conditions;

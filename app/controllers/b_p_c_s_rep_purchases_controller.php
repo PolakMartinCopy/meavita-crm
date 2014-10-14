@@ -53,100 +53,100 @@ class BPCSRepPurchasesController extends AppController {
 		$this->BPCSRepPurchase->virtualFields['c_s_rep_name'] = $this->BPCSRepPurchase->CSRep->name_field;
 		
 		$this->paginate = array(
-				'conditions' => $conditions,
-				'limit' => 30,
-				'contain' => array(),
-				'joins' => array(
-					array(
-						'table' => 'b_p_c_s_rep_transaction_items',
-						'alias' => 'BPCSRepTransactionItem',
-						'type' => 'left',
-						'conditions' => array('BPCSRepPurchase.id = BPCSRepTransactionItem.b_p_c_s_rep_purchase_id')
-					),
-					array(
-						'table' => 'product_variants',
-						'alias' => 'ProductVariant',
-						'type' => 'left',
-						'conditions' => array('BPCSRepTransactionItem.product_variant_id = ProductVariant.id')
-					),
-					array(
-						'table' => 'products',
-						'alias' => 'Product',
-						'type' => 'left',
-						'conditions' => array('Product.id = ProductVariant.product_id')
-					),
-					array(
-						'table' => 'business_partners',
-						'alias' => 'BusinessPartner',
-						'type' => 'left',
-						'conditions' => array('BusinessPartner.id = BPCSRepPurchase.business_partner_id')
-					),
-					array(
-						'table' => 'addresses',
-						'alias' => 'Address',
-						'type' => 'left',
-						'conditions' => array('Address.business_partner_id = BusinessPartner.id')
-					),
-					array(
-						'table' => 'units',
-						'alias' => 'Unit',
-						'type' => 'left',
-						'conditions' => array('Product.unit_id = Unit.id')
-					),
-					array(
-						'table' => 'users',
-						'alias' => 'CSRep',
-						'type' => 'left',
-						'conditions' => array('BPCSRepPurchase.c_s_rep_id = CSRep.id')
-					),
-					array(
-						'table' => 'c_s_rep_attributes',
-						'alias' => 'CSRepAttribute',
-						'type' => 'left',
-						'conditions' => array('CSRep.id = CSRepAttribute.c_s_rep_id')
-					)
+			'conditions' => $conditions,
+			'limit' => 30,
+			'contain' => array(),
+			'joins' => array(
+				array(
+					'table' => 'b_p_c_s_rep_transaction_items',
+					'alias' => 'BPCSRepTransactionItem',
+					'type' => 'left',
+					'conditions' => array('BPCSRepPurchase.id = BPCSRepTransactionItem.b_p_c_s_rep_purchase_id')
 				),
-				'fields' => array(
-					'BPCSRepPurchase.id',
-					'BPCSRepPurchase.created',
-					'BPCSRepPurchase.abs_quantity',
-					'BPCSRepPurchase.abs_total_price',
-					'BPCSRepPurchase.total_price',
-					'BPCSRepPurchase.quantity',
-					'BPCSRepPurchase.c_s_rep_name',
-		
-					'BPCSRepTransactionItem.id',
-					'BPCSRepTransactionItem.price_vat',
-					'BPCSRepTransactionItem.product_name',
-						
-					'ProductVariant.id',
-					'ProductVariant.lot',
-					'ProductVariant.exp',
-		
-					'Product.id',
-					'Product.name',
-					'Product.vzp_code',
-					'Product.group_code',
-						
-					'BusinessPartner.id',
-					'BusinessPartner.name',
-						
-					'Unit.id',
-					'Unit.shortcut',
-					
-					'CSRep.id',
-					
-					'CSRepAttribute.id',
-					'CSRepAttribute.ico',
-					'CSRepAttribute.dic',
-					'CSRepAttribute.street',
-					'CSRepAttribute.street_number',
-					'CSRepAttribute.city',
-					'CSRepAttribute.zip',
+				array(
+					'table' => 'product_variants',
+					'alias' => 'ProductVariant',
+					'type' => 'left',
+					'conditions' => array('BPCSRepTransactionItem.product_variant_id = ProductVariant.id')
 				),
-				'order' => array(
-					'BPCSRepPurchase.created' => 'desc'
+				array(
+					'table' => 'products',
+					'alias' => 'Product',
+					'type' => 'left',
+					'conditions' => array('Product.id = ProductVariant.product_id')
+				),
+				array(
+					'table' => 'business_partners',
+					'alias' => 'BusinessPartner',
+					'type' => 'left',
+					'conditions' => array('BusinessPartner.id = BPCSRepPurchase.business_partner_id')
+				),
+				array(
+					'table' => 'addresses',
+					'alias' => 'Address',
+					'type' => 'left',
+					'conditions' => array('Address.business_partner_id = BusinessPartner.id')
+				),
+				array(
+					'table' => 'units',
+					'alias' => 'Unit',
+					'type' => 'left',
+					'conditions' => array('Product.unit_id = Unit.id')
+				),
+				array(
+					'table' => 'users',
+					'alias' => 'CSRep',
+					'type' => 'left',
+					'conditions' => array('BPCSRepPurchase.c_s_rep_id = CSRep.id')
+				),
+				array(
+					'table' => 'c_s_rep_attributes',
+					'alias' => 'CSRepAttribute',
+					'type' => 'left',
+					'conditions' => array('CSRep.id = CSRepAttribute.c_s_rep_id')
 				)
+			),
+			'fields' => array(
+				'BPCSRepPurchase.id',
+				'BPCSRepPurchase.date',
+				'BPCSRepPurchase.abs_quantity',
+				'BPCSRepPurchase.abs_total_price',
+				'BPCSRepPurchase.total_price',
+				'BPCSRepPurchase.quantity',
+				'BPCSRepPurchase.c_s_rep_name',
+		
+				'BPCSRepTransactionItem.id',
+				'BPCSRepTransactionItem.price_vat',
+				'BPCSRepTransactionItem.product_name',
+					
+				'ProductVariant.id',
+				'ProductVariant.lot',
+				'ProductVariant.exp',
+		
+				'Product.id',
+				'Product.name',
+				'Product.vzp_code',
+				'Product.group_code',
+					
+				'BusinessPartner.id',
+				'BusinessPartner.name',
+					
+				'Unit.id',
+				'Unit.shortcut',
+				
+				'CSRep.id',
+				
+				'CSRepAttribute.id',
+				'CSRepAttribute.ico',
+				'CSRepAttribute.dic',
+				'CSRepAttribute.street',
+				'CSRepAttribute.street_number',
+				'CSRepAttribute.city',
+				'CSRepAttribute.zip',
+			),
+			'order' => array(
+				'BPCSRepPurchase.created' => 'desc'
+			)
 		);
 		// vyhledam transakce podle zadanych parametru
 		$b_p_c_s_rep_purchases = $this->paginate();
@@ -234,6 +234,8 @@ class BPCSRepPurchasesController extends AppController {
 			} else {
 				$this->Session->setFlash('Nákup neobsahuje žádné produkty a nelze jej proto uložit');
 			}
+		} else {
+			$this->data['BPCSRepPurchase']['date'] = date('d.m.Y');
 		}
 		
 		// pokud jsem na form pro pridani prisel z detailu repa NEBO pokud je prihlaseny uzivatel typu rep, predvyplnim pole, predvyplnim pole
@@ -298,6 +300,7 @@ class BPCSRepPurchasesController extends AppController {
 			),
 			'fields' => array(
 				'BPCSRepPurchase.id',
+				'BPCSRepPurchase.date',
 				'BPCSRepPurchase.c_s_rep_name',
 				'BPCSRepPurchase.c_s_rep_id',
 				'BPCSRepPurchase.business_partner_name',
@@ -403,6 +406,7 @@ class BPCSRepPurchasesController extends AppController {
 				$b_p_c_s_rep_transaction_item['product_variant_lot'] = $b_p_c_s_rep_transaction_item['ProductVariant']['lot'];
 				$b_p_c_s_rep_transaction_item['product_variant_exp'] = $b_p_c_s_rep_transaction_item['ProductVariant']['exp'];
 			}
+			$this->data['BPCSRepPurchase']['date'] = db2cal_date($this->data['BPCSRepPurchase']['date']);
 		}
 		
 	}

@@ -71,7 +71,8 @@ class AppModel extends Model {
 			'CSInvoice.due_date',
 			'CSCreditNote.due_date',
 			'CSRepAttribute.last_sale',
-			'RepAttribute.last_sale'
+			'RepAttribute.last_sale',
+			'BPCSRepPurchase.date'
 		);
 		
 		// exportuju udaj o tom, ktera pole jsou soucasti vystupu

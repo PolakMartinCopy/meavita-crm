@@ -24,6 +24,11 @@
 			}
 		});
 
+		$('#BPCSRepPurchaseDate').datepicker({
+			changeMonth: false,
+			numberOfMonths: 1
+		});
+
 		$('table').delegate('.BPCSRepTransactionItemProductName', 'focusin', function() {
 			if ($(this).is(':data(autocomplete)')) return;
 			$(this).autocomplete({
@@ -113,6 +118,10 @@ echo $this->Form->create('BPCSRepPurchase', $form_options);
 			echo $this->Form->error('BPCSRepPurchase.business_partner_id');
 			echo $this->Form->hidden('BPCSRepPurchase.business_partner_id')
 		?></td>
+	</tr>
+	<tr>
+		<th>Datum</th>
+		<td><?php echo $this->Form->input('BPCSRepPurchase.date', array('label' => false, 'type' => 'text'))?></td>
 	</tr>
 	<?php if (empty($this->data['BPCSRepTransactionItem'])) { ?>
 	<tr rel="0">
