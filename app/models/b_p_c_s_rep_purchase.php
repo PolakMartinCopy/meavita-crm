@@ -31,6 +31,12 @@ class BPCSRepPurchase extends AppModel {
 	);
 	
 	var $validate = array(
+		'date' => array(
+			'notEmpty' => array(
+				'rule' => 'notEmpty',
+				'message' => 'Zadejte datum nákupu'
+			)
+		),
 		'amount' => array(
 			'notEmpty' => array(
 				'rule' => 'notEmpty',
