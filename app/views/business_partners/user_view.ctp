@@ -39,7 +39,7 @@ if (isset($this->params['named']['tab'])) {
 		<li><a href="#tabs-10">Dod. listy</a></li>
 <?php } ?>
 <?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/Sales/index')) { ?>
-		<li><a href="#tabs-11">Prodeje</a></li>
+		<li><a href="#tabs-11">Prodeje firma</a></li>
 <?php } ?>
 <?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/Transactions/index')) { ?>
 		<li><a href="#tabs-12">Pohyby</a></li>
@@ -56,11 +56,11 @@ if (isset($this->params['named']['tab'])) {
 <?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/CSTransactions/index')) { ?>
 		<li><a href="#tabs-16">Mea Pohyby</a>
 <?php } ?>
-<?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/BPCSRepSales/index')) { ?>
-		<li><a href="#tabs-21">Nákupy od Mea repů</a>
-<?php } ?>
 <?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/BPCSRepPurchases/index')) { ?>
-		<li><a href="#tabs-22">Prodeje Mea repům</a>
+		<li><a href="#tabs-22">Nákupy repové</a>
+<?php } ?>
+<?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/BPCSRepSales/index')) { ?>
+		<li><a href="#tabs-21">Prodeje repové</a>
 <?php } ?>
 <?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/CSRepTransactions/index')) { ?>
 		<li><a href="#tabs-23">Transakce s Mea repy</a>
@@ -1678,7 +1678,7 @@ if (isset($this->params['named']['tab'])) {
 <?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/BPCSRepSales/index')) { ?>
 <?php /* TAB 21 BC REP nakupy - nakupy obchodniho partnera od mea repu ****************************************************************************************************************/ ?>
 	<div id="tabs-21">
-		<h2>Nákupy od Mea repů</h2>
+		<h2>Prodeje repové</h2>
 		<button id="search_form_show_b_p_c_s_rep_sales">vyhledávací formulář</button>
 		<?php
 			echo $this->element('search_forms/b_p_c_s_rep_sales', array('url' => array('controller' => 'business_partners', 'action' => 'view', $business_partner['BusinessPartner']['id'], 'tab' => 21)));
@@ -1714,7 +1714,7 @@ if (isset($this->params['named']['tab'])) {
 <?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/BPCSRepPurchases/index')) { ?>
 <?php /* TAB 22 BC REP prodeje - prodeje obchodniho partnera mea repům ****************************************************************************************************************/ ?>
 	<div id="tabs-22">
-		<h2>Prodeje Mea repům</h2>
+		<h2>Nákupy repové</h2>
 		<button id="search_form_show_b_p_c_s_rep_purchases">vyhledávací formulář</button>
 		<?php
 			echo $this->element('search_forms/b_p_c_s_rep_purchases', array('url' => array('controller' => 'business_partners', 'action' => 'view', $business_partner['BusinessPartner']['id'], 'tab' => 22)));
