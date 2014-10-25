@@ -15,7 +15,7 @@
 		<tr>
 			<th>Název pobočky</th>
 			<td><?php echo $this->Form->input('BusinessPartner.branch_name', array('label' => false))?></td>
-			<th>Název</th>
+			<th>Název firmy</th>
 			<td><?php echo $form->input('BusinessPartner.name', array('label' => false))?></td>
 			<td colspan="2">&nbsp;</td>
 		</tr>
@@ -30,7 +30,7 @@
 			<td colspan="6">Adresa sídla</td>
 		</tr>
 		<tr>
-			<th>Název</th>
+			<th>Název v adrese</th>
 			<td><?php echo $form->input('Address.name', array('label' => false))?></td>
 			<th>Jméno osoby</th>
 			<td><?php echo $form->input('Address.person_first_name', array('label' => false))?></td>

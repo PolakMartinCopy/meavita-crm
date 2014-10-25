@@ -7,11 +7,11 @@
 <?php echo $form->create('BusinessPartner', array('url' => array('controller' => 'business_partners', 'action' => 'edit')))?>
 <table class="left_heading">
 	<tr>
-		<th>Název (lékárny)<sup>*</sup></th>
+		<th>Název pobočky<sup>*</sup></th>
 		<td><?php echo $this->Form->input('BusinessPartner.branch_name', array('label' => false))?></td>
 	</tr>
 	<tr>
-		<th>Název<sup>*</sup></th>
+		<th>Název firmy<sup>*</sup></th>
 		<td><?php echo $form->input('BusinessPartner.name', array('label' => false))?></td>
 	</tr>
 	<tr>

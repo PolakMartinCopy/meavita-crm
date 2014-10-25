@@ -99,11 +99,11 @@ if (isset($this->params['named']['tab'])) {
 				<td><?php echo $business_partner['BusinessPartner']['id']?></td>
 			</tr>
 			<tr>
-				<th>Pobočka</th>
+				<th>Název pobočky</th>
 				<td><?php echo $business_partner['BusinessPartner']['branch_name']?></td>
 			</tr>
 			<tr>
-				<th>Jméno firmy</th>
+				<th>Název firmy</th>
 				<td><?php echo $business_partner['BusinessPartner']['name']?></td>
 			</tr>
 			<tr>

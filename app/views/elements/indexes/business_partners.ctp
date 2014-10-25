@@ -1,8 +1,8 @@
 <table class="top_heading">
 	<tr>
 		<th><?php echo $this->Paginator->sort('ID', 'BusinessPartner.id')?></th>
-		<th><?php echo $this->Paginator->sort('Pobočka', 'BusinessPartner.branch_name')?></th>
-		<th><?php echo $this->Paginator->sort('Název', 'BusinessPartner.name')?></th>
+		<th><?php echo $this->Paginator->sort('Název pobočky', 'BusinessPartner.branch_name')?></th>
+		<th><?php echo $this->Paginator->sort('Název firmy', 'BusinessPartner.name')?></th>
 		<th><?php echo $this->Paginator->sort('IČO', 'BusinessPartner.ico')?></th>
 		<th><?php echo $this->Paginator->sort('DIČ', 'BusinessPartner.dic')?></th>
 		<th><?php echo $this->Paginator->sort('IČZ', 'BusinessPartner.icz')?></th>
