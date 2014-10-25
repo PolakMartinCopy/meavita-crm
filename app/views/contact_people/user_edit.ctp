@@ -82,6 +82,10 @@ if (isset($business_partner_id)) {
 		 ?></td>
 	</tr>
 	<tr>
+		<th>Týden odběru</th>
+		<td><?php echo $this->Form->input('ContactPerson.purchase_week', array('label' => false, 'size' => 1))?></td>
+	</tr>
+	<tr>
 		<th>Poznámka</th>
 		<td><?php echo $form->input('ContactPerson.note', array('label' => false))?></td>
 	</tr>

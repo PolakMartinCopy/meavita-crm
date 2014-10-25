@@ -37,6 +37,11 @@ class ContactPerson extends AppModel {
 			'rule' => 'numeric',
 			'allowEmpty' => false,
 			'message' => 'Není vybrán obchodní partner'
+		),
+		'purchase_week' => array(
+			'rule' => array('inList', array(1, 2, 3, 4)),
+			'allowEmpty' => true,
+			'message' => 'Zadejte týden odběru v rozmezí od 1 do 4'
 		)
 	);
 	

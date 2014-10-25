@@ -40,6 +40,10 @@
 				<td><?php echo $html->link($contact_person['BusinessPartner']['name'], array('controller' => 'business_partners', 'action' => 'view', $contact_person['BusinessPartner']['id']))?></td>
 			</tr>
 			<tr>
+				<th>Týden odběru</th>
+				<td><?php echo $contact_person['ContactPerson']['purchase_week']?></td>
+			</tr>
+			<tr>
 				<th>Telefon</th>
 				<td><?php echo $contact_person['ContactPerson']['phone']?></td>
 			</tr>
