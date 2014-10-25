@@ -86,8 +86,6 @@ class BusinessPartnersController extends AppController {
 
 		$this->set('business_partners', $business_partners);
 		
-		$this->set('bonity', $this->bonity);
-		
 		$find = $this->paginate['BusinessPartner'];
 		unset($find['limit']);
 		unset($find['fields']);
@@ -156,8 +154,6 @@ class BusinessPartnersController extends AppController {
 			$this->Session->setFlash('Nepovolený přístup. Nemáte právo pro zobrazení tohoto obchodního partnera');
 			$this->redirect($this->index_link);
 		}
-		
-		$this->set('bonity', $this->bonity);
 		
 		list($seat_address, $delivery_address, $invoice_address) = $this->BusinessPartner->Address->get_addresses($id);
 		
@@ -2966,7 +2962,6 @@ class BusinessPartnersController extends AppController {
 			
 			$business_partners = $this->paginate('BusinessPartner');
 			$this->set('business_partners', $business_partners);
-			$this->set('bonity', $this->bonity);
 			
 			$find = $this->paginate['BusinessPartner'];
 			unset($find['limit']);

@@ -139,10 +139,6 @@ if (isset($this->params['named']['tab'])) {
 				<td><?php echo $business_partner['BusinessPartner']['note']?></td>
 			</tr>
 			<tr>
-				<th>Bonita</th>
-				<td><?php echo $bonity[$business_partner['BusinessPartner']['bonity']]?></td>
-			</tr>
-			<tr>
 				<th>Provozní doba</th>
 				<td><?php echo $business_partner['BusinessPartner']['opening_hours']?></td>
 			</tr>

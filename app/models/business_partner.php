@@ -116,7 +116,7 @@ class BusinessPartner extends AppModel {
 		0 => array('name' => 'BusinessPartner.name', 'value' => 'Název'),
 		array('name' => 'BusinessPartner.ico', 'value' => 'IČO'),
 		array('name' => 'BusinessPartner.dic', 'value' => 'DIČ'),
-		array('name' => 'BusinessPartner.bonity', 'value' => 'Bonita'),
+//		array('name' => 'BusinessPartner.bonity', 'value' => 'Bonita'),
 		array('name' => 'BusinessPartner.note', 'value' => 'Poznámka'),
 		array('name' => 'Address.name', 'value' => 'Jméno'),
 		array('name' => 'Address.first_name', 'value' => 'Křestní jméno'),
@@ -145,10 +145,6 @@ class BusinessPartner extends AppModel {
 		}
 		if ( !empty($data['BusinessPartner']['note']) ){
 			$conditions[] = 'BusinessPartner.note LIKE \'%%' . $data['BusinessPartner']['note'] . '%%\'';
-		}
-		
-		if ( !empty($data['BusinessPartner']['bonity']) ){
-			$conditions[] = 'BusinessPartner.bonity IN (\'' . implode("', '", $data['BusinessPartner']['bonity']) . '\')';
 		}
 		
 		if ( !empty($data['Address']['name']) ){

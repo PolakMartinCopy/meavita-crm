@@ -47,37 +47,6 @@
 		<td><?php echo $this->Form->input('BusinessPartner.owner_id', array('label' => false, 'options' => $owners))?></td>
 	</tr>
 	<tr>
-		<th>Bonita</th>
-		<td>
-			<table>
-				<tr>
-					<th>&nbsp;</th>
-					<th>A</th>
-					<th>B</th>
-					<th>C</th>
-				</tr>
-				<tr>
-					<th>1</th>
-					<td><input type="radio" name="data[BusinessPartner][bonity]" value="1"<?php echo ($this->data['BusinessPartner']['bonity'] == 1) ? ' checked ' : ''?>/></td>
-					<td><input type="radio" name="data[BusinessPartner][bonity]" value="4"<?php echo ($this->data['BusinessPartner']['bonity'] == 4) ? ' checked ' : ''?>/></td>
-					<td><input type="radio" name="data[BusinessPartner][bonity]" value="7"<?php echo ($this->data['BusinessPartner']['bonity'] == 7) ? ' checked ' : ''?>/></td>
-				</tr>
-				<tr>
-					<th>2</th>
-					<td><input type="radio" name="data[BusinessPartner][bonity]" value="2"<?php echo ($this->data['BusinessPartner']['bonity'] == 2) ? ' checked ' : ''?>/></td>
-					<td><input type="radio" name="data[BusinessPartner][bonity]" value="5"<?php echo ($this->data['BusinessPartner']['bonity'] == 5) ? ' checked ' : ''?>/></td>
-					<td><input type="radio" name="data[BusinessPartner][bonity]" value="8"<?php echo ($this->data['BusinessPartner']['bonity'] == 8) ? ' checked ' : ''?>/></td>
-				</tr>
-				<tr>
-					<th>3</th>
-					<td><input type="radio" name="data[BusinessPartner][bonity]" value="3"<?php echo ($this->data['BusinessPartner']['bonity'] == 3) ? ' checked ' : ''?>/></td>
-					<td><input type="radio" name="data[BusinessPartner][bonity]" value="6"<?php echo ($this->data['BusinessPartner']['bonity'] == 6) ? ' checked ' : ''?>/></td>
-					<td><input type="radio" name="data[BusinessPartner][bonity]" value="9"<?php echo ($this->data['BusinessPartner']['bonity'] == 9) ? ' checked ' : ''?>/></td>
-				</tr>
-			</table>
-		</td>
-	</tr>
-	<tr>
 		<th>Provozní doba</th>
 		<td><?php echo $form->input('BusinessPartner.opening_hours', array('label' => false))?></td>
 	</tr>
