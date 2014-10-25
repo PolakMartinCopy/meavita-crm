@@ -197,6 +197,57 @@
 		<th>Okres</th>
 		<td><?php echo $form->input('Address.1.region', array('label' => false))?></td>
 	</tr>
+	<tr>
+		<td colspan="2">Kontaktní osoba</td>
+	</tr>
+	<tr>
+		<th>Křestní jméno</th>
+		<td><?php echo $form->input('ContactPerson.0.first_name', array('label' => false))?></td>
+	</tr>
+	<tr>
+		<th>Příjmení<sup>*</sup></th>
+		<td><?php echo $form->input('ContactPerson.0.last_name', array('label' => false))?></td>
+	</tr>
+	<tr>
+		<th>Titul před</th>
+		<td><?php echo $form->input('ContactPerson.0.prefix', array('label' => false))?></td>
+	</tr>
+	<tr>
+		<th>Titul za</th>
+		<td><?php echo $form->input('ContactPerson.0.suffix', array('label' => false))?></td>
+	</tr>
+	<tr>
+		<th>Telefon<sup>*</sup></th>
+		<td><?php echo $form->input('ContactPerson.0.phone', array('label' => false))?></td>
+	</tr>
+	<tr>
+		<th>Mobilní telefon</th>
+		<td><?php echo $form->input('ContactPerson.0.cellular', array('label' => false))?></td>
+	</tr>
+	<tr>
+		<th>Email</th>
+		<td><?php echo $form->input('ContactPerson.0.email', array('label' => false))?></td>
+	</tr>
+	<tr>
+		<th>Týden odběru</th>
+		<td><?php echo $this->Form->input('ContactPerson.0.purchase_week', array('label' => false, 'size' => 1))?></td>
+	</tr>
+	<tr>
+		<th>Poznámka</th>
+		<td><?php echo $form->input('ContactPerson.0.note', array('label' => false))?></td>
+	</tr>
+	<tr>
+		<th>Koníčky</th>
+		<td><?php echo $form->input('ContactPerson.0.hobby', array('label' => false))?></td>
+	</tr>
+	<tr>
+		<th>Je hlavní?</th>
+		<td><?php echo $this->Form->input('ContactPerson.0.is_main', array('label' => false))?></td>
+	</tr>
+	<tr>
+		<th>Třída kampaní</th>
+		<td><?php echo $this->Form->input('ContactPerson.0.mailing_campaign_id', array('label' => false, 'options' => $mailing_campaigns))?></td>
+	</tr>
 </table>
 
 <?php

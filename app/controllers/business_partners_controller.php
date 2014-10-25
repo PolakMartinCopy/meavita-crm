@@ -2976,6 +2976,24 @@ class BusinessPartnersController extends AppController {
 		
 		if (isset($this->data)) {
 			if (!isset($this->data['BusinessPartner']['ares_search'])) {
+				// pokud nevkladam s OP i KO, musim odnastavit jeji pole
+				if (
+					empty($this->data['ContactPerson'][0]['first_name'])
+					&& empty($this->data['ContactPerson'][0]['last_name'])
+					&& empty($this->data['ContactPerson'][0]['prefix'])
+					&& empty($this->data['ContactPerson'][0]['suffix'])
+					&& empty($this->data['ContactPerson'][0]['phone'])
+					&& empty($this->data['ContactPerson'][0]['cellular'])
+					&& empty($this->data['ContactPerson'][0]['email'])
+					&& empty($this->data['ContactPerson'][0]['purchase_week'])
+					&& empty($this->data['ContactPerson'][0]['note'])
+					&& empty($this->data['ContactPerson'][0]['hobby'])
+				) {
+					unset($this->data['ContactPerson']);
+					$this->data['ContactPerson'][0]['is_main'] = true;
+				} else {
+					unset($this->BusinessPartner->ContactPerson->validate['business_partner_id']);
+				}
 				if ($this->BusinessPartner->saveAll($this->data, array('validate' => 'first'))) {
 					$this->Session->setFlash('Obchodní partner byl vytvořen');
 					$this->redirect(array('controller' => 'business_partners', 'action' => 'view', $this->BusinessPartner->id));
@@ -3009,10 +3027,14 @@ class BusinessPartnersController extends AppController {
 				
 			}
 			$this->data['BusinessPartner']['owner_id'] = $this->user['User']['id'];
+			$this->data['ContactPerson'][0]['is_main'] = true;
 		}
 		
 		$owners = $this->BusinessPartner->findOwnersList($this->Session->read());
 		$this->set('owners', $owners);
+		
+		$mailing_campaigns = $this->BusinessPartner->ContactPerson->MailingCampaign->find('list');
+		$this->set('mailing_campaigns', $mailing_campaigns);
 	}
 	
 	function user_ares_search() {
