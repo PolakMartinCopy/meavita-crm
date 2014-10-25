@@ -119,6 +119,7 @@ class BPCSRepSale extends AppModel {
 		return array(
 			array('field' => 'BPCSRepSale.id', 'position' => '["BPCSRepSale"]["id"]', 'alias' => 'BPCSRepSale.id'),
 			array('field' => 'BPCSRepSale.created', 'position' => '["BPCSRepSale"]["created"]', 'alias' => 'BPCSRepSale.created'),
+			array('field' => 'BPCSRepSale.code', 'position' => '["BPCSRepSale"]["code"]', 'alias' => 'BPCSRepSale.code'),
 			array('field' => 'CSRep.first_name', 'position' => '["CSRep"]["first_name"]', 'alias' => 'CSRep.first_name'),
 			array('field' => 'CSRep.last_name', 'position' => '["CSRep"]["last_name"]', 'alias' => 'CSRep.last_name'),
 			array('field' => 'BusinessPartner.branch_name', 'position' => '["BusinessPartner"]["branch_name"]', 'alias' => 'BusinessPartner.branch_name'),

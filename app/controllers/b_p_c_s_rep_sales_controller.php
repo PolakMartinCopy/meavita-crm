@@ -121,6 +121,7 @@ class BPCSRepSalesController extends AppController {
 			'fields' => array(
 			'BPCSRepSale.id',
 				'BPCSRepSale.created',
+				'BPCSRepSale.code',
 				'BPCSRepSale.abs_quantity',
 				'BPCSRepSale.abs_total_price',
 				'BPCSRepSale.total_price',
