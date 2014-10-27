@@ -1786,6 +1786,12 @@ class BusinessPartnersController extends AppController {
 						'alias' => 'CSRepAttribute',
 						'type' => 'left',
 						'conditions' => array('CSRep.id = CSRepAttribute.c_s_rep_id')
+					),
+					array(
+						'table' => 'c_s_rep_purchases',
+						'alias' => 'CSRepPurchase',
+						'type' => 'left',
+						'conditions' => array('CSRepPurchase.b_p_c_s_rep_purchase_id = BPCSRepPurchase.id')
 					)
 				),
 				'fields' => array(
@@ -1796,6 +1802,7 @@ class BusinessPartnersController extends AppController {
 					'BPCSRepPurchase.total_price',
 					'BPCSRepPurchase.quantity',
 					'BPCSRepPurchase.c_s_rep_name',
+					'BPCSRepPurchase.confirm_requirement',
 			
 					'BPCSRepTransactionItem.id',
 					'BPCSRepTransactionItem.price_vat',
@@ -1826,6 +1833,8 @@ class BusinessPartnersController extends AppController {
 					'CSRepAttribute.street_number',
 					'CSRepAttribute.city',
 					'CSRepAttribute.zip',
+						
+					'CSRepPurchase.confirmed'
 				),
 				'order' => array(
 					'BPCSRepPurchase.created' => 'desc'

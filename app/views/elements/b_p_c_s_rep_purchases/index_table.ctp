@@ -20,6 +20,7 @@ if (!isset($b_p_tab)) {
 		<th><?php echo $this->Paginator->sort('Celkem', 'BPCSRepPurchase.abs_total_price')?></th>
 		<th><?php echo $this->Paginator->sort('VZP kód', 'Product.vzp_code')?></th>
 		<th><?php echo $this->Paginator->sort('Kód skupiny', 'Product.group_code')?></th>
+		<th><?php echo $this->Paginator->sort('Schváleno', 'CSRepPurchase.confirmed')?></th>
 		<th>&nbsp;</th>
 	</tr>
 	<?php 
@@ -41,13 +42,17 @@ if (!isset($b_p_tab)) {
 		<td><?php echo $b_p_c_s_rep_purchase['BPCSRepPurchase']['abs_total_price']?></td>
 		<td><?php echo $b_p_c_s_rep_purchase['Product']['vzp_code']?></td>
 		<td><?php echo $b_p_c_s_rep_purchase['Product']['group_code']?></td>
+		<td><?php echo yes_no($b_p_c_s_rep_purchase['CSRepPurchase']['confirmed'])?></td>
 		<td><?php
 			$links = array();
-			if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/BPCSRepPurchases/user_edit')) { 
+			if ((!$b_p_c_s_rep_purchase['CSRepPurchase']['confirmed'] && !$b_p_c_s_rep_purchase['BPCSRepPurchase']['confirm_requirement']) && isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/BPCSRepPurchases/user_edit')) { 
 				$links[] = $this->Html->link('Upravit', array('controller' => 'b_p_c_s_rep_purchases', 'action' => 'edit', $b_p_c_s_rep_purchase['BPCSRepPurchase']['id']) + $this->passedArgs);
 			}
-			if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/BPCSRepPurchases/user_delete')) {
+			if ((!$b_p_c_s_rep_purchase['CSRepPurchase']['confirmed'] && !$b_p_c_s_rep_purchase['BPCSRepPurchase']['confirm_requirement']) && isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/BPCSRepPurchases/user_delete')) {
 				$links[] = $this->Html->link('Smazat', array('controller' => 'b_p_c_s_rep_purchases', 'action' => 'delete', $b_p_c_s_rep_purchase['BPCSRepPurchase']['id']) + $this->passedArgs, array(), 'Opravdu chcete transakci smazat?');
+			}
+			if ((!$b_p_c_s_rep_purchase['CSRepPurchase']['confirmed'] && !$b_p_c_s_rep_purchase['BPCSRepPurchase']['confirm_requirement']) && isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/BPCSRepPurchases/user_require_confirmation')) {
+				$links[] = $this->Html->link('Požádat o schválení', array('controller' => 'b_p_c_s_rep_purchases', 'action' => 'require_confirmation', $b_p_c_s_rep_purchase['BPCSRepPurchase']['id']) + $this->passedArgs, array(), 'Opravdu chcete požádat o schválení nákupu?');
 			}
 			echo implode(' | ', $links);
 		?></td>

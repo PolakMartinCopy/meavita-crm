@@ -187,8 +187,13 @@ class BPCSRepPurchase extends AppModel {
 	}
 	
 	function isEditable($id) {
-		// nakup lze upravovat, pokud neni potvrzen prevod od repa do CS
-		return !$this->CSRepPurchase->hasAny(array('b_p_c_s_rep_purchase_id' => $id, 'confirmed' => true));
+		// nakup lze upravovat, pokud neni odeslan pozadavek na schvaleni
+		$purchase = $this->find('first', array(
+			'conditions' => array('BPCSRepPurchase.id' => $id),
+			'contain' => array(),
+			'fields' => array('BPCSRepPurchase.confirm_requirement')
+		));
+		return !$purchase['BPCSRepPurchase']['confirm_requirement'];
 	}
 	
 	function createCSRepPurchase($id) {

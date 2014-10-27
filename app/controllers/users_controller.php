@@ -789,6 +789,8 @@ class UsersController extends AppController {
 		
 		// povolim zobrazeni uvitaci stranky
 		$this->Acl->allow('c_s_rep', 'controllers/Pages/user_c_s_rep_home');
+		// rep muze pozadat o schvaleni nakupu
+		$this->Acl->allow('c_s_rep', 'controllers/BPCSRepPurchases/user_require_confirmation');
 		
 		// DOCASNE ZAKAZU VSEM VSECHNO OKOLO MEDICAL CORPU
 		$roles = array('admin', 'manager', 'user', 'rep', 'c_s_rep');

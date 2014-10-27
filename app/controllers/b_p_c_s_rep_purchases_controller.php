@@ -104,6 +104,12 @@ class BPCSRepPurchasesController extends AppController {
 					'alias' => 'CSRepAttribute',
 					'type' => 'left',
 					'conditions' => array('CSRep.id = CSRepAttribute.c_s_rep_id')
+				),
+				array(
+					'table' => 'c_s_rep_purchases',
+					'alias' => 'CSRepPurchase',
+					'type' => 'left',
+					'conditions' => array('CSRepPurchase.b_p_c_s_rep_purchase_id = BPCSRepPurchase.id')
 				)
 			),
 			'fields' => array(
@@ -114,6 +120,7 @@ class BPCSRepPurchasesController extends AppController {
 				'BPCSRepPurchase.total_price',
 				'BPCSRepPurchase.quantity',
 				'BPCSRepPurchase.c_s_rep_name',
+				'BPCSRepPurchase.confirm_requirement',
 		
 				'BPCSRepTransactionItem.id',
 				'BPCSRepTransactionItem.price_vat',
@@ -144,6 +151,8 @@ class BPCSRepPurchasesController extends AppController {
 				'CSRepAttribute.street_number',
 				'CSRepAttribute.city',
 				'CSRepAttribute.zip',
+					
+				'CSRepPurchase.confirmed'
 			),
 			'order' => array(
 				'BPCSRepPurchase.created' => 'desc'
@@ -218,15 +227,14 @@ class BPCSRepPurchasesController extends AppController {
 					$data_source = $this->BPCSRepPurchase->getDataSource();
 					$data_source->begin($this->BPCSRepPurchase);
 					if ($this->BPCSRepPurchase->saveAll($this->data)) {
-						if ($this->BPCSRepPurchase->createCSRepPurchase($this->BPCSRepPurchase->id)) {
+//						if ($this->BPCSRepPurchase->createCSRepPurchase($this->BPCSRepPurchase->id)) {
 							$data_source->commit($this->BPCSRepPurchase);
 							$this->Session->setFlash('Nákup byl uložen');
 							$this->redirect($url);
-						} else {
-							$data_source->rollback($this->BPCSRepPurchase);
-							$this->Session->setFlash('Nepodařilo se uložit požadavek na převod do centrálního skladu');
-							//$this->BPCSRepPurchase->delete($this->BPCSRepPurchase->id);
-						}
+//						} else {
+//							$data_source->rollback($this->BPCSRepPurchase);
+//							$this->Session->setFlash('Nepodařilo se uložit požadavek na převod do centrálního skladu');
+//						}
 					} else {
 						$data_source->rollback($this->BPCSRepPurchase);
 						$this->Session->setFlash('Nákup se nepodařilo uložit, opravte chyby ve formuláři');
@@ -444,6 +452,44 @@ class BPCSRepPurchasesController extends AppController {
 			$this->Session->setFlash('Nákup byl odstraněn');
 			$this->redirect($url);
 		}
+	}
+	
+	/**
+	 * Zadost o schvaleni. Rep timto posila nakup na schvaleni adminovi
+	 * Po odeslani zadosti jiz neni mozne nakup smazat ani upravovat
+	 * 
+	 * @param int $id
+	 */
+	function user_require_confirmation($id = null) {
+		// vytvori pozadavek na schvaleni nakupu (prevod od repa do skladu)
+		$data_source = $this->BPCSRepPurchase->getDataSource();
+		if ($this->BPCSRepPurchase->createCSRepPurchase($this->BPCSRepPurchase->id)) {
+			// oznaci nakup jako "odeslany ke schvaleni"
+			$purchase = array(
+				'BPCSRepPurchase' => array(
+					'id' => $id,
+					'confirm_requirement' => true
+				)
+			);
+			if ($this->BPCSRepPurchase->save($purchase)) {
+				$data_source->commit($this->BPCSRepPurchase);
+				$this->Session->setFlash('Nákup byl odeslán ke schválení');
+			} else {
+				$data_source->rollback($this->BPCSRepPurchase);
+				$this->Session->setFlash('Nákup se nepodařilo označit jako "odeslaný ke schválení"');
+			}
+		} else {
+			$data_source->rollback($this->BPCSRepPurchase);
+			$this->Session->setFlash('Nepodařilo se vytvořit požadavek na schválení.');
+		}
+		
+		$url = array('controller' => 'b_p_c_s_rep_purchases', 'action' => 'index');
+		if (isset($this->params['named']['business_partner_id'])) {
+			$url = array('controller' => 'business_partners', 'action' => 'view', $this->params['named']['business_partner_id'], 'tab' => 22);
+		} elseif (isset($this->params['named']['c_s_rep_id'])) {
+			$url = array('controller' => 'c_s_reps', 'action' => 'index', $this->params['named']['c_s_rep_id'], 'tab' => 4);
+		}
+		$this->redirect($url);
 	}
 }
 ?>
