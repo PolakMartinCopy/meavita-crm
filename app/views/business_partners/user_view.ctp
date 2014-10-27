@@ -63,7 +63,7 @@ if (isset($this->params['named']['tab'])) {
 		<li><a href="#tabs-21">Prodeje repové</a>
 <?php } ?>
 <?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/CSRepTransactions/index')) { ?>
-		<li><a href="#tabs-23">Transakce s Mea repy</a>
+		<li><a href="#tabs-23">Transakce repové</a>
 <?php } ?>
 <?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/MCStorings/index')) { ?>
 		<li><a href="#tabs-24">MC Naskladnění</a>

@@ -129,6 +129,7 @@ class BPCSRepPurchasesController extends AppController {
 				'Product.group_code',
 					
 				'BusinessPartner.id',
+				'BusinessPartner.branch_name',
 				'BusinessPartner.name',
 					
 				'Unit.id',

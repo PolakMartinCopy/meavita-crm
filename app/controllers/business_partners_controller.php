@@ -1689,7 +1689,7 @@ class BusinessPartnersController extends AppController {
 		$this->set('b_p_c_s_rep_sales_export_fields', $b_p_c_s_rep_sales_export_fields);
 		$this->set('b_p_c_s_rep_sales_users', $b_p_c_s_rep_sales_users);
 		
-		// PRODEJE MEA REPUM
+		// NAKUPY MEA REPU
 		$b_p_c_s_rep_purchases_paging = array();
 		$b_p_c_s_rep_purchases_find = array();
 		$b_p_c_s_rep_purchases_export_fields = array();
@@ -1790,7 +1790,7 @@ class BusinessPartnersController extends AppController {
 				),
 				'fields' => array(
 					'BPCSRepPurchase.id',
-					'BPCSRepPurchase.created',
+					'BPCSRepPurchase.date',
 					'BPCSRepPurchase.abs_quantity',
 					'BPCSRepPurchase.abs_total_price',
 					'BPCSRepPurchase.total_price',
@@ -1812,6 +1812,7 @@ class BusinessPartnersController extends AppController {
 						
 					'BusinessPartner.id',
 					'BusinessPartner.name',
+					'BusinessPartner.branch_name',
 						
 					'Unit.id',
 					'Unit.shortcut',
