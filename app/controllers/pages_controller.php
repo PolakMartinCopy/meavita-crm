@@ -120,4 +120,27 @@ class PagesController extends AppController {
 		$b_p_rep_sales = $this->BPRepSale->get_unconfirmed();
 		$this->set('b_p_rep_sales', $b_p_rep_sales);
 	}
+	
+	function user_c_s_rep_home() {
+		$this->set('active_tab', 'home');
+		
+		$rep_id = $this->user['User']['id'];
+
+		App::import('Model', 'CSWalletTransaction');
+		$this->CSWalletTransaction = &new CSWalletTransaction;
+		
+		// aktualni castka v penezence
+		$c_s_wallet_amount = $this->CSWalletTransaction->get_actual_amount($rep_id);
+		$this->set('c_s_wallet_amount', $c_s_wallet_amount);
+		
+		// castka ve schvalenych nakupech
+		$c_s_confirmed_amount = $this->CSWalletTransaction->get_confirmed_amount($rep_id);
+		$this->set('c_s_confirmed_amount', $c_s_confirmed_amount);
+		
+		// castka v neschvalenych nakupech
+		$c_s_unconfirmed_purchases_amount = $this->CSWalletTransaction->get_unconfirmed_amount($rep_id);
+		$this->set('c_s_unconfirmed_purchases_amount', $c_s_unconfirmed_purchases_amount);
+
+		// statistiky (kolik produktu maji na sklade)
+	}
 }

@@ -77,6 +77,23 @@ class CSWalletTransactionsController extends AppController {
 		
 		$export_fields = $this->CSWalletTransaction->export_fields();
 		$this->set('export_fields', $export_fields);
+		
+
+		if ($this->Tool->is_rep($this->user['User']['user_type_id'])) {
+			$rep_id = $this->user['User']['id'];
+				
+			// aktualni castka v penezence
+			$c_s_wallet_amount = $this->CSWalletTransaction->get_actual_amount($rep_id);
+			$this->set('c_s_wallet_amount', $c_s_wallet_amount);
+				
+			// castka ve schvalenych nakupech
+			$c_s_confirmed_amount = $this->CSWalletTransaction->get_confirmed_amount($rep_id);
+			$this->set('c_s_confirmed_amount', $c_s_confirmed_amount);
+				
+			// castka v neschvalenych nakupech
+			$c_s_unconfirmed_purchases_amount = $this->CSWalletTransaction->get_unconfirmed_amount($rep_id);
+			$this->set('c_s_unconfirmed_purchases_amount', $c_s_unconfirmed_purchases_amount);
+		}
 	}
 	
 	function user_add() {

@@ -5,7 +5,10 @@
 ?>
 
 <ul id="top_nav">
-<?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/BusinessPartners/user_index')) { ?>
+<?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/Pages/user_c_s_rep_home')) { ?>
+	<li><?php echo $html->link('Domů', array('controller' => 'pages', 'action' => 'c_s_rep_home'), array('class' => ($active_tab == 'home' ? 'active' : '')))?></li>
+<?php }
+	if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/BusinessPartners/user_index')) { ?>
 	<li><?php echo $html->link('Obch. partneři', array('controller' => 'business_partners', 'action' => 'index'), array('class' => ($active_tab == 'business_partners' ? 'active' : '')))?>
 		<ul>
 <?  if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/BusinessSessions/user_index')) { ?>

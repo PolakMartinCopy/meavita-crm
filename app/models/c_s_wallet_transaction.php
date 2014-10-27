@@ -181,5 +181,91 @@ class CSWalletTransaction extends AppModel {
 			array('field' => 'User.last_name', 'position' => '["User"]["last_name"]', 'alias' => 'User.last_name')
 		);
 	}
+	
+	/*
+	 *	penize se z penenezenky odecitaji az po schvaleni nakupu, proto musim od aktualniho stavu odecist i to, co maji
+		nakoupeno, ale neni to schvaleno
+	 */
+	function get_actual_amount($rep_id = null) {
+		if (!$rep_id) {
+			return false;
+		}
+		// schvalena castka v penezence
+		$confirmed = $this->get_confirmed_amount($rep_id);
+		// castka za neschvalene nakupy
+		$unconfirmed = $this->get_unconfirmed_amount($rep_id);
+		// od aktualne schvaleneho stavu odectu castku, kterou mam v neschvalenych
+		$total = $confirmed - $unconfirmed;
+
+		return $total;
+	}
+	
+	function get_confirmed_amount($rep_id = null) {
+		if (!$rep_id) {
+			return false;
+		}
+		
+		$user = $this->CSRep->find('first', array(
+			'conditions' => array('CSRep.id' => $rep_id),
+			'contain' => array(),
+			'fields' => array('CSRep.wallet')
+		));
+		
+		return $user['CSRep']['wallet'];
+	}
+	
+	// penize, ktere ma rep v dosud neschvalenych nakupech - neschvalene nakupy jsou takove nakupy, kde jeste rep nepozadal o schvaleni
+	// anebo kde uz pozadal, ale achvaleni jeste neprobehlo
+	function get_unconfirmed_amount($rep_id = null) {
+		// bez pozadavku na schvaleni
+		$no_confirm_requirement = $this->CSRep->BPCSRepPurchase->find('all', array(
+			'conditions' => array(
+				'BPCSRepPurchase.confirm_requirement' => false,
+				'BPCSRepPurchase.c_s_rep_id' => $rep_id
+			),
+			'contain' => array(),
+			'fields' => array('SUM(BPCSRepTransactionItem.quantity * BPCSRepTransactionItem.price_vat)'),
+			'joins' => array(
+				array(
+					'table' => 'b_p_c_s_rep_transaction_items',
+					'alias' => 'BPCSRepTransactionItem',
+					'fields' => array('INNER'),
+					'conditions' => array('BPCSRepTransactionItem.b_p_c_s_rep_purchase_id = BPCSRepPurchase.id')
+				)
+			)
+		));
+		
+		$no_confirm_requirement = $no_confirm_requirement[0][0]['SUM(BPCSRepTransactionItem.quantity * BPCSRepTransactionItem.price_vat)'];
+		
+		$confirm_requirement = $this->CSRep->BPCSRepPurchase->find('all', array(
+			'conditions' => array(
+				'BPCSRepPurchase.confirm_requirement' => true,
+				'BPCSRepPurchase.c_s_rep_id' => $rep_id,
+				'CSRepPurchase.confirmed' => false
+			),
+			'contain' => array(),
+			'fields' => array('SUM(BPCSRepTransactionItem.quantity * BPCSRepTransactionItem.price_vat)'),
+			'joins' => array(
+				array(
+					'table' => 'b_p_c_s_rep_transaction_items',
+					'alias' => 'BPCSRepTransactionItem',
+					'fields' => array('INNER'),
+					'conditions' => array('BPCSRepTransactionItem.b_p_c_s_rep_purchase_id = BPCSRepPurchase.id')
+				),
+				array(
+					'table' => 'c_s_rep_purchases',
+					'alias' => 'CSRepPurchase',
+					'fields' => array('INNER'),
+					'conditions' => array('CSRepPurchase.b_p_c_s_rep_purchase_id = BPCSRepPurchase.id')
+				),
+			)
+		));
+		
+		$confirm_requirement = $confirm_requirement[0][0]['SUM(BPCSRepTransactionItem.quantity * BPCSRepTransactionItem.price_vat)'];
+		
+		$total = $no_confirm_requirement + $confirm_requirement;
+
+		return $total;
+	}
 }
 ?>

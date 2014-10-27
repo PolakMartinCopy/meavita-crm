@@ -1,4 +1,7 @@
 <h1>Transakce v peněžence</h1>
+<?php if (isset($c_s_wallet_amount) && isset($c_s_confirmed_amount) && isset($c_s_unconfirmed_purchases_amount)) { ?>
+<p>V peněžence máte aktuálně <strong><?php echo format_price($c_s_wallet_amount)?> Kč</strong> (z toho je <?php echo format_price($c_s_confirmed_amount)?> Kč po posledním schváleném nákupu a <?php echo format_price($c_s_unconfirmed_purchases_amount)?> Kč máte v neschválených nákupech).</p>
+<?php } ?>
 <button id="search_form_show">vyhledávací formulář</button>
 <?php
 	echo $this->element('search_forms/c_s_wallet_transactions', array('url' => array('controller' => 'c_s_wallet_transactions', 'action' => 'index')));
