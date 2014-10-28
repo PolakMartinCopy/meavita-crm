@@ -142,5 +142,26 @@ class PagesController extends AppController {
 		$this->set('c_s_unconfirmed_purchases_amount', $c_s_unconfirmed_purchases_amount);
 
 		// statistiky (kolik produktu maji na sklade)
+		// potrebuju seznam nakoupenych produktu (neprevezenych na centralni sklad), ktere ma dany rep na sklade
+/* 		App::import('Model', 'CSRepStoreItem');
+		$this->CSRepStoreItem = &new CSRepStoreItem;
+		$products = $this->CSRepStoreItem->find('all', array(
+			'conditions' => array('CSRepStoreItem.c_s_rep_id' => $rep_id, 'CSRepStoreItem.is_saleable' => false),
+			'contain' => array(),
+			'joins' => array(
+				array(
+					'table' => 'product_variants',
+					'alias' => 'ProductVariant',
+					'type' => 'INNER',
+					'conditions' => array('CSRepStoreItem.product_variant_id = ProductVariant.id')
+				),
+				array(
+					'table' => 'products',
+					'alias' => 'Product',
+					'type' => 'INNER',
+					'conditions' => array('Product.id = ProductVariant.product_id')
+				)
+			)
+		)); */
 	}
 }
