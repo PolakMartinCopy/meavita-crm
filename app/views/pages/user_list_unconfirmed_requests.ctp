@@ -1,4 +1,5 @@
 <h1>Nepotvrzené žádosti o převod</h1>
+<?php /*
 <h2>Převody z Medical Corp repům</h2>
 <?php if (empty($m_c_rep_sales)) {?>
 <p><em>V systému nejsou žádné neschválené převody z Medical Corp repům.</em></p>
@@ -104,7 +105,7 @@
 	<?php } ?>
 </table>
 <?php } ?>
-
+*/?>
 <h2>Převody z Meavity repům</h2>
 <?php if (empty($c_s_rep_sales)) { ?>
 <p><em>V systému nejsou žádné neschválené převody z Meavity repům.</em></p>
@@ -275,7 +276,7 @@
 	<?php } ?>
 </table>
 <?php } ?>
-
+<?php /*
 <h2>Prodeje Medical Corp repů</h2>
 <?php if (empty($b_p_rep_sales)) { ?>
 <p><em>V systému nejsou žádné neschválené prodeje Medical Corp repů.</em></p>
@@ -339,3 +340,5 @@
 	<?php } ?>
 </table>
 <?php } ?>
+
+*/?>
