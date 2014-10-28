@@ -136,6 +136,9 @@ class BPCSRepPurchase extends AppModel {
 		if (isset($data['CSRepAttribute']['zip']) && !empty($data['CSRepAttribute']['zip'])) {
 			$conditions[] = 'CSRepAttribute.zip LIKE \'%%' . $data['CSRepAttribute']['zip'] . '%%\'';
 		}
+		if (isset($data['BusinessPartner']['branch_name']) && !empty($data['BusinessPartner']['branch_name'])) {
+			$conditions[] = 'BusinessPartner.branch_name LIKE \'%%' . $data['BusinessPartner']['branch_name'] . '%%\'';
+		}
 		if (isset($data['BusinessPartner']['name']) && !empty($data['BusinessPartner']['name'])) {
 			$conditions[] = 'BusinessPartner.name LIKE \'%%' . $data['BusinessPartner']['name'] . '%%\'';
 		}
@@ -145,6 +148,9 @@ class BPCSRepPurchase extends AppModel {
 		if (isset($data['BusinessPartner']['dic']) && !empty($data['BusinessPartner']['dic'])) {
 			$conditions[] = 'BusinessPartner.dic LIKE \'%%' . $data['BusinessPartner']['dic'] . '%%\'';
 		}
+		if (isset($data['BusinessPartner']['icz']) && !empty($data['BusinessPartner']['icz'])) {
+			$conditions[] = 'BusinessPartner.icz LIKE \'%%' . $data['BusinessPartner']['icz'] . '%%\'';
+		}		
 		if (isset($data['BusinessPartner']['street']) && !empty($data['BusinessPartner']['street'])) {
 			$conditions[] = 'BusinessPartner.street LIKE \'%%' . $data['BusinessPartner']['street'] . '%%\'';
 		}
