@@ -3126,11 +3126,7 @@ class BusinessPartnersController extends AppController {
 		
 		$business_partner = $this->BusinessPartner->find('first', array(
 			'conditions' => array('BusinessPartner.id' => $id),
-			'contain' => array(
-				'Address' => array(
-					'conditions' => array('Address.address_type_id' => 1)
-				)
-			)
+			'contain' => array()
 		));
 		
 		if (empty($business_partner)) {
@@ -3177,6 +3173,15 @@ class BusinessPartnersController extends AppController {
 			}
 		} else {
 			$this->data = $business_partner;
+			if (!empty($seat_address)) {
+				$this->data['Address'][0] = $seat_address['Address'];
+			}
+			if (!empty($delivery_address)) {
+				$this->data['Address'][1] = $delivery_address['Address'];
+			}
+			if (!empty($invoice_address)) {
+				$this->data['Address'][2] = $invoice_address['Address'];
+			}
 		}
 		
 		$owners = $this->BusinessPartner->findOwnersList($this->Session->read());
