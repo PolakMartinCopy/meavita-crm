@@ -585,6 +585,7 @@ class UsersController extends AppController {
 		
 		$this->Acl->deny('admin', 'controllers/BPCSRepPurchases/user_index');
 		$this->Acl->deny('admin', 'controllers/BPRepPurchases/user_index');
+		$this->Acl->deny('admin', 'controllers/Pages/user_c_s_rep_home');
 		
 		// MANAGER
 		$this->Acl->allow('manager', 'controllers');
@@ -608,6 +609,8 @@ class UsersController extends AppController {
 		
 		$this->Acl->deny('manager', 'controllers/BPCSRepPurchases/user_index');
 		$this->Acl->deny('manager', 'controllers/BPRepPurchases/user_index');
+		
+		$this->Acl->deny('manager', 'controllers/Pages/user_c_s_rep_home');
 		
 		// USER
 		$this->Acl->allow('user', 'controllers');
@@ -666,6 +669,8 @@ class UsersController extends AppController {
 		$this->Acl->deny('user', 'controllers/Pages/user_list_unconfirmed_requests');
 		// user nemuze stahovat kurzy
 		$this->Acl->deny('user', 'controllers/Tools/user_exchange_rate_download');
+		
+		$this->Acl->deny('user', 'controllers/Pages/user_c_s_rep_home');
 		
 		// REP
 		$this->Acl->deny('rep', 'controllers');
