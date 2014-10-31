@@ -141,19 +141,48 @@ class PagesController extends AppController {
 		$c_s_unconfirmed_purchases_amount = $this->CSWalletTransaction->get_unconfirmed_amount($rep_id);
 		$this->set('c_s_unconfirmed_purchases_amount', $c_s_unconfirmed_purchases_amount);
 
-		// statistiky (kolik produktu maji na sklade)
-		// potrebuju seznam nakoupenych produktu (neprevezenych na centralni sklad), ktere ma dany rep na sklade
-/* 		App::import('Model', 'CSRepStoreItem');
-		$this->CSRepStoreItem = &new CSRepStoreItem;
-		$products = $this->CSRepStoreItem->find('all', array(
-			'conditions' => array('CSRepStoreItem.c_s_rep_id' => $rep_id, 'CSRepStoreItem.is_saleable' => false),
+		// statistiky (kolik PRODUKTU (ne varianty) nakoupili za obdobi)
+		App::import('Model', 'BPCSRepPurchase');
+		$this->BPCSRepPurchase = &new BPCSRepPurchase;
+		
+		// obsluha vyhledavaciho formulare
+		if (isset($this->params['named']['reset'])) {
+			$this->Session->delete('Search.CSRepHomePurchaseForm');
+			$this->redirect(array('controller' => 'pages', 'action' => 'c_s_rep_home'));
+		}
+		
+		$conditions = array('BPCSRepPurchase.c_s_rep_id' => $rep_id);
+		// pokud chci vysledky vyhledavani
+		if (isset($this->data['CSRepHomePurchaseForm']['BPCSRepPurchase']['search_form']) && $this->data['CSRepHomePurchaseForm']['BPCSRepPurchase']['search_form'] == 1){
+			$this->Session->write('Search.CSRepHomePurchaseForm', $this->data['CSRepHomePurchaseForm']);
+			$conditions = $this->BPCSRepPurchase->do_form_search($conditions, $this->data['CSRepHomePurchaseForm']);
+		} elseif ($this->Session->check('Search.CSRepHomePurchaseForm')) {
+			$this->data['CSRepHomePurchaseForm'] = $this->Session->read('Search.CSRepHomePurchaseForm');
+			$conditions = $this->BPCSRepPurchase->do_form_search($conditions, $this->data['CSRepHomePurchaseForm']);
+		} else {
+			$this->data['CSRepHomePurchaseForm']['BPCSRepPurchase']['date_from'] = '01.' . date('m.Y');
+			$this->data['CSRepHomePurchaseForm']['BPCSRepPurchase']['date_to'] = date('t.m.Y');
+			$conditions = $this->BPCSRepPurchase->do_form_search($conditions, $this->data['CSRepHomePurchaseForm']);
+		}
+		
+		$quantity = 'SUM(`BPCSRepTransactionItem`.`quantity`)';
+		$total_price = 'SUM(BPCSRepTransactionItem.quantity * BPCSRepTransactionItem.price_vat)';
+
+		$purchases = $this->BPCSRepPurchase->find('all', array(
+			'conditions' => $conditions,
 			'contain' => array(),
 			'joins' => array(
+				array(
+					'table' => 'b_p_c_s_rep_transaction_items',
+					'alias' => 'BPCSRepTransactionItem',
+					'type' => 'INNER',
+					'conditions' => array('BPCSRepPurchase.id = BPCSRepTransactionItem.b_p_c_s_rep_purchase_id')
+				),
 				array(
 					'table' => 'product_variants',
 					'alias' => 'ProductVariant',
 					'type' => 'INNER',
-					'conditions' => array('CSRepStoreItem.product_variant_id = ProductVariant.id')
+					'conditions' => array('BPCSRepTransactionItem.product_variant_id = ProductVariant.id')
 				),
 				array(
 					'table' => 'products',
@@ -161,7 +190,11 @@ class PagesController extends AppController {
 					'type' => 'INNER',
 					'conditions' => array('Product.id = ProductVariant.product_id')
 				)
-			)
-		)); */
+			),
+			'fields' => array('Product.id', 'Product.name', $quantity, $total_price),
+			'group' => array('Product.id')
+		));
+		
+		$this->set(compact('quantity', 'total_price', 'purchases'));
 	}
 }

@@ -83,6 +83,7 @@ if (!isset($b_p_tab)) {
 		<th>&nbsp;</th>
 		<th>&nbsp;</th>
 		<th>&nbsp;</th>
+		<th>&nbsp;</th>
 	</tfoot>
 </table>
 <?php echo $this->Paginator->prev('« Předchozí', null, null, array('class' => 'disabled')); ?>

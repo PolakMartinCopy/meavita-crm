@@ -22,7 +22,7 @@ class UsersController extends AppController {
 			if (isset($this->user['User']['user_type_id']) && $this->user['User']['user_type_id'] == 4) {
 				$this->Auth->loginRedirect = array('controller' => 'reps', 'action' => 'index', 'prefix' => 'user');
 			} elseif (isset($this->user['User']['user_type_id']) && $this->user['User']['user_type_id'] == 5) {
-				$this->Auth->loginRedirect = array('controller' => 'c_s_reps', 'action' => 'index', 'prefix' => 'user');
+				$this->Auth->loginRedirect = array('controller' => 'pages', 'action' => 'c_s_rep_home', 'prefix' => 'user');
 			}
 			$this->redirect($this->Auth->redirect());
 		}
