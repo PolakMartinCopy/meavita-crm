@@ -167,6 +167,6 @@ echo $this->Form->create('BPCSRepPurchase', $form_options);
 	<?php } ?>
 	<?php } ?>
 </table>
-<?php echo $this->Form->input('BPCSRepPurchase.confirm_requirement', array('value' => false))?>
+<?php echo $this->Form->hidden('BPCSRepPurchase.confirm_requirement', array('value' => false))?>
 <?php echo $this->Form->submit('Uložit')?>
 <?php echo $this->Form->end()?>

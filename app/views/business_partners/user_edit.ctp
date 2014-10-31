@@ -200,6 +200,8 @@
 	echo $this->Form->hidden('Address.2.address_type_id', array('value' => 3));
 	echo $form->hidden('BusinessPartner.id');
 	echo $form->hidden('Address.0.id');
+	echo $form->hidden('Address.1.id');
+	echo $form->hidden('Address.2.id');
 	echo $form->submit('Uložit');
 	echo $form->end();
 ?>
