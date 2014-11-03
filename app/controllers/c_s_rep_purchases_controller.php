@@ -44,9 +44,11 @@ class CSRepPurchasesController extends AppController {
 		$this->CSRepPurchase->ProductVariant = new ProductVariant;
 		App::import('Model', 'CSRepAttribute');
 		$this->CSRepPurchase->CSRepAttribute = new CSRepAttribute;
+		App::import('Model', 'BusinessPartner');
+		$this->CSRepPurchase->BusinessPartner = new BusinessPartner; 
 		
 		$this->CSRepPurchase->virtualFields['c_s_rep_name'] = $this->CSRepPurchase->CSRep->name_field;
-		
+		$this->CSRepPurchase->virtualFields['business_partner_name'] = $this->CSRepPurchase->BusinessPartner->name_field;
 		$this->paginate = array(
 			'conditions' => $conditions,
 			'limit' => 30,
@@ -93,6 +95,18 @@ class CSRepPurchasesController extends AppController {
 					'alias' => 'User',
 					'type' => 'left',
 					'conditions' => array('User.id = CSRepPurchase.user_id')
+				),
+				array(
+					'table' => 'b_p_c_s_rep_purchases',
+					'alias' => 'BPCSRepPurchase',
+					'type' => 'LEFT',
+					'conditions' => array('CSRepPurchase.b_p_c_s_rep_purchase_id = BPCSRepPurchase.id')
+				),
+				array(
+					'table' => 'business_partners',
+					'alias' => 'BusinessPartner',
+					'type' => 'LEFT',
+					'conditions' => array('BPCSRepPurchase.business_partner_id = BusinessPartner.id')
 				)
 			),
 			'fields' => array(
@@ -103,6 +117,7 @@ class CSRepPurchasesController extends AppController {
 				'CSRepPurchase.total_price',
 				'CSRepPurchase.quantity',
 				'CSRepPurchase.c_s_rep_name',
+				'CSRepPurchase.business_partner_name',
 				'CSRepPurchase.confirmed',
 		
 				'CSRepTransactionItem.id',
@@ -132,7 +147,7 @@ class CSRepPurchasesController extends AppController {
 				'CSRepAttribute.zip',
 					
 				'User.id',
-				'User.last_name'
+				'User.last_name',
 			),
 			'order' => array(
 				'CSRepPurchase.created' => 'desc'
@@ -146,6 +161,7 @@ class CSRepPurchasesController extends AppController {
 		$this->set('virtual_fields', $this->CSRepPurchase->virtualFields);
 		
 		unset($this->CSRepPurchase->virtualFields['c_s_rep_name']);
+		unset($this->CSRepPurchase->virtualFields['business_partner_name']);
 		
 		$this->set('find', $this->paginate);
 		

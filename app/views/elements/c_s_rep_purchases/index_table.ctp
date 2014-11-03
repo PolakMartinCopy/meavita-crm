@@ -2,6 +2,7 @@
 	<tr>
 		<th><?php echo $this->Paginator->sort('Datum', 'CSRepPurchase.created')?></th>
 		<th><?php echo $this->Paginator->sort('Rep', 'CSRepPurchase.c_s_rep_name')?></th>
+		<th><?php echo $this->Paginator->sort('Obchodní partner', 'CSRepPurchase.business_partner_name')?></th>
 		<th><?php echo $this->Paginator->sort('Název zboží', 'CSRepTransactionItem.product_name')?></th>
 		<th><?php echo $this->Paginator->sort('Mn.', 'CSRepPurchase.abs_quantity')?></th>
 		<th><?php echo $this->Paginator->sort('MJ', 'Unit.shortcut')?></th>
@@ -23,6 +24,7 @@
 	<tr<?php echo $odd?>>
 		<td><?php echo czech_date($c_s_rep_purchase['CSRepPurchase']['created'])?></td>
 		<td><?php echo $this->Html->link($c_s_rep_purchase['CSRepPurchase']['c_s_rep_name'], array('controller' => 'c_s_reps', 'action' => 'view', $c_s_rep_purchase['CSRep']['id'], 'tab' => 4)) ?></td>
+		<td><?php echo $c_s_rep_purchase['CSRepPurchase']['business_partner_name']?></td>
 		<td><?php echo $c_s_rep_purchase['CSRepTransactionItem']['product_name']?></td>
 		<td><?php echo $c_s_rep_purchase['CSRepPurchase']['abs_quantity']?></td>
 		<td><?php echo $c_s_rep_purchase['Unit']['shortcut']?></td>

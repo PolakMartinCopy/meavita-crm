@@ -111,6 +111,8 @@ class BusinessPartner extends AppModel {
 		),
 	);
 	
+	var $name_field = 'CONCAT(BusinessPartner.branch_name, ", ", BusinessPartner.name)';
+	
 	// pole nazvu atributu pro ucely vyhledavani pomoci filtru
 	var $attributes = array(
 		0 => array('name' => 'BusinessPartner.name', 'value' => 'Název'),

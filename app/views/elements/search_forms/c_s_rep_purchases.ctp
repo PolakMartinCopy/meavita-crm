@@ -20,12 +20,12 @@
 			<td><?php echo $this->Form->input('CSRepPurchaseForm.CSRepAttribute.dic', array('label' => false))?></td>
 		</tr>
 		<tr>
-			<th>Ulice</th>
-			<td><?php echo $this->Form->input('CSRepPurchaseForm.CSRepAttribute.street', array('label' => false))?></td>
-			<th>Město</th>
-			<td><?php echo $this->Form->input('CSRepPurchaseForm.CSRepAttribute.city', array('label' => false))?></td>
-			<th>PSČ</th>
-			<td><?php echo $this->Form->input('CSRepPurchaseForm.CSRepAttribute.zip', array('label' => false))?></td>
+			<td colspan="6">Obchodní partner</td>
+		</tr>
+		<tr>
+			<th>Název</th>
+			<td><?php echo $this->Form->input('CSRepPurchaseForm.BusinessPartner.name', array('label' => false))?></td>
+			<td colspan="4">&nbsp;</td>
 		</tr>
 		<tr>
 			<td colspan="6">Zboží</td>

@@ -108,6 +108,9 @@ class CSRepPurchase extends AppModel {
 		if (isset($data['CSRepAttribute']['zip']) && !empty($data['CSRepAttribute']['zip'])) {
 			$conditions[] = 'CSRepAttribute.zip LIKE \'%%' . $data['CSRepAttribute']['zip'] . '%%\'';
 		}
+		if (isset($data['BusinessPartner']['name']) && !empty($data['BusinessPartner']['name'])) {
+			$conditions[] = $this->BPCSRepPurchase->BusinessPartner->name_field . ' LIKE \'%%' . $data['BusinessPartner']['name'] . '%%\'';
+		}
 		if (isset($data['Product']['name']) && !empty($data['Product']['name'])) {
 			$conditions[] = 'Product.name LIKE \'%%' . $data['Product']['name'] . '%%\'';
 		}
