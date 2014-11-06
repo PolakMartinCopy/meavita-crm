@@ -32,7 +32,7 @@ if (isset($this->params['named']['tab'])) {
 <?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/BusinessSessions/user_view')) { ?>
 		<li><a href="#tabs-8">Obch. jednání</a></li>
 <?php } ?>
-<?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/StoreItems/index')) { ?>
+<?php /*if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/StoreItems/index')) { ?>
 		<li><a href="#tabs-9">Sklad</a></li>
 <?php } ?>
 <?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/DeliveryNotes/index')) { ?>
@@ -43,7 +43,7 @@ if (isset($this->params['named']['tab'])) {
 <?php } ?>
 <?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/Transactions/index')) { ?>
 		<li><a href="#tabs-12">Pohyby</a></li>
-<?php }?>
+<?php }*/?>
 <?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/CSStorings/index')) { ?>
 		<li><a href="#tabs-17">Mea Naskladnění</a>
 <?php } ?>
@@ -890,6 +890,7 @@ if (isset($this->params['named']['tab'])) {
 <?php } ?>
 <?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/StoreItems/index')) { ?>
 <?php /* TAB 9 ****************************************************************************************************************/ ?>
+<?php /* ?>
 	<div id="tabs-9">
 		<h2>Sklad</h2>
 
@@ -1008,9 +1009,10 @@ if (isset($this->params['named']['tab'])) {
 		</table>
 		<?php } // end if ?>
 	</div>
-<?php } ?>
+<?php */} ?>
 <?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/DeliveryNotes/index')) { ?>
 <?php /* TAB 10 ****************************************************************************************************************/ ?>
+<?php /* ?>
 	<div id="tabs-10">
 		<h2>Dodací listy</h2>
 		
@@ -1180,9 +1182,10 @@ if (isset($this->params['named']['tab'])) {
 		<?php } ?>
 		
 	</div>
-<?php } ?>
+<?php */ }?>
 <?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/Sales/index')) { ?>
 <?php /* TAB 11 ****************************************************************************************************************/ ?>
+<?php /*?>
 	<div id="tabs-11">
 		<h2>Prodeje</h2>
 		
@@ -1351,9 +1354,10 @@ if (isset($this->params['named']['tab'])) {
 		<?php echo $this->Paginator->next('Další »', null, null, array('class' => 'disabled')); ?>
 		<?php } ?>
 	</div>
-<?php } ?>
+<?php */} ?>
 <?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/Transactions/index')) { ?>
 <?php /* TAB 12 ****************************************************************************************************************/ ?>
+<?php /*?>
 	<div id="tabs-12">
 		<h2>Pohyby</h2>
 	
@@ -1522,7 +1526,7 @@ if (isset($this->params['named']['tab'])) {
 		<?php echo $this->Paginator->next('Další »', null, null, array('class' => 'disabled')); ?>
 		<?php } ?>
 	</div>
-<?php } ?>
+<?php */} ?>
 <?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/CSStorings/index')) { ?>
 <?php /* TAB 17 CS Naskladneni ****************************************************************************************************************/ ?>
 	<div id="tabs-17">

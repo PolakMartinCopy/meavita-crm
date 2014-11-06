@@ -46,7 +46,7 @@
 <?php if (empty($this->data['CSTransactionItem'])) { ?>
 	<tr rel="1" class="product_row">
 		<td><?php
-			echo $this->Form->input('CSTransactionItem.1.product_name', array('label' => false, 'size' => 50, 'class' => 'CSTransactionItemProductName'));
+			echo $this->Form->input('CSTransactionItem.1.product_name', array('label' => false, 'size' => 70, 'class' => 'CSTransactionItemProductName'));
 			echo $this->Form->error('CSTransactionItem.1.product_variant_id');
 			echo $this->Form->hidden('CSTransactionItem.1.product_variant_id')
 		?></td>
@@ -61,7 +61,7 @@
 <?php 	foreach ($this->data['CSTransactionItem'] as $index => $data) { ?>
 	<tr rel="<?php echo $index?>" class="product_row">
 		<td>
-			<?php echo $this->Form->input('CSTransactionItem.' . $index . '.product_name', array('label' => false, 'size' => 50, 'class' => 'CSTransactionItemProductName'))?>
+			<?php echo $this->Form->input('CSTransactionItem.' . $index . '.product_name', array('label' => false, 'size' => 70, 'class' => 'CSTransactionItemProductName'))?>
 			<?php echo $this->Form->error('CSTransactionItem.' . $index . '.product_variant_id')?>
 			<?php echo $this->Form->hidden('CSTransactionItem.' . $index . '.product_variant_id')?>
 		</td>

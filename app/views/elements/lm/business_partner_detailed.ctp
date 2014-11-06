@@ -54,12 +54,12 @@
 <?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/BusinessSessions/user_add')) { ?>
 	<li><?php echo $html->link('Přidat obchodní jednání', array('controller' => 'business_sessions', 'action' => 'add', 'business_partner_id' => $business_partner['BusinessPartner']['id']))?></li>
 <?php } ?>
-<?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/DeliveryNotes/add')) { ?>
+<?php /*if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/DeliveryNotes/add')) { ?>
 	<li><?php echo $this->Html->link('Přidat dodací list', array('controller' => 'delivery_notes', 'action' => 'add', 'business_partner_id' => $business_partner['BusinessPartner']['id']))?></li>
 <?php } ?>
 <?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/Sales/add')) { ?>
 	<li><?php echo $this->Html->link('Přidat prodej', array('controller' => 'sales', 'action' => 'add', 'business_partner_id' => $business_partner['BusinessPartner']['id']))?></li>
-<?php } ?>
+<?php }*/ ?>
 <?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/CSInvoices/index')) { ?>
 	<li><?php echo $this->Html->link('Přidat CS fakturu', array('controller' => 'c_s_invoices', 'action' => 'add', 'business_partner_id' => $business_partner['BusinessPartner']['id']))?></li>
 <?php } ?>

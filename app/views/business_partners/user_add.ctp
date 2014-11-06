@@ -37,7 +37,7 @@
 <?php echo $form->create('BusinessPartner', array('url' => array('controller' => 'business_partners', 'action' => 'add')))?>
 <table class="left_heading">
 	<tr>
-		<th>Název pobočky<sup>*</sup></th>
+		<th>Název pobočky<?php if ($is_rep) { ?><sup>*</sup><?php } ?></th>
 		<td><?php echo $this->Form->input('BusinessPartner.branch_name', array('label' => false))?></td>
 	</tr>
 	<tr>
@@ -53,7 +53,7 @@
 		<td><?php echo $form->input('BusinessPartner.dic', array('label' => false))?></td>
 	</tr>
 	<tr>
-		<th>IČZ<sup>*</sup></th>
+		<th>IČZ<?php if ($is_rep) { ?><sup>*</sup><?php } ?></th>
 		<td><?php echo $form->input('BusinessPartner.icz', array('label' => false))?></td>
 	</tr>
 	<tr>

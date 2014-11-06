@@ -382,7 +382,7 @@ class BusinessPartnersController extends AppController {
 		$documents = $this->BusinessPartner->Document->query($query);
 		
 		// POLOZKY SKLADU OBCHODNIHO PARTNERA
-		$store_items = array();
+/*		$store_items = array();
 		if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/StoreItems/index')) {
 			$store_items_conditions = array('StoreItem.business_partner_id' => $id);
 			
@@ -950,7 +950,7 @@ class BusinessPartnersController extends AppController {
 			$transactions_users = Set::combine($transactions_users, '{n}.User.id', array('{0} {1}', '{n}.User.first_name', '{n}.User.last_name'));
 			$this->set('transactions_users', $transactions_users);
 		}
-		
+*/		
 		// CS NASKLADNENI
 		$c_s_storings_paging = array();
 		$c_s_storings_find = array();
@@ -1222,11 +1222,11 @@ class BusinessPartnersController extends AppController {
 					'CSInvoice.due_date',
 					'CSInvoice.order_number',
 					'CSInvoice.code',
-					'CSInvoice.amount',
+					'CSInvoice.amount_vat',
 			
 					'CSTransactionItem.id',
 					'CSTransactionItem.product_name',
-					'CSTransactionItem.price',
+					'CSTransactionItem.price_vat',
 					'CSTransactionItem.quantity',
 						
 					'ProductVariant.id',
@@ -2895,10 +2895,10 @@ class BusinessPartnersController extends AppController {
 		$this->set('branch_addresses', $branch_addresses);
 		$this->set('business_sessions', $business_sessions);
 		$this->set('documents', $documents);
-		$this->set('store_items', $store_items);
+/*		$this->set('store_items', $store_items);
 		$this->set('delivery_notes', $delivery_notes);
 		$this->set('sales', $sales);
-		$this->set('transactions', $transactions);
+		$this->set('transactions', $transactions); */
 		$this->set('c_s_storings', $storings);
 		$this->set('c_s_invoices', $invoices);
 		$this->set('c_s_credit_notes', $credit_notes);
@@ -2984,6 +2984,9 @@ class BusinessPartnersController extends AppController {
 		$user_id = $this->user['User']['id'];
 		$this->set('user_id', $user_id);
 		
+		$is_rep = $this->Tool->is_rep($this->user['User']['user_type_id']);
+		$this->set('is_rep', $is_rep);
+		
 		if (isset($this->data)) {
 			if (!isset($this->data['BusinessPartner']['ares_search'])) {
 				// pokud nevkladam s OP i KO, musim odnastavit jeji pole
@@ -3000,9 +3003,13 @@ class BusinessPartnersController extends AppController {
 					&& empty($this->data['ContactPerson'][0]['hobby'])
 				) {
 					unset($this->data['ContactPerson']);
-					$this->data['ContactPerson'][0]['is_main'] = true;
 				} else {
+					$this->data['ContactPerson'][0]['is_main'] = true;
 					unset($this->BusinessPartner->ContactPerson->validate['business_partner_id']);
+				}
+				if (!$is_rep) {
+					unset($this->BusinessPartner->validate['icz']);
+					unset($this->BusinessPartner->validate['branch_name']);
 				}
 				if ($this->BusinessPartner->saveAll($this->data, array('validate' => 'first'))) {
 					$this->Session->setFlash('Obchodní partner byl vytvořen');
@@ -3164,7 +3171,14 @@ class BusinessPartnersController extends AppController {
 		$this->set(compact('business_partner', 'seat_address', 'delivery_address', 'invoice_address'));
 
 		
+		$is_rep = $this->Tool->is_rep($this->user['User']['user_type_id']);
+		$this->set('is_rep', $is_rep);
+		
 		if (isset($this->data)) {
+			if (!$is_rep) {
+				unset($this->BusinessPartner->validate['icz']);
+				unset($this->BusinessPartner->validate['branch_name']);
+			}
 			if ($this->BusinessPartner->saveAll($this->data)) {
 				$this->Session->setFlash('Obchodní partner byl upraven');
 				$this->redirect($this->index_link);

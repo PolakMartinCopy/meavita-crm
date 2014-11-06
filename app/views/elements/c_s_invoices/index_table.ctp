@@ -30,7 +30,7 @@
 	<tr<?php echo $odd?>>
 		<td><?php echo $invoice['CSInvoice']['code']?></td>
 		<td><?php echo $this->Html->link($invoice['BusinessPartner']['name'], array('controller' => 'business_partners', 'action' => 'view', $invoice['BusinessPartner']['id'], 'tab' => 14))?></td>
-		<td><?php echo $invoice['CSInvoice']['date_of_issue']?></td>
+		<td><?php echo czech_date($invoice['CSInvoice']['date_of_issue'])?></td>
 		<td><?php echo czech_date($invoice['CSInvoice']['due_date'])?></td>
 		<td><?php echo $invoice['CSInvoice']['order_number']?></td>
 		<td><?php echo $invoice['CSInvoice']['amount_vat']?></td>
@@ -48,7 +48,7 @@
 		<td><?php echo $invoice['User']['last_name']?></td>
 		<td><?php
 			$links = array();
-			$links[] = $this->Html->link('Faktura', array('user' => false, 'action' => 'view_pdf', $invoice['CSInvoice']['id']), array('target' => '_blank'));
+			$links[] = $this->Html->link('Faktura', array('user' => false, 'controller' => 'c_s_invoices', 'action' => 'view_pdf', $invoice['CSInvoice']['id']), array('target' => '_blank'));
 			$links[] = $this->Html->link('DL', array('user' => false, 'controller' => 'c_s_invoices', 'action' => 'view_pdf_delivery_note', $invoice['CSInvoice']['id']), array('target' => '_blank'));
 			echo implode(' | ', $links);
 		?></td>

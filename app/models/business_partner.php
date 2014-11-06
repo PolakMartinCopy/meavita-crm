@@ -224,7 +224,7 @@ class BusinessPartner extends AppModel {
 		App::import('Model', 'Tool');
 		$this->Tool = &new Tool;
 		
-		$owners_conditions = array('Owner.user_type_id' => array(4,5), 'Owner.active' => true);
+		$owners_conditions = array('Owner.active' => true);
 		if (isset($session['User']['user_type_id']) && $this->Tool->is_rep($session['User']['user_type_id'])) {
 			$owners_conditions = array('Owner.id' => $this->Session->read('User.id'));
 		}
