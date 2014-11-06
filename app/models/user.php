@@ -17,7 +17,8 @@ class User extends AppModel {
 		'BusinessSession', // vedouci obchodniho jednani
 		'BusinessSessionsUser' => array('dependent' => true), // prizvany obchodnik na jednani
 		'Transaction',
-		'WalletTransaction'
+		'WalletTransaction',
+		'BlackboardNote'
 	);
 	
 	var $validate = array(
