@@ -669,8 +669,10 @@ class UsersController extends AppController {
 		$this->Acl->deny('user', 'controllers/Pages/user_list_unconfirmed_requests');
 		// user nemuze stahovat kurzy
 		$this->Acl->deny('user', 'controllers/Tools/user_exchange_rate_download');
-		
+		// user nemuze videt home c s repa
 		$this->Acl->deny('user', 'controllers/Pages/user_c_s_rep_home');
+		// user nemuze korigovat sklad
+		$this->Acl->deny('user', 'controllers/CSCorrections');
 		
 		// REP
 		$this->Acl->deny('rep', 'controllers');
@@ -727,6 +729,13 @@ class UsersController extends AppController {
 		
 		// povolim zobrazeni pokladnich dokladu
 		$this->Acl->allow('rep', 'controllers/WalletTransactions/user_cash_receipt');
+		
+		// povolim veci okolo nastenky
+		$this->Acl->allow('rep', 'controllers/BlackboardNotes');
+		$this->Acl->allow('rep', 'controllers/BlackboardNoteDocuments');
+		
+		// user nemuze korigovat sklad
+		$this->Acl->deny('rep', 'controllers/CSCorrections');
 		
 		// CS Rep
 		$this->Acl->deny('c_s_rep', 'controllers');
@@ -791,6 +800,13 @@ class UsersController extends AppController {
 		
 		// povolim zobrazeni pokladnich dokladu
 		$this->Acl->allow('c_s_rep', 'controllers/CSWalletTransactions/user_cash_receipt');
+		
+		// povolim veci okolo nastenky
+		$this->Acl->allow('c_s_rep', 'controllers/BlackboardNotes');
+		$this->Acl->allow('c_s_rep', 'controllers/BlackboardNoteDocuments');
+		
+		// user nemuze korigovat sklad
+		$this->Acl->deny('c_s_rep', 'controllers/CSCorrections');
 		
 		// povolim zobrazeni uvitaci stranky
 		$this->Acl->allow('c_s_rep', 'controllers/Pages/user_c_s_rep_home');

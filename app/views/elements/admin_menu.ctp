@@ -25,7 +25,7 @@
 <?php }
 	if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/Impositions/user_index')) { ?>
 	<li><?php echo $html->link('Úkoly', array('controller' => 'impositions', 'action' => 'index'), array('class' => ($active_tab == 'impositions' ? 'active' : '')))?></li>
-<?php } 
+<?php }
 	if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/Products/user_index')) {?>
 	<li><?php echo $html->link('Číselník zboží', array('controller' => 'products', 'action' => 'index'), array('class' => ($active_tab == 'products' ? 'active' : '')))?></li>
 <?php }
@@ -53,7 +53,7 @@
 	</li>
 <?php
 	}
-*/
+
 	if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/Reps/user_index')) { ?>
 	<li><?php echo $this->Html->link('MC Repové', array('controller' => 'reps', 'action' => 'index'), array('class' => ($active_tab == 'reps' ? 'active' : '')))?>
 		<ul>
@@ -110,7 +110,7 @@
 <?php } ?>
 		</ul>
 	</li>
-<?php }
+<?php }*/
 	if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/CSReps/user_index')) { ?>
 	<li><?php echo $this->Html->link('Meavita Repové', array('controller' => 'c_s_reps', 'action' => 'index'), array('class' => ($active_tab == 'c_s_reps' ? 'active' : '')))?>
 		<ul>
@@ -155,6 +155,9 @@
 <?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/CSCreditNotes/user_index')) { ?>
 			<li><?php echo $this->Html->link('Dobropisy', array('controller' => 'c_s_credit_notes', 'action' => 'index'), array('class' => $active_tab == 'c_s_credit_notes' ? 'active' : ''))?></li>
 <?php } ?>
+<?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/CSCorrections/user_index')) { ?>
+			<li><?php echo $this->Html->link('Korekce', array('controller' => 'c_s_corrections', 'action' => 'index'), array('class' => $active_tab == 'c_s_corrections' ? 'active' : ''))?></li>
+<?php } ?>
 <?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/CSTransactions/user_index')) { ?>
 			<li><?php echo $this->Html->link('Pohyby', array('controller' => 'c_s_transactions', 'action' => 'index'), array('class' => $active_tab == 'c_s_transactions' ? 'active' : ''))?></li>
 <?php } ?>			
@@ -166,6 +169,9 @@
 <?php } */
 	if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/users/user_setting')) { ?>
 		<li><?php echo $html->link('Nastavení', array('controller' => 'anniversary_types', 'action' => 'index'), array('class' => ($active_tab == 'settings' ? 'active' : '')))?></li>
+<?php }
+	if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/BlackboardNotes/user_index')) { ?>
+		<li><?php echo $html->link('Nástěnka', array('controller' => 'blackboard_notes', 'action' => 'index'), array('class' => ($active_tab == 'blackboard_notes' ? 'active' : '')))?></li>
 <?php } ?>
 	<li><?php echo $html->link('Odhlásit', array('controller' => 'users', 'action' => 'logout'))?></li>
 </ul><div class="clearer"></div>

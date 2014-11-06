@@ -80,6 +80,7 @@ if (empty($product_variants)) { ?>
 			<th><?php echo $this->Paginator->sort('<abbr title="Množství, které přivezou repové do skladu">Mn. nakoupeno</abbr>', 'ProductVariant.meavita_future_quantity', array('escape' => false))?></th>
 			<th><?php echo $this->Paginator->sort('LOT', 'ProductVariant.lot')?></th>
 			<th><?php echo $this->Paginator->sort('EXP', 'ProductVariant.exp')?></th>
+			<th>&nbsp;</th>
 		</tr>
 		<?php foreach ($product_variants as $product_variant) { ?>
 		<tr>
@@ -95,6 +96,16 @@ if (empty($product_variants)) { ?>
 			<td><?php echo $product_variant['ProductVariant']['meavita_future_quantity']?></td>
 			<td><?php echo $product_variant['ProductVariant']['lot']?></td>
 			<td><?php echo $product_variant['ProductVariant']['exp']?></td>
+			<td><?php 
+			$links = array();
+			if (
+				// pokud ma uzivatel pravo
+				isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/CSCorrections/user_add')
+			) {
+				$links[] = $this->Html->link('Upravit', array('controller' => 'c_s_corrections', 'action' => 'add', $product_variant['ProductVariant']['id']));
+			}
+			echo implode(' | ', $links);
+			?>
 		</tr>
 		<?php 
 			$meavita_quantity += $product_variant['ProductVariant']['meavita_quantity'];
@@ -114,6 +125,7 @@ if (empty($product_variants)) { ?>
 			<th><?php echo $meavita_quantity?></th>
 			<th><?php echo $meavita_reserved_quantity?></th>
 			<th><?php echo $meavita_future_quantity?></th>
+			<th>&nbsp;</th>
 			<th>&nbsp;</th>
 			<th>&nbsp;</th>
 		</tr>
