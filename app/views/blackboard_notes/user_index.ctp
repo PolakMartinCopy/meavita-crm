@@ -53,7 +53,7 @@
 					// pokud ma uzivatel pravo
 					isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/BlackboardNotes/user_delete')
 				) {
-					$links[] = $this->Html->link('Smazat', array('controller' => 'blackboard_notes', 'action' => 'delete', $note['BlackboardNote']['id']));
+					$links[] = $this->Html->link('Smazat', array('controller' => 'blackboard_notes', 'action' => 'delete', $note['BlackboardNote']['id']), null, 'Opravdu chcete příspěvek smazat?');
 				}
 				echo implode(' | ', $links);
 				$odd = !$odd;
