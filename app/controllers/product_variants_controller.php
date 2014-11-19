@@ -376,6 +376,11 @@ class ProductVariantsController extends AppController {
 		die();
 	}
 	
+	function user_ajax_list() {
+		echo $this->ProductVariant->get_list();
+		die();
+	}
+	
 	function init() {
 		$this->ProductVariant->query('TRUNCATE TABLE product_variants');
 		

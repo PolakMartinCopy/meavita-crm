@@ -717,8 +717,10 @@ class UsersController extends AppController {
 		
 		// povolim mu autocomplete metody pro vyplneni formularu
 		$this->Acl->allow('rep', 'controllers/BusinessPartners/user_autocomplete_list');
+		$this->Acl->allow('rep', 'controllers/BusinessPartners/user_ajax_list');
 		$this->Acl->allow('rep', 'controllers/Reps/user_autocomplete_list');
 		$this->Acl->allow('rep', 'controllers/ProductVariants/user_autocomplete_list');
+		$this->Acl->allow('rep', 'controllers/ProductVariants/user_ajax_list');
 		$this->Acl->allow('rep', 'controllers/Products/user_autocomplete_list');
 		
 		// povolim veci okolo ukolu
@@ -781,8 +783,10 @@ class UsersController extends AppController {
 		
 		// povolim mu autocomplete metody pro vyplneni formularu
 		$this->Acl->allow('c_s_rep', 'controllers/BusinessPartners/user_autocomplete_list');
+		$this->Acl->allow('c_s_rep', 'controllers/BusinessPartners/user_ajax_list');
 		$this->Acl->allow('c_s_rep', 'controllers/CSReps/user_autocomplete_list');
 		$this->Acl->allow('c_s_rep', 'controllers/ProductVariants/user_autocomplete_list');
+		$this->Acl->allow('c_s_rep', 'controllers/ProductVariants/user_ajax_list');
 		$this->Acl->allow('c_s_rep', 'controllers/Products/user_autocomplete_list');
 		
 		// povolim veci okolo ukolu

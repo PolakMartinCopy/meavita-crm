@@ -220,6 +220,34 @@ class BusinessPartner extends AppModel {
 		return json_encode($autocomplete_business_partners);
 	}
 	
+	function get_list($user) {
+		$conditions = array();
+		if ($user['User']['user_type_id'] == 3) {
+			$conditions = array('BusinessPartner.user_id' => $user['User']['id']);
+		}
+		
+		$business_partners = $this->find('all', array(
+				'conditions' => $conditions,
+				'order' => array('name' => 'asc'),
+				'contain' => array(
+					'Address' => array(
+						'conditions' => array('Address.address_type_id' => 1)
+					)
+				),
+				'fields' => array('BusinessPartner.id', 'BusinessPartner.branch_name', 'BusinessPartner.name')
+		));
+		
+		$res = array();
+		foreach ($business_partners as $business_partner) {
+			$bp_name = $business_partner['BusinessPartner']['name'];
+			if (!empty($business_partner['BusinessPartner']['branch_name'])) {
+				$bp_name = $business_partner['BusinessPartner']['branch_name'] . ', ' . $bp_name;
+			}
+			$res[] = array($business_partner['BusinessPartner']['id'], $bp_name, '<a href="#" class="BusinessPartnerSelectLink" data-bp-id="' . $business_partner['BusinessPartner']['id'] . '" data-bp-name="' . $bp_name . '">Vybrat</a>');
+		}
+		return json_encode(array('data' => $res));
+	}
+	
 	function findOwnersList($session) {
 		App::import('Model', 'Tool');
 		$this->Tool = &new Tool;

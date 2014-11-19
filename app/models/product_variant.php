@@ -135,6 +135,39 @@ class ProductVariant extends AppModel {
 		return json_encode($autocomplete_list);
 	}
 	
+	function get_list($section = 'meavita') {
+		$conditions = array('ProductVariant.active' => true);
+		$quantity_field = $section . '_quantity';
+		$price_field = $section . '_price';
+		
+		$product_variants = $this->find('all', array(
+			'conditions' => $conditions,
+			'contain' => array('Product'),
+			'fields' => array(
+				'ProductVariant.id',
+				'Product.name',
+				'ProductVariant.lot',
+				'ProductVariant.exp',
+				'ProductVariant.' . $quantity_field,
+				'ProductVariant.' . $price_field
+			)
+		));
+		
+		$res = array();
+		foreach ($product_variants as $product_variant) {
+			$res[]= array(
+				$product_variant['Product']['name'],
+				$product_variant['ProductVariant']['lot'],
+				$product_variant['ProductVariant']['exp'],
+				$product_variant['ProductVariant'][$quantity_field],
+				format_price($product_variant['ProductVariant'][$price_field]),
+				'<a href="#" class="ProductVariantSelectLink" data-pv-id="' . $product_variant['ProductVariant']['id'] . '" data-pv-name="' . $product_variant['Product']['name'] . '" data-pv-lot="' . $product_variant['ProductVariant']['lot'] . '" data-pv-exp="' . $product_variant['ProductVariant']['exp'] . '" data-pv-quantity="' . $product_variant['ProductVariant'][$quantity_field] . '" data-pv-price="' . $product_variant['ProductVariant'][$price_field] . '">Vybrat</a>'
+			);
+		}
+
+		return json_encode(array('data' => $res));
+	}
+	
 	function get_id($product_id, $lot, $exp) {
 		// pokusim se nalezt variantu produktu podle danych parametru
 		$product_variant = $this->find('first', array(

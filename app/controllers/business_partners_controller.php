@@ -3320,6 +3320,11 @@ class BusinessPartnersController extends AppController {
 		die();
 	}
 	
+	function user_ajax_list() {
+		echo $this->BusinessPartner->get_list($this->user);
+		die();
+	}
+	
 	function user_ajax_find_by_id() {
 		$result = array(
 			'success' => false,

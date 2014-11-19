@@ -163,6 +163,7 @@ class CSInvoicesController extends AppController {
 	
 	function user_add() {
 		if (isset($this->data)) {
+
 			if (isset($this->data['CSTransactionItem'])) {
 				// odnastavim prazdne radky
 				foreach ($this->data['CSTransactionItem'] as $index => &$transaction_item) {
@@ -201,6 +202,8 @@ class CSInvoicesController extends AppController {
 				if (empty($this->data['CSTransactionItem'])) {
 					$this->Session->setFlash('Požadavek k vystavení faktury neobsahuje žádné produkty a nelze jej proto uložit');
 				} else {
+					// preindexuju pole, at mi jdou indexy po sobe od nuly
+					$this->data['CSTransactionItem'] = array_values($this->data['CSTransactionItem']);
 					if ($this->CSInvoice->saveAll($this->data)) {
 						$this->Session->setFlash('Faktura byla vystavena');
 						if (isset($this->params['named']['business_partner_id'])) {

@@ -17,25 +17,25 @@ class CSTransactionItem extends AppModel {
 		'product_name' => array(
 			'notEmpty' => array(
 				'rule' => 'notEmpty',
-				'message' => 'Zadejte název zboží'
+				'message' => 'Zadejte název'
 			)	
 		),
 		'quantity' => array(
 			'notEmpty' => array(
 				'rule' => 'notEmpty',
-				'message' => 'Zadejte množství zboží'
+				'message' => 'Zadejte množství'
 			)
 		),
 		'price' => array(
 			'notEmpty' => array(
 				'rule' => 'notEmpty',
-				'message' => 'Zadejte cenu zboží'
+				'message' => 'Zadejte cenu'
 			)
 		),
 		'price_total' => array(
 			'notEmpty' => array(
 				'rule' => 'notEmpty',
-				'message' => 'Zadejte cenu zboží'
+				'message' => 'Zadejte cenu'
 			)
 		),
 	);

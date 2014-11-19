@@ -3,57 +3,130 @@
 		var DEFAULT_VAT = 15;
 		var vat = DEFAULT_VAT;
 		
+		var productVariantListRow = null;
+		
 		$("#CSInvoiceDueDate").datepicker({
 			changeMonth: false,
 			numberOfMonths: 1
 		});
 
-		$('#CSInvoiceBusinessPartnerName').autocomplete({
-			delay: 500,
-			minLength: 2,
-			source: '/user/business_partners/autocomplete_list',
-			select: function(event, ui) {
-				$('#CSInvoiceBusinessPartnerName').val(ui.item.label);
-				$('#CSInvoiceBusinessPartnerId').val(ui.item.value);
-				// chci v alertu zobrazit poznamku k vybranemu OP
-				$.ajax({
-					'type': 'POST',
-					'dataType': 'json',
-					'url': '/user/business_partners/ajax_find_by_id',
-					'data': {
-						id: ui.item.value
-					},
-					'success': function(data) {
-						if (data.success) {
-							if (data.message.BusinessPartner.note != '') {
-								alert(data.message.BusinessPartner.note);
-							}
-						} else {
-							alert(data.message);
-						}
-					}
-				});
-				return false;
+		$('#BusinessPartnerSelectDiv,#ProductVariantSelectDiv').dialog({
+			autoOpen: false,
+			resizable: false,
+			width: 800,
+			/*height:140, */
+			modal: true,
+			create: function() {
+				$(this).attr('style', 'font-size:12px')
 			}
 		});
-
-		$('table').delegate('.CSTransactionItemProductName', 'focusin', function() {
-			if ($(this).is(':data(autocomplete)')) return;
-			$(this).autocomplete({
-				delay: 500,
-				minLength: 2,
-				source: '/user/product_variants/autocomplete_list/',
-				select: function(event, ui) {
-					var tableRow = $(this).closest('tr');
-					var count = tableRow.attr('rel');
-					$(this).val(ui.item.label);
-					$('#CSTransactionItem' + count + 'ProductVariantId').val(ui.item.value);
-					$('#CSTransactionItem' + count + 'ProductName').val(ui.item.name);
-					vat = ui.item.vat;
-					return false;
-				}
-			});
+		
+		// nastaveni jQuery UI Modal Dialog pro zobrazeni tabulky pro vyber obchodniho partner
+		$( "#BusinessPartnerSelectShow" ).click(function(e) {
+			e.preventDefault();
+			 $( "#BusinessPartnerSelectDiv" ).dialog( "open" );
 		});
+		
+		// nastaveni jQuery UI Modal Dialog pro zobrazeni tabulky pro vyber produktu
+		$(document).delegate('.ProductVariantSelectShow', 'click', function(e) {
+			e.preventDefault();
+			productVariantListRow = $(this).attr('data-row-number');
+			 $("#ProductVariantSelectDiv").dialog("open");
+		});
+
+		// nastaveni tabulky pro vyhledani a oznaceni obchodniho partnera
+	    $('#BusinessPartnerSelectTable').DataTable({
+	    	'ajax': '/user/business_partners/ajax_list',
+	    	'info': false,
+	    	'ordering': false,
+	    	'paging': false,
+	    	'language': {
+	    		'url': '//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Czech.json'
+	    	}
+	    });
+	    
+		// nastaveni tabulky pro vyhledani a oznaceni obchodniho partnera
+	    $('#ProductVariantSelectTable').DataTable({
+	    	'ajax': '/user/product_variants/ajax_list',
+    		'fnInitComplete': function() {
+    	        $('#ProductVariantSelectTable tbody tr').each(function() {
+    	        	// sloupec s nazvem produktu nechci zalamovat
+    	        	$(this).find('td:eq(0)').attr('nowrap', 'nowrap');
+    	        	// sloupec s cenou chci zarovnat doprava
+    	            $(this).find('td:eq(6)').attr('align', 'right');
+    	        });
+    	    },
+	    	'info': false,
+	    	'ordering': false,
+	    	'paging': false,
+	    	'language': {
+	    		'url': '//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Czech.json'
+	    	}
+	    });
+	    
+	    // akce po vyberu obchodniho partnera
+	    $(document).delegate('.BusinessPartnerSelectLink', 'click', function(e) {
+	    	e.preventDefault();
+	    	// mam id obchodniho partnera
+	    	var businessPartnerId = $(this).attr('data-bp-id');
+	    	// nactu nazev obchodniho partnera
+	    	var businessPartnerName = $(this).attr('data-bp-name');
+	    	
+	    	// zavru okno pro vyhledani obchodniho partnera
+	    	$('#BusinessPartnerSelectDiv').dialog('close');
+	    	
+	    	// odstranim elementy obsahujici info o zvolenem OP (pokud nejaky je)
+	    	$('#CSInvoiceBusinessPartnerName').remove();
+	    	$('#CSInvoiceBusinessPartnerId').remove();
+	    	
+	    	// pred odkaz pro vlozeni obchodniho partnera dam input, kam vlozim nazev OP
+	    	$('#BusinessPartnerSelectShow').before('<input type="text" size="50" value="' + businessPartnerName + '" id="CSInvoiceBusinessPartnerName" name="data[CSInvoice][business_partner_name]"/>');
+	    	
+	    	// k tomuto inputu dam hidden field pro zapamatovani id obchodniho partnera
+	    	$('#BusinessPartnerSelectShow').before('<input type="hidden" value="' + businessPartnerId + '" id="CSInvoiceBusinessPartnerId" name="data[CSInvoice][business_partner_id]"/>');
+	    }); 
+	    
+	    // akce po vyberu
+	    $(document).delegate('.ProductVariantSelectLink', 'click', function(e) {
+	    	e.preventDefault();
+	    	// mam id
+	    	var productVariantId = $(this).attr('data-pv-id');
+	    	// nactu nazev
+	    	var productVariantName = $(this).attr('data-pv-name');
+	    	// lot
+	    	var productVariantLot = $(this).attr('data-pv-lot');
+	    	//exp
+	    	var productVariantExp = $(this).attr('data-pv-exp');
+	    	// mnozstvi na sklade
+	    	var productVariantQuantity = $(this).attr('data-pv-quantity');
+	    	// skladova cena
+	    	var productVariantPrice = $(this).attr('data-pv-price');
+	    	
+	    	// zavru okno pro vyhledani obchodniho partnera
+	    	$('#ProductVariantSelectDiv').dialog('close');
+	    	
+	    	// odstranim elementy obsahujici info o zvolenem OP (pokud nejaky je)
+	    	$('#CSTransactionItem' + productVariantListRow + 'ProductName').remove();
+	    	$('#CSTransactionItem' + productVariantListRow + 'ProductVariantId').remove();
+	    	
+	    	// pred odkaz pro vlozeni obchodniho partnera dam input, kam vlozim nazev
+	    	$('#ProductVariant' + productVariantListRow + 'SelectShow').before('<input type="text" size="70" value="' + productVariantName + '" id="CSTransactionItem' + productVariantListRow + 'ProductName" class="CSTransactionItemProductName" name="data[CSTransactionItem][' + productVariantListRow + '][product_name]"/>');
+	    	
+	    	// k tomuto inputu dam hidden field pro zapamatovani id
+	    	$('#ProductVariant' + productVariantListRow + 'SelectShow').before('<input type="hidden" value="' + productVariantId + '" id="CSTransactionItem' + productVariantListRow + 'ProductVariantId" class="CSTransactionItemProductVariantId" name="data[CSTransactionItem][' + productVariantListRow + '][product_variant_id]"/>');
+	    	
+	    	// exp a lot do spravnych poli v radku tabulky
+	    	$('.product_row').each(function() {
+	    		if ($(this).attr('rel') == productVariantListRow) {
+	    			$(this).find('td:eq(1)').html('<input type="hidden" value="' + productVariantLot + '" name="data[CSTransactionItem][' + productVariantListRow + '][product_variant_lot]" id="CSTransactionItem' + productVariantListRow + 'ProductVariantLot"/>' + productVariantLot);
+	    			$(this).find('td:eq(2)').html('<input type="hidden" value="' + productVariantExp + '" name="data[CSTransactionItem][' + productVariantListRow + '][product_variant_exp]" id="CSTransactionItem' + productVariantListRow + 'ProductVariantExp"/>' + productVariantExp);
+	    			$(this).find('td:eq(3)').html('<input type="hidden" value="' + productVariantQuantity + '" name="data[CSTransactionItem][' + productVariantListRow + '][product_variant_quantity]" id="CSTransactionItem' + productVariantListRow + 'ProductVariantQuantity"/>' + productVariantQuantity);
+	    			$(this).find('td:eq(3)').attr('align', 'right');
+	    			$(this).find('td:eq(4)').html('<input type="hidden" value="' + productVariantPrice + '" name="data[CSTransactionItem][' + productVariantListRow + '][product_variant_price]" id="CSTransactionItem' + productVariantListRow + 'ProductVariantPrice"/>' + productVariantPrice);
+	    			$(this).find('td:eq(4)').attr('align', 'right');
+	    		} 
+	    	})
+	    }); 
 		
 		$('table').delegate('.addRowButton', 'click', function(e) {
 			e.preventDefault();
@@ -88,12 +161,16 @@
 		count++;
 		var rowData = '<tr rel="' + count + '" class="product_row">';
 		rowData += '<td>';
-		rowData += '<input name="data[CSTransactionItem][' + count + '][product_name]" type="text" class="CSTransactionItemProductName" size="70" id="CSTransactionItem' + count + 'ProductName" />';
+		rowData += '<a href="#" id="ProductVariant' + count + 'SelectShow" class="ProductVariantSelectShow" data-row-number="' + count + '">vybrat</a>';
+//		rowData += '<input name="data[CSTransactionItem][' + count + '][product_name]" type="text" class="CSTransactionItemProductName" size="70" id="CSTransactionItem' + count + 'ProductName" />';
 		rowData += '<input type="hidden" name="data[CSTransactionItem][' + count + '][product_variant_id]" id="CSTransactionItem' + count + 'ProductVariantId" />';
 		rowData += '</td>';
-		rowData += '<td><input name="data[CSTransactionItem][' + count + '][description]" type="text" size="50" id="CSTransactionItem' + count + 'Description"></td>';
-		rowData += '<td><input name="data[CSTransactionItem][' + count + '][quantity]" type="text" size="2" maxlength="11" id="CSTransactionItem' + count + 'Quantity" /></td>';
-		rowData += '<td><input name="data[CSTransactionItem][' + count + '][price_total]" type="text" size="5" maxlength="11" id="CSTransactionItem' + count + 'Price" class="price"/></td>';
+		rowData += '<td>&nbsp;</td>';
+		rowData += '<td>&nbsp;</td>';
+		rowData += '<td>&nbsp;</td>';
+		rowData += '<td>&nbsp;</td>';
+		rowData += '<td><input name="data[CSTransactionItem][' + count + '][quantity]" type="text" size="5" maxlength="11" id="CSTransactionItem' + count + 'Quantity" /></td>';
+		rowData += '<td><input name="data[CSTransactionItem][' + count + '][price_total]" type="text" size="20" maxlength="11" id="CSTransactionItem' + count + 'Price" class="price"/></td>';
 		rowData += '<td><a href="#" class="addRowButton">+</a>&nbsp;<a href="#" class="removeRowButton">-</a></td>';
 		rowData += '</tr>';
 		return rowData;

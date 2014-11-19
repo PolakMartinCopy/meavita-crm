@@ -10,10 +10,11 @@
 	<link rel="stylesheet" type="text/css" href="/css/black-tie/jquery-ui-1.8.10.custom.css" />
 	<link rel="stylesheet" type="text/css" href="/css/admin.css" />
 	
-	<script type="text/javascript" src="/js/jquery-1.5.1.min.js"></script>
-	<script type="text/javascript" src="/js/jquery-ui-1.8.11.custom.min.js"></script>
+	<script type="text/javascript" src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="//code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 	<script type="text/javascript" src="/js/jquery.ui.datepicker-cs.js"></script>
-	<script type="text/javascript" src="/js/jquery.cookie.js"></script>
+<!-- 	<script type="text/javascript" src="/js/jquery-ui-1.8.11.custom.min.js"></script>
+	<script type="text/javascript" src="/js/jquery.cookie.js"></script> -->
 	
 	<script type="text/javascript">
 		function showloader() {
