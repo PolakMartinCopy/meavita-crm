@@ -48,9 +48,10 @@
 		<td><?php echo $invoice['User']['last_name']?></td>
 		<td><?php
 			$links = array();
-			$links[] = $this->Html->link('Faktura', array('user' => false, 'controller' => 'c_s_invoices', 'action' => 'view_pdf', $invoice['CSInvoice']['id']), array('target' => '_blank'));
+			$links[] = $this->Html->link('Faktura&nbsp;PDF', array('user' => false, 'controller' => 'c_s_invoices', 'action' => 'view_pdf', $invoice['CSInvoice']['id']), array('target' => '_blank', 'escape' => false));
+			$links[] = $this->Html->link('Faktura&nbsp;XLS', array('user' => false, 'controller' => 'c_s_invoices', 'action' => 'view_pdf', $invoice['CSInvoice']['id'], 1), array('target' => '_blank', 'escape' => false));
 			$links[] = $this->Html->link('DL', array('user' => false, 'controller' => 'c_s_invoices', 'action' => 'view_pdf_delivery_note', $invoice['CSInvoice']['id']), array('target' => '_blank'));
-			echo implode(' | ', $links);
+			echo implode('&nbsp;| ', $links);
 		?></td>
 	</tr>
 	<?php } ?>

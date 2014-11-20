@@ -31,47 +31,48 @@ $tcpdf->SetFillColor(255,255,255);
 $linestyle = array('width' => 0.1, 'cap' => 'butt', 'join' => 'miter', 'dash' => '', 'phase' => 0, 'color' => array(0, 0, 0));
 
 $tcpdf->SetFont($textfont, 'B', 14);
-$tcpdf->Cell($lw, 0, 'Dodací list', 0, 0, 'L', false);
+$tcpdf->Cell($lw, 0, 'Delivery note', 0, 0, 'L', false);
 $tcpdf->Cell($rw, 0, $invoice['CSInvoice']['code'], 0, 1, 'C', false);
 
 // mezera
 $tcpdf->Cell($w, 5, "", 0, 1, 'L', false);
 
 $tcpdf->SetFont($textfont,'B', 8);
-$tcpdf->Cell($lw, 0, 'Dodavatel:', 0, 0, 'L', false);
+$tcpdf->Cell($lw, 0, 'Supplier (from):', 0, 0, 'L', false);
 $tcpdf->Cell($rw, 0, '', 0, 1, 'L', false);
 
 $tcpdf->SetFont($textfont,'', 8);
-$tcpdf->Cell($llw, 0, 'Název:', 0, 0, 'L', false);
+$tcpdf->Cell($llw, 0, 'Company name:', 0, 0, 'L', false);
 $tcpdf->Cell($lrw, 0, 'MeaVita s.r.o.', 0, 0, 'L', false);
-$tcpdf->Cell($rlw, 0, 'Datum:', 0, 0, 'L', false);
+$tcpdf->Cell($rlw, 0, 'Date:', 0, 0, 'L', false);
 $date_of_issue = explode(' ', $invoice['CSInvoice']['date_of_issue']);
 $date_of_issue = $date_of_issue[0];
 $date_of_issue_info = db2cal_date($date_of_issue);
 $tcpdf->Cell($rrw, 0, $date_of_issue_info, 0, 1, 'L', false);
 
-$tcpdf->Cell($llw, 0, 'Adresa:', 0, 0, 'L', false);
+$tcpdf->Cell($llw, 0, 'Address:', 0, 0, 'L', false);
 $tcpdf->Cell($lrw, 0, 'Fillova 260/1', 0, 0, 'L', false);
-$tcpdf->Cell($rlw, 0, 'Č. objednávky:', 0, 0, 'L', false);
+$tcpdf->Cell($rlw, 0, 'Order no.:', 0, 0, 'L', false);
 $tcpdf->Cell($rrw, 0, $invoice['CSInvoice']['order_number'], 0, 1, 'L', false);
 
-$tcpdf->Cell($llw, 0, 'Místo, PSČ:', 0, 0, 'L', false);
+$tcpdf->Cell($llw, 0, 'City, postal code:', 0, 0, 'L', false);
 $tcpdf->Cell($lrw, 0, '638 00 Brno-Lesna', 0, 0, 'L', false);
-$tcpdf->Cell($rw, 0, '', 0, 0, 'L', false);
+$tcpdf->Cell($rlw, 0, 'Country of origin:', 0, 0, 'L', false);
+$tcpdf->Cell($rrw, 0, 'EU', 0, 1, 'L', false);
 
 $tcpdf->Cell($lw, 0, '', 0, 0, 'L', false);
-$tcpdf->Cell($rlw, 0, 'Č. faktury', 0, 0, 'L', false);
+$tcpdf->Cell($rlw, 0, 'Invoice no.', 0, 0, 'L', false);
 $tcpdf->Cell($rrw, 0, $invoice['CSInvoice']['code'], 0, 1, 'L', false);
 
-$tcpdf->Cell($llw, 0, 'IČO:', 0, 0, 'L', false);
+$tcpdf->Cell($llw, 0, 'ID (IČ):', 0, 0, 'L', false);
 $tcpdf->Cell($lrw, 0, '29248400', 0, 0, 'L', false);
 $tcpdf->SetFont($textfont,'B', 8);
-$tcpdf->Cell($rw, 0, 'Odběratel:', 0, 1, 'L', false);
+$tcpdf->Cell($rw, 0, 'Customer (to):', 0, 1, 'L', false);
 
 $tcpdf->SetFont($textfont,'', 8);
-$tcpdf->Cell($llw, 0, 'DIČ:', 0, 0, 'L', false);
+$tcpdf->Cell($llw, 0, 'VAT reg. no. (DIČ):', 0, 0, 'L', false);
 $tcpdf->Cell($lrw, 0, 'CZ29248400', 0, 0, 'L', false);
-$tcpdf->Cell($rlw, 0, 'Název:', 0, 0, 'L', false);
+$tcpdf->Cell($rlw, 0, 'Company name:', 0, 0, 'L', false);
 $tcpdf->Cell($rrw, 0, $invoice['BusinessPartner']['name'], 0, 1, 'L', false);
 
 $street_info = '';
@@ -92,18 +93,18 @@ if (!empty($invoice['Address'])) {
 	$city_info = implode(', ', $city_info);
 }
 
-$tcpdf->Cell($llw, 0, 'Telefon:', 0, 0, 'L', false);
-$tcpdf->Cell($lrw, 0, '+420 722 779 110', 0, 0, 'L', false);
-$tcpdf->Cell($rlw, 0, 'Adresa:', 0, 0, 'L', false);
+$tcpdf->Cell($llw, 0, 'Phone:', 0, 0, 'L', false);
+$tcpdf->Cell($lrw, 0, '420 602 773 453', 0, 0, 'L', false);
+$tcpdf->Cell($rlw, 0, 'Address:', 0, 0, 'L', false);
 $tcpdf->Cell($rrw, 0, $street_info, 0, 1, 'L', false);
 
 $tcpdf->Cell($llw, 0, 'E-mail:', 0, 0, 'L', false);
-$tcpdf->Cell($lrw, 0, 'objednavky@meavita.cz', 0, 0, 'L', false);
-$tcpdf->Cell($rlw, 0, 'PSČ, Místo::', 0, 0, 'L', false);
+$tcpdf->Cell($lrw, 0, 'meavita@meavita.cz', 0, 0, 'L', false);
+$tcpdf->Cell($rlw, 0, 'City, postal code:', 0, 0, 'L', false);
 $tcpdf->Cell($rrw, 0, $city_info, 0, 1, 'L', false);
 
 $tcpdf->Cell($lw, 0, '', 0, 0, 'L', false);
-$tcpdf->Cell($rlw, 0, 'DIČ:', 0, 0, 'L', false);
+$tcpdf->Cell($rlw, 0, 'VAT reg. no. (DIČ):', 0, 0, 'L', false);
 $tcpdf->Cell($rrw, 0, $invoice['BusinessPartner']['dic'], 0, 1, 'L', false);
 
 $tcpdf->Cell($w, 5, "", 0, 1, 'L', false);
@@ -111,24 +112,24 @@ $tcpdf->Cell($w, 5, "", 0, 1, 'L', false);
 $payment_tbl = '
 	<table cellspacing="0" cellpadding="1" border="0">
 		<tr>
-			<td style="width:' . $llw . 'mm">Forma úhrady:</td>
-			<td style="width:' . $lrw . 'mm">převodem</td>
-			<td style="width:' . $rlw . 'mm">Poznámka:</td>
+			<td style="width:' . $llw . 'mm">Payment:</td>
+			<td style="width:' . $lrw . 'mm">100% in advance</td>
+			<td style="width:' . $rlw . 'mm">Note:</td>
 			<td style="width:' . $rrw . 'mm" rowspan="4">' . $invoice['CSInvoice']['note'] . '</td>
 		</tr>
 		<tr>
-			<td>Bankovní spojení::</td>
+			<td>Bank name:</td>
 			<td>Fio banka, a.s.</td>
 			<td>&nbsp;</td>
 		</tr>
 		<tr>
-			<td>Číslo účtu:</td>
-			<td>2200096026 / 2010</td>
+			<td>IBAN Account no.:</td>
+			<td>CZ0620100000002000098174</td>
 			<td>&nbsp;</td>
 		</tr>
 		<tr>
-			<td>Variabilní symbol::</td>
-			<td>141110</td>
+			<td>SWIFT Code:</td>
+			<td>FIOBCZPPXXX</td>
 			<td>&nbsp;</td>
 		</tr>
 	</table>
@@ -141,10 +142,10 @@ $tcpdf->Cell(190, 5, "", 0, 1, 'L', false);
 $tbl = '
 <table cellspacing="0" cellpadding="1" border="0">
     <tr>
-        <th style="width:100mm"><strong>Popis zboží</strong></th>
-        <th style="width:20mm" align="center"><strong>Množství</strong></th>
+        <th style="width:100mm"><strong>Description</strong></th>
+        <th style="width:20mm" align="center"><strong>Quantity</strong></th>
         <th style="width:35mm" align="center"><strong>LOT</strong></th>
-		<th style="width:35mm" align="center"><strong>Datum expirace</strong></th>
+		<th style="width:35mm" align="center"><strong>Expiry date</strong></th>
     </tr>
 ';
 
@@ -169,7 +170,7 @@ $tcpdf->Cell(190, 5, "", 0, 1, 'L', false);
 $foot_tbl = '
 <table cellspacing="0" cellpadding="1" border="1">
 	<tr>
-		<td style="width:100mm">Typ balení:</td>
+		<td style="width:100mm">Package type:</td>
 		<td style="width:90mm" rowspan="2"><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/></td>
 	</tr>
 	<tr>
@@ -177,10 +178,10 @@ $foot_tbl = '
 	</tr>
 	<tr>
 		<td><strong>Car licence plate:</strong><br/><br/><br/><br/><br/><br/></td>
-		<td rowspan="2" align="center"><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>podpis zákazníka/razítko<br/>Podpisem zákazník potvrzuje, že zboží bylo doručeno v neporušeném stavu.</td>
+		<td rowspan="2" align="center"><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>Customer signature, stamp<br/>Customer signature certify, that goods have been delivered in good condition.</td>
 	</tr>
 	<tr>
-		<td><strong>Převzal (jméno + příjmení):</strong><br/><br/><br/><br/><br/><br/></td>
+		<td><strong>Take over (name + surname):</strong><br/><br/><br/><br/><br/><br/></td>
 	</tr>
 </table>
 ';

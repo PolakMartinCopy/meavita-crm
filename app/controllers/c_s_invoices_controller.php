@@ -428,7 +428,7 @@ class CSInvoicesController extends AppController {
 		}
 	}
 	
-	function view_pdf($id = null) {
+	function view_pdf($id = null, $xls = false) {
 		if (!$id) {
 			$this->Session->setFlash('Není zadána faktura, kterou chcete zobrazit');
 			$this->redirect(array('action' => 'index', 'user' => true));
@@ -451,7 +451,6 @@ class CSInvoicesController extends AppController {
 						'CSTransactionItem.quantity',
 						'CSTransactionItem.price',
 						'CSTransactionItem.price_vat',
-						'CSTransactionItem.description',
 						'CSTransactionItem.product_name',
 						'CSTransactionItem.product_en_name'
 					),
@@ -489,6 +488,12 @@ class CSInvoicesController extends AppController {
 					'type' => 'left',
 					'conditions' => array('BusinessPartner.id = Address.business_partner_id')
 				),
+				array(
+					'table' => 'contact_people',
+					'alias' => 'ContactPerson',
+					'type' => 'left',
+					'conditions' => array('BusinessPartner.id = ContactPerson.business_partner_id AND ContactPerson.is_main=1')
+				)
 			),
 			'fields' => array(
 				'CSInvoice.id',
@@ -500,8 +505,9 @@ class CSInvoicesController extends AppController {
 				'CSInvoice.note',
 				'CSInvoice.order_number',
 					
-				'BusinessPartner.id', 'BusinessPartner.name', 'BusinessPartner.ico',
-				'Address.id', 'Address.street', 'Address.number', 'Address.o_number', 'Address.city', 'Address.zip'
+				'BusinessPartner.id', 'BusinessPartner.name', 'BusinessPartner.ico', 'BusinessPartner.dic',
+				'Address.id', 'Address.street', 'Address.number', 'Address.o_number', 'Address.city', 'Address.zip',
+				'ContactPerson.id', 'ContactPerson.first_name', 'ContactPerson.last_name', 'ContactPerson.prefix', 'ContactPerson.suffix'
 			)
 		));
 
@@ -510,9 +516,58 @@ class CSInvoicesController extends AppController {
 			$this->redirect(array('action' => 'index', 'user' => true));
 		}
 		
-
 		$this->set('invoice', $invoice);
+		
+		$tax_classes = $this->CSInvoice->CSTransactionItem->ProductVariant->Product->TaxClass->find('all', array(
+			'conditions' => array(
+				'TaxClass.active' => true
+			),
+			'contain' => array(),
+			'order' => array('TaxClass.value' => 'asc'),
+			'joins' => array(
+				array(
+					'table' => 'products',
+					'alias' => 'Product',
+					'type' => 'left',
+					'conditions' => array('TaxClass.id = Product.tax_class_id')
+				),
+				array(
+					'table' => 'product_variants',
+					'alias' => 'ProductVariant',
+					'type' => 'left',
+					'conditions' => array('Product.id = ProductVariant.product_id')
+				),
+				array(
+					'table' => 'c_s_transaction_items',
+					'alias' => 'CSTransactionItem',
+					'type' => 'left',
+					'conditions' => array('CSTransactionItem.product_variant_id = ProductVariant.id AND CSTransactionItem.c_s_invoice_id=' . $invoice['CSInvoice']['id'])
+				)
+			),
+			'group' => array('TaxClass.id'),
+			'fields' => array(
+//				'*'
+				'TaxClass.id',
+				'TaxClass.name',
+				'SUM(CSTransactionItem.price * CSTransactionItem.quantity) as price_sum',
+				'SUM(CSTransactionItem.price_vat * CSTransactionItem.quantity) as price_vat_sum',
+				'(SUM(CSTransactionItem.price_vat * CSTransactionItem.quantity) - SUM(CSTransactionItem.price * CSTransactionItem.quantity)) as vat'
+			)
+		));
+		
+		$this->set('tax_classes', $tax_classes);
+
 		$this->layout = 'pdf'; //this will use the pdf.ctp layout
+		if ($xls) {
+			$this->layout = 'xls';
+		}
+		if ($invoice['Language']['shortcut'] == 'en' && !$xls) {
+			$this->render('view_pdf_en');
+		} elseif ($invoice['Language']['shortcut'] == 'en' && $xls) {
+			$this->render('view_xls_en');
+		} elseif ($invoice['Language']['shortcut'] == 'cs' && $xls) {
+			$this->render('view_xls');
+		}
 	}
 	
 	function view_pdf_delivery_note($id = null) {
@@ -526,7 +581,7 @@ class CSInvoicesController extends AppController {
 			$this->redirect(array('action' => 'index'));
 		}
 		
-			$invoice = $this->CSInvoice->find('first', array(
+		$invoice = $this->CSInvoice->find('first', array(
 			'conditions' => array(
 				'CSInvoice.id' => $id,
 				'Address.address_type_id' => 4
@@ -542,6 +597,13 @@ class CSInvoicesController extends AppController {
 						'CSTransactionItem.product_name',
 						'CSTransactionItem.product_en_name'
 					),
+					'ProductVariant' => array(
+						'fields' => array(
+							'ProductVariant.id',
+							'ProductVariant.lot',
+							'ProductVariant.exp'
+						)
+					)
 				),
 				'User' => array(
 					'fields' => array(
@@ -587,7 +649,7 @@ class CSInvoicesController extends AppController {
 				'CSInvoice.note',
 				'CSInvoice.order_number',
 					
-				'BusinessPartner.id', 'BusinessPartner.name', 'BusinessPartner.ico',
+				'BusinessPartner.id', 'BusinessPartner.name', 'BusinessPartner.ico', 'BusinessPartner.dic',
 				'Address.id', 'Address.street', 'Address.number', 'Address.o_number', 'Address.city', 'Address.zip'
 			)
 		));
@@ -598,6 +660,10 @@ class CSInvoicesController extends AppController {
 		}
 		$this->set('invoice', $invoice);
 		$this->layout = 'pdf'; //this will use the pdf.ctp layout
+		
+		if ($invoice['Language']['shortcut'] == 'en') {
+			$this->render('view_pdf_delivery_note_en');
+		}
 	}
 }
 ?>
