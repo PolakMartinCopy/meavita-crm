@@ -32,12 +32,12 @@ if (!isset($b_p_tab)) {
 		<td><?php echo $this->Html->link($c_s_rep_transaction[0]['CSRepTransaction__c_s_rep_name'], array('controller' => 'c_s_reps', 'action' => 'view', $c_s_rep_transaction['CSRepTransaction']['c_s_rep_id'], 'tab' => $rep_tab)) ?></td>
 		<td><?php echo ($c_s_rep_transaction['CSRepTransaction']['business_partner_id'] ? $this->Html->link($c_s_rep_transaction['CSRepTransaction']['business_partner_name'], array('controller' => 'business_partners', 'action' => 'view', $c_s_rep_transaction['CSRepTransaction']['business_partner_id'], 'tab' => $b_p_tab)) : $c_s_rep_transaction['CSRepTransaction']['business_partner_name']) ?></td>
 		<td><?php echo $c_s_rep_transaction['CSRepTransaction']['item_product_name']?></td>
-		<td><?php echo $c_s_rep_transaction[0]['CSRepTransaction__abs_quantity']?></td>
+		<td class="number"><?php echo $c_s_rep_transaction[0]['CSRepTransaction__abs_quantity']?></td>
 		<td><?php echo $c_s_rep_transaction['CSRepTransaction']['unit_shortcut']?></td>
 		<td><?php echo $c_s_rep_transaction['CSRepTransaction']['product_variant_lot']?></td>
 		<td><?php echo $c_s_rep_transaction['CSRepTransaction']['product_variant_exp']?></td>
-		<td><?php echo $c_s_rep_transaction['CSRepTransaction']['item_price']?></td>
-		<td><?php echo $c_s_rep_transaction[0]['CSRepTransaction__abs_total_price']?></td>
+		<td class="number price"><?php echo format_price($c_s_rep_transaction['CSRepTransaction']['item_price'])?></td>
+		<td class="number price"><?php echo format_price($c_s_rep_transaction[0]['CSRepTransaction__abs_total_price'])?></td>
 		<td><?php echo $c_s_rep_transaction['CSRepTransaction']['product_vzp_code']?></td>
 		<td><?php echo $c_s_rep_transaction['CSRepTransaction']['product_group_code']?></td>
 	</tr>

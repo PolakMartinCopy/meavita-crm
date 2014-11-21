@@ -29,11 +29,11 @@
 		<td><?php echo $this->Html->link($credit_note['BusinessPartner']['name'], array('controller' => 'business_partners', 'action' => 'view', $credit_note['BusinessPartner']['id'], 'tab' => 14))?></td>
 		<td><?php echo $credit_note['CSCreditNote']['date_of_issue']?></td>
 		<td><?php echo czech_date($credit_note['CSCreditNote']['due_date'])?></td>
-		<td><?php echo $credit_note['CSCreditNote']['amount_vat']?></td>
+		<td class="number price"><?php echo format_price($credit_note['CSCreditNote']['amount_vat'])?></td>
 		<td><?php echo $credit_note['CSTransactionItem']['product_name']?></td>
-		<td><?php echo $credit_note['CSTransactionItem']['quantity']?></td>
+		<td class="number"><?php echo $credit_note['CSTransactionItem']['quantity']?></td>
 		<td><?php echo $credit_note['Unit']['shortcut']?></td>
-		<td><?php echo $credit_note['CSTransactionItem']['price_vat']?></td>
+		<td class="number price"><?php echo format_price($credit_note['CSTransactionItem']['price_vat'])?></td>
 		<td><?php echo $credit_note['Currency']['shortcut']?></td>
 		<td><?php echo $credit_note['Language']['shortcut']?></td>
 		<td><?php echo $credit_note['Product']['vzp_code']?></td>

@@ -24,12 +24,12 @@
 		<td><?php echo czech_date($c_s_rep_sale['CSRepSale']['created'])?></td>
 		<td><?php echo $this->Html->link($c_s_rep_sale['CSRepSale']['c_s_rep_name'], array('controller' => 'c_s_reps', 'action' => 'view', $c_s_rep_sale['CSRep']['id'], 'tab' => 4)) ?></td>
 		<td><?php echo $c_s_rep_sale['CSRepTransactionItem']['product_name']?></td>
-		<td><?php echo $c_s_rep_sale['CSRepSale']['abs_quantity']?></td>
+		<td class="number"><?php echo $c_s_rep_sale['CSRepSale']['abs_quantity']?></td>
 		<td><?php echo $c_s_rep_sale['Unit']['shortcut']?></td>
 		<td><?php echo $c_s_rep_sale['ProductVariant']['lot']?></td>
 		<td><?php echo $c_s_rep_sale['ProductVariant']['exp']?></td>
-		<td><?php echo $c_s_rep_sale['CSRepTransactionItem']['price_vat']?></td>
-		<td><?php echo $c_s_rep_sale['CSRepSale']['abs_total_price']?></td>
+		<td class="number price"><?php echo format_price($c_s_rep_sale['CSRepTransactionItem']['price_vat'])?></td>
+		<td class="number price"><?php echo format_price($c_s_rep_sale['CSRepSale']['abs_total_price'])?></td>
 		<td><?php echo $c_s_rep_sale['Product']['vzp_code']?></td>
 		<td><?php echo $c_s_rep_sale['Product']['group_code']?></td>
 		<td><?php echo $c_s_rep_sale['CSRepSale']['confirmed']?></td>

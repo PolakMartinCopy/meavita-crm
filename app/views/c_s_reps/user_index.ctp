@@ -87,7 +87,7 @@ if (empty($c_s_reps)) {
 		<td><?php echo $rep['CSRep']['phone']?></td>
 		<td><?php echo $html->link($rep['CSRep']['email'], 'mailto:' . $rep['CSRep']['email'])?></td>
 		<td><?php echo $rep['CSRep']['login']?></td>
-		<td><?php echo $rep['CSRep']['wallet']?></td>
+		<td class="number price"><?php echo format_price($rep['CSRep']['wallet'])?></td>
 		<td><?php echo czech_date($rep['CSRepAttribute']['last_sale'])?></td>
 		<td class="actions"><?php
 			$links = array();

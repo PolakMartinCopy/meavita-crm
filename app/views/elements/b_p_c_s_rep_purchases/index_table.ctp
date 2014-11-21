@@ -40,12 +40,12 @@ if (!isset($b_p_tab)) {
 			<td><?php echo $this->Html->link($b_p_c_s_rep_purchase['BusinessPartner']['branch_name'], array('controller' => 'business_partners', 'action' => 'view', $b_p_c_s_rep_purchase['BusinessPartner']['id'], 'tab' => $b_p_tab)) ?></td>
 			<td><?php echo $this->Html->link($b_p_c_s_rep_purchase['BusinessPartner']['name'], array('controller' => 'business_partners', 'action' => 'view', $b_p_c_s_rep_purchase['BusinessPartner']['id'], 'tab' => $b_p_tab)) ?></td>
 			<td><?php echo $b_p_c_s_rep_purchase['BPCSRepTransactionItem']['product_name']?></td>
-			<td><?php echo $b_p_c_s_rep_purchase['BPCSRepPurchase']['abs_quantity']?></td>
+			<td class="number"><?php echo $b_p_c_s_rep_purchase['BPCSRepPurchase']['abs_quantity']?></td>
 			<td><?php echo $b_p_c_s_rep_purchase['Unit']['shortcut']?></td>
 			<td><?php echo $b_p_c_s_rep_purchase['ProductVariant']['lot']?></td>
 			<td><?php echo $b_p_c_s_rep_purchase['ProductVariant']['exp']?></td>
-			<td><?php echo format_price($b_p_c_s_rep_purchase['BPCSRepTransactionItem']['price_vat'])?></td>
-			<td><?php echo format_price($b_p_c_s_rep_purchase['BPCSRepPurchase']['abs_total_price'])?></td>
+			<td class="number price"><?php echo format_price($b_p_c_s_rep_purchase['BPCSRepTransactionItem']['price_vat'])?></td>
+			<td class="number price"><?php echo format_price($b_p_c_s_rep_purchase['BPCSRepPurchase']['abs_total_price'])?></td>
 			<td><?php echo $b_p_c_s_rep_purchase['Product']['vzp_code']?></td>
 			<td><?php echo $b_p_c_s_rep_purchase['Product']['group_code']?></td>
 			<td><?php echo yes_no($b_p_c_s_rep_purchase['CSRepPurchase']['confirmed'])?></td>
@@ -74,12 +74,12 @@ if (!isset($b_p_tab)) {
 		<th>&nbsp;</th>
 		<th>&nbsp;</th>
 		<th>&nbsp;</th>
-		<th><?php echo $quantity?></th>
+		<th class="number"><?php echo $quantity?></th>
 		<th>&nbsp;</th>
 		<th>&nbsp;</th>
 		<th>&nbsp;</th>
-		<th nowrap><?php echo format_price($total_price / $quantity)?></th>
-		<th nowrap><?php echo format_price($total_price)?></th>
+		<th class="number price"><?php echo format_price($total_price / $quantity)?></th>
+		<th class="number price"><?php echo format_price($total_price)?></th>
 		<th>&nbsp;</th>
 		<th>&nbsp;</th>
 		<th>&nbsp;</th>

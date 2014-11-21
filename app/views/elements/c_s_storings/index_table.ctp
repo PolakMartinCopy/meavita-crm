@@ -23,10 +23,10 @@
 	<tr<?php echo $odd?>>
 		<td><?php echo czech_date($storing['CSStoring']['date'])?></td>
 		<td><?php echo $storing['CSTransactionItem']['product_name']?></td>
-		<td><?php echo $storing['CSTransactionItem']['quantity']?></td>
+		<td class="number"><?php echo $storing['CSTransactionItem']['quantity']?></td>
 		<td><?php echo $storing['Unit']['shortcut']?></td>
 		<td><?php echo $storing['Currency']['shortcut']?></td>
-		<td><?php echo $storing['CSTransactionItem']['price_vat']?></td>
+		<td class="number price"><?php echo format_price($storing['CSTransactionItem']['price_vat'])?></td>
 		<td><?php echo $storing['Product']['vzp_code']?></td>
 		<td><?php echo $storing['Product']['group_code']?></td>
 		<td><?php echo $storing['Product']['referential_number']?></td>

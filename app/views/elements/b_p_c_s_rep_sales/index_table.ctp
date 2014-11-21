@@ -37,12 +37,12 @@ if (!isset($b_p_tab)) {
 		<td><?php echo $this->Html->link($b_p_c_s_rep_sale['BPCSRepSale']['c_s_rep_name'], array('controller' => 'c_s_reps', 'action' => 'view', $b_p_c_s_rep_sale['CSRep']['id'], 'tab' => $rep_tab)) ?></td>
 		<td><?php echo $this->Html->link($b_p_c_s_rep_sale['BusinessPartner']['name'], array('controller' => 'business_partners', 'action' => 'view', $b_p_c_s_rep_sale['BusinessPartner']['id'], 'tab' => $b_p_tab)) ?></td>
 		<td><?php echo $b_p_c_s_rep_sale['BPCSRepTransactionItem']['product_name']?></td>
-		<td><?php echo $b_p_c_s_rep_sale['BPCSRepSale']['abs_quantity']?></td>
+		<td class="number"><?php echo $b_p_c_s_rep_sale['BPCSRepSale']['abs_quantity']?></td>
 		<td><?php echo $b_p_c_s_rep_sale['Unit']['shortcut']?></td>
 		<td><?php echo $b_p_c_s_rep_sale['ProductVariant']['lot']?></td>
 		<td><?php echo $b_p_c_s_rep_sale['ProductVariant']['exp']?></td>
-		<td><?php echo $b_p_c_s_rep_sale['BPCSRepTransactionItem']['price_vat']?></td>
-		<td><?php echo $b_p_c_s_rep_sale['BPCSRepSale']['abs_total_price']?></td>
+		<td class="number price"><?php echo format_price($b_p_c_s_rep_sale['BPCSRepTransactionItem']['price_vat'])?></td>
+		<td class="number price"><?php echo format_price($b_p_c_s_rep_sale['BPCSRepSale']['abs_total_price'])?></td>
 		<td><?php echo $b_p_c_s_rep_sale['Product']['vzp_code']?></td>
 		<td><?php echo $b_p_c_s_rep_sale['Product']['group_code']?></td>
 		<td><?php echo $b_p_c_s_rep_sale['BPRepSalePayment']['name']?></td>
@@ -98,7 +98,7 @@ if (!isset($b_p_tab)) {
 			) {
 				$links[] = $this->Html->link('Faktura', array('controller' => 'b_p_c_s_rep_sales', 'action' => 'invoice', $b_p_c_s_rep_sale['BPCSRepSale']['id']));
 			}
-			echo implode(' | ', $links);
+			echo implode('&nbsp;| ', $links);
 		?></td>
 	</tr>
 	<?php } ?>

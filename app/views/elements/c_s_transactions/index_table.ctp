@@ -23,12 +23,12 @@
 		<td><?php echo $c_s_transaction['CSTransaction']['type']?></td>
 		<td><?php echo $this->Html->link($c_s_transaction[0]['CSTransaction__rep_name'], array('controller' => 'reps', 'action' => 'view', $c_s_transaction['CSTransaction']['rep_id'])) ?></td>
 		<td><?php echo $c_s_transaction['CSTransaction']['item_product_name']?></td>
-		<td><?php echo $c_s_transaction[0]['CSTransaction__quantity']?></td>
+		<td class="number"><?php echo $c_s_transaction[0]['CSTransaction__quantity']?></td>
 		<td><?php echo $c_s_transaction['CSTransaction']['unit_shortcut']?></td>
 		<td><?php echo $c_s_transaction['CSTransaction']['product_variant_lot']?></td>
 		<td><?php echo $c_s_transaction['CSTransaction']['product_variant_exp']?></td>
-		<td><?php echo $c_s_transaction['CSTransaction']['item_price']?></td>
-		<td><?php echo $c_s_transaction[0]['CSTransaction__abs_total_price']?></td>
+		<td class="number price"><?php echo format_price($c_s_transaction['CSTransaction']['item_price'])?></td>
+		<td class="number price"><?php echo format_price($c_s_transaction[0]['CSTransaction__abs_total_price'])?></td>
 		<td><?php echo $c_s_transaction['CSTransaction']['product_vzp_code']?></td>
 		<td><?php echo $c_s_transaction['CSTransaction']['product_group_code']?></td>
 	</tr>

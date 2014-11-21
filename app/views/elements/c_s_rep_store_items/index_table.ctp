@@ -33,10 +33,10 @@
 			<td><?php echo $c_s_rep_store_item['Product']['referential_number']?></td>
 			<td><?php echo $c_s_rep_store_item['ProductVariant']['exp']?></td>
 			<td><?php echo $c_s_rep_store_item['ProductVariant']['lot']?></td>
-			<td><?php echo $c_s_rep_store_item['CSRepStoreItem']['quantity']?></td>
-			<td><?php echo format_price($c_s_rep_store_item['CSRepStoreItem']['price_vat'])?></td>
+			<td class="number"><?php echo $c_s_rep_store_item['CSRepStoreItem']['quantity']?></td>
+			<td class="number price"><?php echo format_price($c_s_rep_store_item['CSRepStoreItem']['price_vat'])?></td>
 			<td><?php echo $c_s_rep_store_item['Unit']['shortcut']?></td>
-			<td><?php echo format_price($c_s_rep_store_item['CSRepStoreItem']['item_total_price'])?></td>
+			<td class="number price"><?php echo format_price($c_s_rep_store_item['CSRepStoreItem']['item_total_price'])?></td>
 			<td><?php echo yes_no($c_s_rep_store_item['CSRepStoreItem']['is_saleable'])?></td>
 		</tr>
 		<?php 
@@ -54,10 +54,10 @@
 			<th>&nbsp;</th>
 			<th>&nbsp;</th>
 			<th>&nbsp;</th>
-			<th><?php echo $quantity?></th>
-			<th nowrap><?php echo format_price($total_price / $quantity)?></th>
+			<th class="number"><?php echo $quantity?></th>
+			<th class="number price"><?php echo format_price($total_price / $quantity)?></th>
 			<th>&nbsp;</th>
-			<th nowrap><?php echo format_price($total_price)?></th>
+			<th class="number price"><?php echo format_price($total_price)?></th>
 			<th>&nbsp;</th>
 		</tr>
 	</tfoot>

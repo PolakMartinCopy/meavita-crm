@@ -13,8 +13,8 @@
 		<td><?php echo czech_date($c_s_wallet_transaction['CSWalletTransaction']['created'])?></td>
 		<td><?php echo $c_s_wallet_transaction['CSRep']['first_name']?></td>
 		<td><?php echo $this->Html->link($c_s_wallet_transaction['CSRep']['last_name'], array('controller' => 'c_s_reps', 'action' => 'view', $c_s_wallet_transaction['CSRep']['id']))?></td>
-		<td><?php echo $c_s_wallet_transaction['CSWalletTransaction']['amount']?></td>
-		<td><?php echo $c_s_wallet_transaction['CSWalletTransaction']['amount_after']?></td>
+		<td class="number price"><?php echo format_price($c_s_wallet_transaction['CSWalletTransaction']['amount'])?></td>
+		<td class="number price"><?php echo format_price($c_s_wallet_transaction['CSWalletTransaction']['amount_after'])?></td>
 		<td><?php echo $c_s_wallet_transaction['User']['last_name']?></td>
 		<td><?php
 			if ($c_s_wallet_transaction['CSWalletTransaction']['year']) {

@@ -90,10 +90,10 @@ if (empty($product_variants)) { ?>
 			<td><?php echo $product_variant['Product']['name']?></td>
 			<td><?php echo $product_variant['Product']['en_name']?></td>
 			<td><?php echo $product_variant['Unit']['name']?></td>
-			<td><?php echo $product_variant['ProductVariant']['meavita_price']?></td>
-			<td><?php echo $product_variant['ProductVariant']['meavita_quantity']?></td>
-			<td><?php echo $product_variant['ProductVariant']['meavita_reserved_quantity']?></td>
-			<td><?php echo $product_variant['ProductVariant']['meavita_future_quantity']?></td>
+			<td class="number price"><?php echo format_price($product_variant['ProductVariant']['meavita_price'])?></td>
+			<td class="number"><?php echo $product_variant['ProductVariant']['meavita_quantity']?></td>
+			<td class="number"><?php echo $product_variant['ProductVariant']['meavita_reserved_quantity']?></td>
+			<td class="number"><?php echo $product_variant['ProductVariant']['meavita_future_quantity']?></td>
 			<td><?php echo $product_variant['ProductVariant']['lot']?></td>
 			<td><?php echo $product_variant['ProductVariant']['exp']?></td>
 			<td><?php 
@@ -122,9 +122,9 @@ if (empty($product_variants)) { ?>
 			<th>&nbsp;</th>
 			<th>&nbsp;</th>
 			<th>&nbsp;</th>
-			<th><?php echo $meavita_quantity?></th>
-			<th><?php echo $meavita_reserved_quantity?></th>
-			<th><?php echo $meavita_future_quantity?></th>
+			<th class="number"><?php echo $meavita_quantity?></th>
+			<th class="number"><?php echo $meavita_reserved_quantity?></th>
+			<th class="number"><?php echo $meavita_future_quantity?></th>
 			<th>&nbsp;</th>
 			<th>&nbsp;</th>
 			<th>&nbsp;</th>

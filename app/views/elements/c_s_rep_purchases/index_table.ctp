@@ -26,12 +26,12 @@
 		<td><?php echo $this->Html->link($c_s_rep_purchase['CSRepPurchase']['c_s_rep_name'], array('controller' => 'c_s_reps', 'action' => 'view', $c_s_rep_purchase['CSRep']['id'], 'tab' => 4)) ?></td>
 		<td><?php echo $c_s_rep_purchase['CSRepPurchase']['business_partner_name']?></td>
 		<td><?php echo $c_s_rep_purchase['CSRepTransactionItem']['product_name']?></td>
-		<td><?php echo $c_s_rep_purchase['CSRepPurchase']['abs_quantity']?></td>
+		<td class="number"><?php echo $c_s_rep_purchase['CSRepPurchase']['abs_quantity']?></td>
 		<td><?php echo $c_s_rep_purchase['Unit']['shortcut']?></td>
 		<td><?php echo $c_s_rep_purchase['ProductVariant']['lot']?></td>
 		<td><?php echo $c_s_rep_purchase['ProductVariant']['exp']?></td>
-		<td><?php echo $c_s_rep_purchase['CSRepTransactionItem']['price_vat']?></td>
-		<td><?php echo $c_s_rep_purchase['CSRepPurchase']['abs_total_price']?></td>
+		<td class="number price"><?php echo format_price($c_s_rep_purchase['CSRepTransactionItem']['price_vat'])?></td>
+		<td class="number price"><?php echo format_price($c_s_rep_purchase['CSRepPurchase']['abs_total_price'])?></td>
 		<td><?php echo $c_s_rep_purchase['Product']['vzp_code']?></td>
 		<td><?php echo $c_s_rep_purchase['Product']['group_code']?></td>
 		<td><?php echo $c_s_rep_purchase['CSRepPurchase']['confirmed']?></td>

@@ -25,10 +25,10 @@
 			<td><?php echo $correction['Product']['vzp_code']?></td>
 			<td><?php echo $correction['Product']['referential_number']?></td>
 			<td><?php echo $correction['Product']['name']?></td>
-			<td><?php echo $correction['CSCorrection']['before_price']?></td>
-			<td><?php echo $correction['CSCorrection']['before_quantity']?></td>
-			<td><?php echo $correction['CSCorrection']['after_price']?></td>
-			<td><?php echo $correction['CSCorrection']['after_quantity']?></td>
+			<td class="number price"><?php echo format_price($correction['CSCorrection']['before_price'])?></td>
+			<td class="number"><?php echo $correction['CSCorrection']['before_quantity']?></td>
+			<td class="number price"><?php echo format_price($correction['CSCorrection']['after_price'])?></td>
+			<td class="number"><?php echo $correction['CSCorrection']['after_quantity']?></td>
 			<td><?php echo $correction['ProductVariant']['lot']?></td>
 			<td><?php echo $correction['ProductVariant']['exp']?></td>
 		</tr>

@@ -377,10 +377,10 @@ div.calendar.orange table .cal a{background-image:url(../images/orange/backgroun
 	color: red;
 }
 
-td.number {
+td.number, th.number {
 	text-align: right;
 }
 
-td.price {
+td.price, th.price {
 	white-space: nowrap;
 }
