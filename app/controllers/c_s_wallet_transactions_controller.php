@@ -148,7 +148,11 @@ class CSWalletTransactionsController extends AppController {
 		$c_s_wallet_transaction = $this->CSWalletTransaction->find('first', array('conditions' => array('CSWalletTransaction.id' => $id)));
 		$this->set('c_s_wallet_transaction',$c_s_wallet_transaction);
 		
-		$data = file_get_contents('http://' . $_SERVER['HTTP_HOST'] . '/user/c_s_wallet_transactions/html_receipt/' . $id);
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, 'http://' . $_SERVER['HTTP_HOST'] . '/user/c_s_wallet_transactions/html_receipt/' . $id);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		$data = curl_exec($ch);
+		curl_close($ch);
 		$this->set('data', $data);
 		$this->set('id', $id);
 		$this->layout = 'pdf';
