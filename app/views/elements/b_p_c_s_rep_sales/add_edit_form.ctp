@@ -45,7 +45,7 @@
 		<td><?php
 			echo $this->Form->input('BPCSRepTransactionItem.0.price_total', array('label' => false, 'size' => 5, 'class' => 'BPCSRepTransactionItemPrice'));
 		?></td>
-		<td><a href="#" class="addRowButton">+</a>&nbsp;<a href="#" class="removeRowButton">-</a></td>
+		<td><a href="#" class="addRowButton"></a>&nbsp;<a href="#" class="removeRowButton"></a></td>
 	</tr>
 	<?php } else { ?>
 	<?php 	foreach ($this->data['BPCSRepTransactionItem'] as $index => $data) { ?>
@@ -62,7 +62,7 @@
 		<td><?php
 			echo $this->Form->input('BPCSRepTransactionItem.' . $index . '.price_total', array('label' => false, 'size' => 5, 'class' => 'BPCSRepTransactionItemPrice'));
 		?></td>
-		<td><a href="#" class="addRowButton">+</a>&nbsp;<a href="#" class="removeRowButton">-</a></td>
+		<td><a href="#" class="addRowButton"></a>&nbsp;<a href="#" class="removeRowButton"></a></td>
 	</tr>
 	<?php } ?>
 	<?php } ?>

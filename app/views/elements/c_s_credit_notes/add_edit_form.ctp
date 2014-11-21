@@ -50,7 +50,7 @@
 		<td><?php echo $this->Form->input('CSTransactionItem.1.quantity', array('label' => false, 'size' => 2))?></td>
 		<td><?php echo $this->Form->input('CSTransactionItem.1.price_total', array('label' => false, 'size' => 5, 'class' => 'price'))?></td>
 		<td>
-			<a class="addRowButton" href="#">+</a>&nbsp;<a class="removeRowButton" href="#">-</a>
+			<a class="addRowButton" href="#"></a>&nbsp;<a class="removeRowButton" href="#"></a>
 		</td>
 	</tr>
 <?php } else { ?>
@@ -65,7 +65,7 @@
 		<td><?php echo $this->Form->input('CSTransactionItem.' . $index . '.quantity', array('label' => false, 'size' => 2))?></td>
 		<td><?php echo $this->Form->input('CSTransactionItem.' . $index . '.price_total', array('label' => false, 'size' => 5, 'class' => 'price'))?></td>
 		<td>
-			<a class="addRowButton" href="#">+</a>&nbsp;<a class="removeRowButton" href="#">-</a>
+			<a class="addRowButton" href="#"></a>&nbsp;<a class="removeRowButton" href="#"></a>
 		</td>
 	</tr>
 <?php 	}?>

@@ -139,7 +139,7 @@ function productRow(count) {
 	});
 	rowData += '</select>';
 	rowData += '<td><input name="data[CSTransactionItem][' + count + '][exchange_rate] type="text" size="3" maxlength="8" id="CSTransactionItem' + count + 'ExchangeRate' + '"  value="1"/></td>';
-	rowData += '<td><a href="#" class="addRowButton">+</a>&nbsp;<a href="#" class="removeRowButton">-</a></td>';
+	rowData += '<td><a href="#" class="addRowButton"></a>&nbsp;<a href="#" class="removeRowButton"></a></td>';
 	rowData += '</tr>';
 	return rowData;
 }

@@ -45,7 +45,7 @@
 		<td><?php echo $this->Form->input('CSTransactionItem.1.currency_id', array('label' => false, 'options' => $currencies, 'class' => 'CSTransactionItemCurrency'))?></td>
 		<td><?php echo $this->Form->input('CSTransactionItem.1.exchange_rate', array('label' => false, 'size' => 3, 'value' => 1))?></td>
 		<td>
-			<a class="addRowButton" href="#">+</a>&nbsp;<a class="removeRowButton" href="#">-</a>
+			<a class="addRowButton" href="#"></a>&nbsp;<a class="removeRowButton" href="#"></a>
 		</td>
 	</tr>
 <?php } else { ?>
@@ -70,7 +70,7 @@
 		<td><?php echo $this->Form->input('CSTransactionItem.' . $index . '.currency_id', array('label' => false, 'options' => $currencies, 'class' => 'CSTransactionItemCurrency'))?></td>
 		<td><?php echo $this->Form->input('CSTransactionItem.' . $index . '.exchange_rate', array('label' => false, 'size' => 3))?></td>
 		<td>
-			<a class="addRowButton" href="#">+</a>&nbsp;<a class="removeRowButton" href="#">-</a>
+			<a class="addRowButton" href="#"></a>&nbsp;<a class="removeRowButton" href="#"></a>
 		</td>
 	</tr>
 <?php 	}?>
