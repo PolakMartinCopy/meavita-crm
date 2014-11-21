@@ -372,3 +372,15 @@ div.calendar.orange table .cal a{background-image:url(../images/orange/backgroun
 	float: left;
 	margin: 3px;
 }
+
+.error-message {
+	color: red;
+}
+
+td.number {
+	text-align: right;
+}
+
+td.price {
+	white-space: nowrap;
+}

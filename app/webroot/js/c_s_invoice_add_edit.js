@@ -107,8 +107,10 @@
 	    	var productVariantExp = $(this).attr('data-pv-exp');
 	    	// mnozstvi na sklade
 	    	var productVariantQuantity = $(this).attr('data-pv-quantity');
-	    	// skladova cena
+	    	// skladova cena bez dph
 	    	var productVariantPrice = $(this).attr('data-pv-price');
+	    	// skladova cena s DPH
+	    	var productVariantPriceVat = $(this).attr('data-pv-price-vat');
 	    	
 	    	// zavru okno pro vyhledani obchodniho partnera
 	    	$('#ProductVariantSelectDiv').dialog('close');
@@ -137,6 +139,8 @@
 	    			$(this).find('td:eq(3)').attr('align', 'right');
 	    			$(this).find('td:eq(4)').html('<input type="hidden" value="' + productVariantPrice + '" name="data[CSTransactionItem][' + productVariantListRow + '][product_variant_price]" id="CSTransactionItem' + productVariantListRow + 'ProductVariantPrice"/>' + productVariantPrice);
 	    			$(this).find('td:eq(4)').attr('align', 'right');
+	    			$(this).find('td:eq(5)').html('<input type="hidden" value="' + productVariantPriceVat + '" name="data[CSTransactionItem][' + productVariantListRow + '][product_variant_price_vat]" id="CSTransactionItem' + productVariantListRow + 'ProductVariantPriceVat"/>' + productVariantPriceVat);
+	    			$(this).find('td:eq(5)').attr('align', 'right');
 	    		} 
 	    	})
 	    }); 
@@ -173,7 +177,7 @@
 	function productRow(count) {
 		count++;
 		var rowData = '<tr rel="' + count + '" class="product_row">';
-		rowData += '<td width="57%">';
+		rowData += '<td width="52%">';
 		rowData += '<a href="#" id="ProductVariant' + count + 'SelectShow" class="ProductVariantSelectShow" data-row-number="' + count + '">vybrat</a>';
 //		rowData += '<input name="data[CSTransactionItem][' + count + '][product_name]" type="text" class="CSTransactionItemProductName" size="70" id="CSTransactionItem' + count + 'ProductName" />';
 		rowData += '<input type="hidden" name="data[CSTransactionItem][' + count + '][product_variant_id]" id="CSTransactionItem' + count + 'ProductVariantId" />';
@@ -182,8 +186,9 @@
 		rowData += '<td style="width:5%">&nbsp;</td>';
 		rowData += '<td style="width:5%">&nbsp;</td>';
 		rowData += '<td style="width:5%">&nbsp;</td>';
+		rowData += '<td style="width:5%">&nbsp;</td>';
 		rowData += '<td style="width:5%"><input name="data[CSTransactionItem][' + count + '][quantity]" type="text" size="5" maxlength="11" id="CSTransactionItem' + count + 'Quantity" /></td>';
-		rowData += '<td style="width:12%"><input name="data[CSTransactionItem][' + count + '][price_total]" type="text" size="20" maxlength="11" id="CSTransactionItem' + count + 'Price" class="price"/></td>';
+		rowData += '<td style="width:12%"><input name="data[CSTransactionItem][' + count + '][price]" type="text" size="20" maxlength="11" id="CSTransactionItem' + count + 'Price" class="price"/></td>';
 		rowData += '<td style="width:6%"><a href="#" class="addRowButton"></a>&nbsp;<a href="#" class="removeRowButton"></a></td>';
 		rowData += '</tr>';
 		return rowData;

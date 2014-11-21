@@ -138,11 +138,25 @@ class ProductVariant extends AppModel {
 	function get_list($section = 'meavita') {
 		$conditions = array('ProductVariant.active' => true);
 		$quantity_field = $section . '_quantity';
-		$price_field = $section . '_price';
+		$price_vat_field = $section . '_price';
 		
 		$product_variants = $this->find('all', array(
 			'conditions' => $conditions,
-			'contain' => array('Product'),
+			'contain' => array(),
+			'joins' => array(
+				array(
+					'table' => 'products',
+					'alias' => 'Product',
+					'type' => 'left',
+					'conditions' => array('Product.id = ProductVariant.product_id')
+				),
+				array(
+					'table' => 'tax_classes',
+					'alias' => 'TaxClass',
+					'type' => 'left',
+					'conditions' => array('Product.tax_class_id = TaxClass.id')
+				)
+			),
 			'fields' => array(
 				'ProductVariant.id',
 				'Product.name',
@@ -150,19 +164,22 @@ class ProductVariant extends AppModel {
 				'ProductVariant.lot',
 				'ProductVariant.exp',
 				'ProductVariant.' . $quantity_field,
-				'ProductVariant.' . $price_field
-			)
+				'ProductVariant.' . $price_vat_field,
+				'TaxClass.value'
+			),
 		));
-		
+
 		$res = array();
 		foreach ($product_variants as $product_variant) {
+			$price_wout_vat = round($product_variant['ProductVariant'][$price_vat_field] / ((100 + $product_variant['TaxClass']['value']) / 100), 2);
 			$res[]= array(
 				$product_variant['Product']['name'],
 				$product_variant['ProductVariant']['lot'],
 				$product_variant['ProductVariant']['exp'],
 				$product_variant['ProductVariant'][$quantity_field],
-				format_price($product_variant['ProductVariant'][$price_field]),
-				'<a href="#" class="ProductVariantSelectLink" data-pv-id="' . $product_variant['ProductVariant']['id'] . '" data-pv-name="' . $product_variant['Product']['name'] . '" data-pv-en-name="' . $product_variant['Product']['en_name'] . '" data-pv-lot="' . $product_variant['ProductVariant']['lot'] . '" data-pv-exp="' . $product_variant['ProductVariant']['exp'] . '" data-pv-quantity="' . $product_variant['ProductVariant'][$quantity_field] . '" data-pv-price="' . $product_variant['ProductVariant'][$price_field] . '">Vybrat</a>'
+				format_price($price_wout_vat),
+				format_price($product_variant['ProductVariant'][$price_vat_field]),
+				'<a href="#" class="ProductVariantSelectLink" data-pv-id="' . $product_variant['ProductVariant']['id'] . '" data-pv-name="' . $product_variant['Product']['name'] . '" data-pv-en-name="' . $product_variant['Product']['en_name'] . '" data-pv-lot="' . $product_variant['ProductVariant']['lot'] . '" data-pv-exp="' . $product_variant['ProductVariant']['exp'] . '" data-pv-quantity="' . $product_variant['ProductVariant'][$quantity_field] . '" data-pv-price-vat="' . $product_variant['ProductVariant'][$price_vat_field] . '" data-pv-price="' . $price_wout_vat . '">Vybrat</a>'
 			);
 		}
 

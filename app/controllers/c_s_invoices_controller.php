@@ -8,8 +8,6 @@ class CSInvoicesController extends AppController {
 		parent::beforeFilter();
 		$this->set('active_tab', 'meavita_storing');
 		$this->set('left_menu_list', $this->left_menu_list);
-		
-		$this->Auth->allow('view_pdf');
 	}
 	
 	function user_index() {
@@ -100,9 +98,11 @@ class CSInvoicesController extends AppController {
 				'CSInvoice.due_date',
 				'CSInvoice.order_number',
 				'CSInvoice.code',
+				'CSInvoice.amount',
 				'CSInvoice.amount_vat',
 		
 				'CSTransactionItem.id',
+				'CSTransactionItem.price',
 				'CSTransactionItem.price_vat',
 				'CSTransactionItem.quantity',
 				'CSTransactionItem.product_name',
@@ -170,10 +170,9 @@ class CSInvoicesController extends AppController {
 					if (empty($transaction_item['product_variant_id']) && empty($transaction_item['product_name']) && empty($transaction_item['quantity']) && empty($transaction_item['price'])) {
 						unset($this->data['CSTransactionItem'][$index]);
 					} else {
-						$transaction_item['price'] = null;
 						$transaction_item['price_vat'] = null;
 						// dopocitam cenu s dani ke kazde polozce nakupu,
-						if (isset($transaction_item['product_variant_id']) && isset($transaction_item['price_total']) && isset($transaction_item['quantity']) && $transaction_item['quantity'] != 0) {
+						if (isset($transaction_item['product_variant_id']) && isset($transaction_item['price']) && isset($transaction_item['quantity']) && $transaction_item['quantity'] != 0) {
 							$tax_class = $this->CSInvoice->CSTransactionItem->ProductVariant->Product->TaxClass->find('first', array(
 								'conditions' => array('ProductVariant.id' => $transaction_item['product_variant_id']),
 								'contain' => array(),
@@ -194,8 +193,7 @@ class CSInvoicesController extends AppController {
 								'fields' => array('TaxClass.id', 'TaxClass.value')
 							));
 
-							$transaction_item['price_vat'] = round($transaction_item['price_total'] / $transaction_item['quantity'], 2);
-							$transaction_item['price'] = round($transaction_item['price_vat'] / (1 + $tax_class['TaxClass']['value'] / 100), 2);
+							$transaction_item['price_vat'] = round($transaction_item['price'] + ($transaction_item['price'] * $tax_class['TaxClass']['value'] / 100), 2);
 						}
 					}
 				}
@@ -270,7 +268,6 @@ class CSInvoicesController extends AppController {
 						'CSTransactionItem.quantity',
 						'CSTransactionItem.price',
 						'CSTransactionItem.price_vat',
-						'CSTransactionItem.description',
 						'CSTransactionItem.product_variant_id',
 						'CSTransactionItem.product_name'
 					)
@@ -295,23 +292,6 @@ class CSInvoicesController extends AppController {
 			$this->Session->setFlash('Faktura, kterou chcete upravovat, neexistuje');
 			$this->redirect(array('action' => 'index'));
 		}
-		
-		foreach ($transaction['CSTransactionItem'] as &$transaction_item) {
-			if (isset($transaction_item['product_variant_id']) && !empty($transaction_item['product_variant_id'])) {
-				$this->CSInvoice->CSTransactionItem->ProductVariant->virtualFields['name'] = $this->CSInvoice->CSTransactionItem->ProductVariant->field_name;
-				$product_variant = $this->$model->CSTransactionItem->ProductVariant->find('first', array(
-					'conditions' => array('ProductVariant.id' => $transaction_item['product_variant_id']),
-					'contain' => array('Product'),
-					'fields' => array('ProductVariant.id', 'ProductVariant.name')
-				));
-				unset($this->$model->CSTransactionItem->ProductVariant->virtualFields['name']);
-		
-				if (!empty($product)) {
-					$transaction_item['ProductVariant'] = $product['ProductVariant'];
-					$transaction_item['Product'] = $product['Product'];
-				}
-			}
-		}
 
 		$this->set('transaction', $transaction);
 		
@@ -322,35 +302,41 @@ class CSInvoicesController extends AppController {
 						unset($this->data['CSTransactionItem'][$index]);
 					} else {
 						$transaction_item['business_partner_id'] = $this->data[$model]['business_partner_id'];
-						$tax_class['TaxClass']['value'] = 15;
-						// najdu danovou tridu pro produkt
-						if (isset($transaction_item['product_variant_id']) && !empty($transaction_item['product_variant_id'])) {
-							$tax_class = $this->CSInvoice->CSTransactionItem->ProductVariant->find('first', array(
+						$transaction_item['price_vat'] = null;
+						// dopocitam cenu s dani ke kazde polozce nakupu,
+						if (isset($transaction_item['product_variant_id']) && isset($transaction_item['price']) && isset($transaction_item['quantity']) && $transaction_item['quantity'] != 0) {
+							$tax_class = $this->CSInvoice->CSTransactionItem->ProductVariant->Product->TaxClass->find('first', array(
 								'conditions' => array('ProductVariant.id' => $transaction_item['product_variant_id']),
 								'contain' => array(),
 								'joins' => array(
 									array(
 										'table' => 'products',
 										'alias' => 'Product',
-										'type' => 'inner',
-										'conditions' => array('Product.id = ProductVariant.product_id')
+										'type' => 'LEFT',
+										'conditions' => array('Product.tax_class_id = TaxClass.id')
 									),
 									array(
-										'table' => 'tax_classes',
-										'alias' => 'TaxClass',
-										'type' => 'inner',
-										'conditions' => array('TaxClass.id = Product.tax_class_id')
+										'table' => 'product_variants',
+										'alias' => 'ProductVariant',
+										'type' => 'LEFT',
+										'conditions' => array('ProductVariant.product_id = Product.id')
 									)
 								),
 								'fields' => array('TaxClass.id', 'TaxClass.value')
 							));
+
+							$transaction_item['price_vat'] = round($transaction_item['price'] + ($transaction_item['price'] * $tax_class['TaxClass']['value'] / 100), 2);
 						}
-						$transaction_item['price_vat'] = $transaction_item['price'] + ($transaction_item['price'] * $tax_class['TaxClass']['value'] / 100);
 					}
 				}
 				if (empty($this->data['CSTransactionItem'])) {
 					$this->Session->setFlash('Faktura neobsahuje žádné produkty a nelze ji proto uložit');
 				} else {
+					// transakce
+					$data_source = $this->CSInvoice->getDataSource();
+					$data_source->begin($this->CSInvoice);
+					
+					// ulozim fakturu s novymi polozkami (cim se mi odectou kusy ze skladu)
 					if ($this->$model->saveAll($this->data)) {
 						// musim smazat vsechny polozky, ktere jsou v systemu pro dany zaznam, ale nejsou uz aktivni podle editace (byly odstraneny ze seznamu)
 						$to_del_tis = $this->$model->CSTransactionItem->find('all', array(
@@ -361,21 +347,31 @@ class CSInvoicesController extends AppController {
 							'contain' => array(),
 							'fields' => array('CSTransactionItem.id')
 						));
-
+						// smazu stavajici polozky faktury (cim se mi prictou kusy zpet do skladu)
+						$success = true;
 						foreach ($to_del_tis as $to_del_ti) {
-							$this->$model->CSTransactionItem->delete($to_del_ti['CSTransactionItem']['id']);
+							if (!$this->$model->CSTransactionItem->delete($to_del_ti['CSTransactionItem']['id'])) {
+								$success = false;
+								$data_source->rollback($this->CSInvoice);
+							}
 						}
-			
-						$this->Session->setFlash('Faktura byla uložena');
-						if (isset($this->params['named']['business_partner_id'])) {
-							// specifikace tabu, ktery chci zobrazit, pokud upravuju transakci z detailu odberatele
-							// defaultne nastavim tab pro DeliveryNote
-							$tab = 14;
-							$this->redirect(array('controller' => 'business_partners', 'action' => 'view', $this->params['named']['business_partner_id'], 'tab' => $tab));
+						
+						if ($success) {
+							$data_source->commit($this->CSInvoice);			
+							$this->Session->setFlash('Faktura byla uložena');
+							if (isset($this->params['named']['business_partner_id'])) {
+								// specifikace tabu, ktery chci zobrazit, pokud upravuju transakci z detailu odberatele
+								// defaultne nastavim tab pro DeliveryNote
+								$tab = 14;
+								$this->redirect(array('controller' => 'business_partners', 'action' => 'view', $this->params['named']['business_partner_id'], 'tab' => $tab));
+							} else {
+								$this->redirect(array('action' => 'index'));
+							}
 						} else {
-							$this->redirect(array('action' => 'index'));
+							$this->Session->setFlash('Fakturu se nepodařilo upravit. Nepodařilo se odstranit všechny původní položky faktury');
 						}
 					} else {
+						$data_source->rollback($this->CSInvoice);
 						$this->Session->setFlash('Fakturu se nepodařilo uložit, opravte chyby ve formuláři a opakujte prosím akci');
 					}
 				}
@@ -383,6 +379,23 @@ class CSInvoicesController extends AppController {
 				$this->Session->setFlash('Faktura neobsahuje žádné produkty a nelze ji proto uložit');
 			}
 		} else {
+			foreach ($transaction['CSTransactionItem'] as &$transaction_item) {
+				if (isset($transaction_item['product_variant_id']) && !empty($transaction_item['product_variant_id'])) {
+					$product_variant = $this->$model->CSTransactionItem->ProductVariant->find('first', array(
+						'conditions' => array('ProductVariant.id' => $transaction_item['product_variant_id']),
+						'contain' => array(),
+						'fields' => array('ProductVariant.id', 'ProductVariant.lot', 'ProductVariant.exp', 'ProductVariant.meavita_quantity', 'ProductVariant.meavita_price')
+					));
+			
+					if (!empty($product_variant)) {
+						$transaction_item['product_variant_lot'] = $product_variant['ProductVariant']['lot'];
+						$transaction_item['product_variant_exp'] = $product_variant['ProductVariant']['exp'];
+						$transaction_item['product_variant_quantity'] = $product_variant['ProductVariant']['meavita_quantity'];
+						$transaction_item['product_variant_price'] = $product_variant['ProductVariant']['meavita_price'];
+					}
+				}
+				$transaction_item['price_total'] = $transaction_item['price_vat'] * $transaction_item['quantity'];
+			}
 			$transaction[$model]['business_partner_name'] = $transaction['BusinessPartner']['name'];
 			$transaction[$model]['date_of_issue'] = db2cal_date($transaction[$model]['date_of_issue']);
 			$transaction[$model]['due_date'] = db2cal_date($transaction[$model]['due_date']);
@@ -417,11 +430,6 @@ class CSInvoicesController extends AppController {
 			$this->redirect(array('action' => 'index'));
 		}
 		
-		if (!$this->CSInvoice->isDeletable($id)) {
-			$this->Session->setFlash('Fakturu nelze odstranit. Smazat lze pouze faktury mladší 25 dnů, které pocházejí z tohoto roku.');
-			$this->redirect(array('action' => 'index'));
-		}
-
 		if ($this->CSInvoice->delete($id)) {
 			$this->Session->setFlash('Faktura byla odstraněna');
 			$this->redirect(array('action' => 'index'));
