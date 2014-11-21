@@ -146,6 +146,7 @@ class ProductVariant extends AppModel {
 			'fields' => array(
 				'ProductVariant.id',
 				'Product.name',
+				'Product.en_name',
 				'ProductVariant.lot',
 				'ProductVariant.exp',
 				'ProductVariant.' . $quantity_field,
@@ -161,7 +162,7 @@ class ProductVariant extends AppModel {
 				$product_variant['ProductVariant']['exp'],
 				$product_variant['ProductVariant'][$quantity_field],
 				format_price($product_variant['ProductVariant'][$price_field]),
-				'<a href="#" class="ProductVariantSelectLink" data-pv-id="' . $product_variant['ProductVariant']['id'] . '" data-pv-name="' . $product_variant['Product']['name'] . '" data-pv-lot="' . $product_variant['ProductVariant']['lot'] . '" data-pv-exp="' . $product_variant['ProductVariant']['exp'] . '" data-pv-quantity="' . $product_variant['ProductVariant'][$quantity_field] . '" data-pv-price="' . $product_variant['ProductVariant'][$price_field] . '">Vybrat</a>'
+				'<a href="#" class="ProductVariantSelectLink" data-pv-id="' . $product_variant['ProductVariant']['id'] . '" data-pv-name="' . $product_variant['Product']['name'] . '" data-pv-en-name="' . $product_variant['Product']['en_name'] . '" data-pv-lot="' . $product_variant['ProductVariant']['lot'] . '" data-pv-exp="' . $product_variant['ProductVariant']['exp'] . '" data-pv-quantity="' . $product_variant['ProductVariant'][$quantity_field] . '" data-pv-price="' . $product_variant['ProductVariant'][$price_field] . '">Vybrat</a>'
 			);
 		}
 

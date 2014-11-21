@@ -5,9 +5,15 @@
 		
 		var productVariantListRow = null;
 		
+		var languageId = null;
+		
 		$("#CSInvoiceDueDate").datepicker({
 			changeMonth: false,
 			numberOfMonths: 1
+		});
+		
+		$('#CSInvoiceLanguageId').change(function() {
+			languageId = $(this).val();
 		});
 
 		$('#BusinessPartnerSelectDiv,#ProductVariantSelectDiv').dialog({
@@ -47,7 +53,7 @@
 	    
 		// nastaveni tabulky pro vyhledani a oznaceni obchodniho partnera
 	    $('#ProductVariantSelectTable').DataTable({
-	    	'ajax': '/user/product_variants/ajax_list',
+	    	'ajax': '/user/product_variants/ajax_list/',
     		'fnInitComplete': function() {
     	        $('#ProductVariantSelectTable tbody tr').each(function() {
     	        	// sloupec s nazvem produktu nechci zalamovat
@@ -93,6 +99,8 @@
 	    	var productVariantId = $(this).attr('data-pv-id');
 	    	// nactu nazev
 	    	var productVariantName = $(this).attr('data-pv-name');
+	    	// en nazev
+	    	var productVariantEnName = $(this).attr('data-pv-en-name');
 	    	// lot
 	    	var productVariantLot = $(this).attr('data-pv-lot');
 	    	//exp
@@ -109,8 +117,13 @@
 	    	$('#CSTransactionItem' + productVariantListRow + 'ProductName').remove();
 	    	$('#CSTransactionItem' + productVariantListRow + 'ProductVariantId').remove();
 	    	
+	    	productName = productVariantName;
+	    	if (languageId == 2) {
+	    		productName = productVariantEnName;
+	    	}
+	    	
 	    	// pred odkaz pro vlozeni obchodniho partnera dam input, kam vlozim nazev
-	    	$('#ProductVariant' + productVariantListRow + 'SelectShow').before('<input type="text" size="70" value="' + productVariantName + '" id="CSTransactionItem' + productVariantListRow + 'ProductName" class="CSTransactionItemProductName" name="data[CSTransactionItem][' + productVariantListRow + '][product_name]"/>');
+	    	$('#ProductVariant' + productVariantListRow + 'SelectShow').before('<input type="text" size="70" value="' + productName + '" id="CSTransactionItem' + productVariantListRow + 'ProductName" class="CSTransactionItemProductName" name="data[CSTransactionItem][' + productVariantListRow + '][product_name]"/>');
 	    	
 	    	// k tomuto inputu dam hidden field pro zapamatovani id
 	    	$('#ProductVariant' + productVariantListRow + 'SelectShow').before('<input type="hidden" value="' + productVariantId + '" id="CSTransactionItem' + productVariantListRow + 'ProductVariantId" class="CSTransactionItemProductVariantId" name="data[CSTransactionItem][' + productVariantListRow + '][product_variant_id]"/>');
@@ -160,18 +173,18 @@
 	function productRow(count) {
 		count++;
 		var rowData = '<tr rel="' + count + '" class="product_row">';
-		rowData += '<td>';
+		rowData += '<td width="57%">';
 		rowData += '<a href="#" id="ProductVariant' + count + 'SelectShow" class="ProductVariantSelectShow" data-row-number="' + count + '">vybrat</a>';
 //		rowData += '<input name="data[CSTransactionItem][' + count + '][product_name]" type="text" class="CSTransactionItemProductName" size="70" id="CSTransactionItem' + count + 'ProductName" />';
 		rowData += '<input type="hidden" name="data[CSTransactionItem][' + count + '][product_variant_id]" id="CSTransactionItem' + count + 'ProductVariantId" />';
 		rowData += '</td>';
-		rowData += '<td>&nbsp;</td>';
-		rowData += '<td>&nbsp;</td>';
-		rowData += '<td>&nbsp;</td>';
-		rowData += '<td>&nbsp;</td>';
-		rowData += '<td><input name="data[CSTransactionItem][' + count + '][quantity]" type="text" size="5" maxlength="11" id="CSTransactionItem' + count + 'Quantity" /></td>';
-		rowData += '<td><input name="data[CSTransactionItem][' + count + '][price_total]" type="text" size="20" maxlength="11" id="CSTransactionItem' + count + 'Price" class="price"/></td>';
-		rowData += '<td><a href="#" class="addRowButton">+</a>&nbsp;<a href="#" class="removeRowButton">-</a></td>';
+		rowData += '<td style="width:5%">&nbsp;</td>';
+		rowData += '<td style="width:5%">&nbsp;</td>';
+		rowData += '<td style="width:5%">&nbsp;</td>';
+		rowData += '<td style="width:5%">&nbsp;</td>';
+		rowData += '<td style="width:5%"><input name="data[CSTransactionItem][' + count + '][quantity]" type="text" size="5" maxlength="11" id="CSTransactionItem' + count + 'Quantity" /></td>';
+		rowData += '<td style="width:12%"><input name="data[CSTransactionItem][' + count + '][price_total]" type="text" size="20" maxlength="11" id="CSTransactionItem' + count + 'Price" class="price"/></td>';
+		rowData += '<td style="width:6%"><a href="#" class="addRowButton"></a>&nbsp;<a href="#" class="removeRowButton"></a></td>';
 		rowData += '</tr>';
 		return rowData;
 	}
