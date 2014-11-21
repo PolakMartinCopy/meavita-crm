@@ -99,7 +99,7 @@
 	</tr>
 <?php if (empty($this->data['CSTransactionItem'])) { ?>
 	<tr rel="1" class="product_row">
-		<td style="width:60%"><?php
+		<td style="width:57%"><?php
 			echo $this->Html->link('vybrat', '#', array('id' => 'ProductVariant1SelectShow', 'class' => 'ProductVariantSelectShow', 'data-row-number' => 1));
 			echo $this->Form->hidden('CSTransactionItem.1.product_variant_id');
 			echo $this->Form->error('CSTransactionItem.1.product_variant_id');
@@ -110,14 +110,14 @@
 		<td style="width:5%">&nbsp;</td>
 		<td style="width:5%"><?php echo $this->Form->input('CSTransactionItem.1.quantity', array('label' => false, 'size' => 5))?></td>
 		<td style="width:12%" align="right"><?php echo $this->Form->input('CSTransactionItem.1.price_total', array('label' => false, 'size' => 20, 'class' => 'price'))?></td>
-		<td style="width:3%">
-			<a class="addRowButton" href="#">+</a>&nbsp;<a class="removeRowButton" href="#">-</a>
+		<td style="width:6%">
+			<a class="addRowButton" href="#"></a>&nbsp;<a class="removeRowButton" href="#"></a>
 		</td>
 	</tr>
 <?php } else { ?>
 <?php 	foreach ($this->data['CSTransactionItem'] as $index => $data) { ?>
 	<tr rel="<?php echo $index?>" class="product_row">
-		<td width="60%"><?php
+		<td width="57%"><?php
 			echo $this->Form->input('CSTransactionItem.' .$index . '.product_name', array('label' => false, 'size' => 70, 'div' => false));
 			echo $this->Html->link('vybrat', '#', array('id' => 'ProductVariant' . $index . 'SelectShow', 'class' => 'ProductVariantSelectShow', 'data-row-number' => $index));
 			echo $this->Form->hidden('CSTransactionItem.' . $index . '.product_variant_id');
@@ -157,8 +157,8 @@
 		?></td>
 		<td width="5%"><?php echo $this->Form->input('CSTransactionItem.' . $index . '.quantity', array('label' => false, 'size' => 5))?></td>
 		<td width="12%" align="right"><?php echo $this->Form->input('CSTransactionItem.' . $index . '.price_total', array('label' => false, 'size' => 20, 'class' => 'price'))?></td>
-		<td width="3%">
-			<a class="addRowButton" href="#">+</a>&nbsp;<a class="removeRowButton" href="#">-</a>
+		<td width="6%" nowrap="nowrap">
+			<a class="addRowButton" href="#"></a>&nbsp;<a class="removeRowButton" href="#"></a>
 		</td>
 	</tr>
 <?php 	}?>

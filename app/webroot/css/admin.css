@@ -354,3 +354,21 @@ div.calendar.orange table .cal a{background-image:url(../images/orange/backgroun
 .loading {
 	z-index:30;	
 }
+
+.addRowButton {
+	background:url(/img/icons/plus-icon-16x16.png);
+	display: block;
+	width: 16px;
+	height: 16px;
+	float: left;
+	margin: 3px;
+}
+
+.removeRowButton {
+	background:url(/img/icons/minus-icon-16x16.png);
+	display: block;
+	width: 16px;
+	height: 16px;
+	float: left;
+	margin: 3px;
+}
