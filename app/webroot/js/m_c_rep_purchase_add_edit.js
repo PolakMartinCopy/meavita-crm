@@ -62,7 +62,7 @@
 		rowData += '<th>Cena</th>';
 		rowData += '<td><input name="data[MCRepTransactionItem][' + count + '][price]" type="text" size="3" maxlength="10" id="MCRepTransactionItem' + count + 'Price" />';
 		rowData += '</td>';
-		rowData += '<td><a href="#" class="addRowButton">+</a>&nbsp;<a href="#" class="removeRowButton">-</a></td>';
+		rowData += '<td><a href="#" class="addRowButton"></a>&nbsp;<a href="#" class="removeRowButton"></a></td>';
 		rowData += '</tr>';
 		return rowData;
 	}

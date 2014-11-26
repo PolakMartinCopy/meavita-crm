@@ -63,8 +63,8 @@ class CSCreditNote extends AppModel {
 			$amount = 0;
 			$amount_vat = 0;
 			foreach ($this->data['CSTransactionItem'] as $transaction_item) {
-				$amount += $transaction_item['price'] * $transaction_item['quantity'];
-				$amount_vat += $transaction_item['price_vat'] * $transaction_item['quantity'];
+				$amount += str_replace(',', '.', $transaction_item['price']) * $transaction_item['quantity'];
+				$amount_vat += str_replace(',', '.', $transaction_item['price_vat']) * $transaction_item['quantity'];
 			}
 			$this->data['CSCreditNote']['amount'] = $amount;
 			$this->data['CSCreditNote']['amount_vat'] = round($amount_vat, 0);

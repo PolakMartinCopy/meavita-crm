@@ -63,8 +63,8 @@ class CSInvoice extends AppModel {
 			$amount = 0;
 			$amount_vat = 0;
 			foreach ($this->data['CSTransactionItem'] as $transaction_item) {
-				$amount += $transaction_item['price'] * $transaction_item['quantity'];
-				$amount_vat += $transaction_item['price_vat'] * $transaction_item['quantity'];
+				$amount += str_replace(',', '.', $transaction_item['price']) * $transaction_item['quantity'];
+				$amount_vat += str_replace(',', '.', $transaction_item['price_vat']) * $transaction_item['quantity'];
 			}
 			$this->data['CSInvoice']['amount'] = $amount;
 			$this->data['CSInvoice']['amount_vat'] = $amount_vat;

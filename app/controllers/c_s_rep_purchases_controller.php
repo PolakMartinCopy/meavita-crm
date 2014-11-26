@@ -479,7 +479,8 @@ class CSRepPurchasesController extends AppController {
 				'CSRepPurchase.id',
 				'CSRepPurchase.c_s_rep_id',
 				'CSRepPurchase.amount_vat',
-		
+				'CSRepPurchase.b_p_c_s_rep_purchase_id',
+					
 				'CSRepTransactionItem.id',
 				'CSRepTransactionItem.product_variant_id',
 				'CSRepTransactionItem.quantity',
@@ -487,7 +488,7 @@ class CSRepPurchasesController extends AppController {
 				'CSRepTransactionItem.price_vat',
 			)
 		));
-		
+
 		$data_source = $this->CSRepPurchase->getDataSource();
 		$data_source->begin($this->CSRepPurchase);
 
@@ -549,55 +550,66 @@ class CSRepPurchasesController extends AppController {
 		
 		$c_s_rep_id = $c_s_rep_purchase[0]['CSRepPurchase']['c_s_rep_id'];
 		$amount = $c_s_rep_purchase[0]['CSRepPurchase']['amount_vat'];
-		// penize za transakci se odectou z penezenky -- vytvorim transakci v penezenkce
-		$c_s_wallet_transaction = array(
-			'CSWalletTransaction' => array(
-				'amount' => -$amount,
-				'user_id' => $this->user['User']['id']
-			)
-		);
-		
-		$c_s_rep = $this->CSRepPurchase->CSRep->find('first', array(
-			'conditions' => array('CSRep.id' => $c_s_rep_id),
-			'contain' => array(
-				'CSRepAttribute' => array(
-					'fields' => array(
-						'CSRepAttribute.ico',
-						'CSRepAttribute.dic',
-						'CSRepAttribute.street',
-						'CSRepAttribute.street_number',
-						'CSRepAttribute.city',
-						'CSRepAttribute.zip'
-					)
-				)
-			),
-			'fields' => array(
-				'CSRep.id',
-				'CSRep.first_name',
-				'CSRep.last_name',
-			)
-		));
-		
-		if (!empty($c_s_rep)) {
-			$c_s_wallet_transaction['CSWalletTransaction']['c_s_rep_id'] = $c_s_rep_id;
-			$c_s_wallet_transaction['CSWalletTransaction']['rep_first_name'] = $c_s_rep['CSRep']['first_name'];
-			$c_s_wallet_transaction['CSWalletTransaction']['rep_last_name'] = $c_s_rep['CSRep']['last_name'];
-		}
-		
-		if (!empty($c_s_rep['CSRepAttribute'])) {
-			$c_s_wallet_transaction['CSWalletTransaction']['rep_street'] = $c_s_rep['CSRepAttribute']['street'];
-			$c_s_wallet_transaction['CSWalletTransaction']['rep_street_number'] = $c_s_rep['CSRepAttribute']['street_number'];
-			$c_s_wallet_transaction['CSWalletTransaction']['rep_city'] = $c_s_rep['CSRepAttribute']['city'];
-			$c_s_wallet_transaction['CSWalletTransaction']['rep_zip'] = $c_s_rep['CSRepAttribute']['zip'];
-			$c_s_wallet_transaction['CSWalletTransaction']['rep_ico'] = $c_s_rep['CSRepAttribute']['ico'];
-			$c_s_wallet_transaction['CSWalletTransaction']['rep_dic'] = $c_s_rep['CSRepAttribute']['dic'];
-		}
 
-		$this->CSRepPurchase->CSRep->CSWalletTransaction->create();
-		if (!$this->CSRepPurchase->CSRep->CSWalletTransaction->save($c_s_wallet_transaction)) {
-			$data_source->rollback($this->CSRepPurchase);
-			$this->Session->setFlash('nepodarilo se ulozit transakci v penezence');
-			$this->redirect($url);
+		$payment = $this->CSRepPurchase->BPCSRepPurchase->find('first', array(
+			'conditions' => array('BPCSRepPurchase.id' => $c_s_rep_purchase[0]['CSRepPurchase']['b_p_c_s_rep_purchase_id']),
+			'contain' => array('BPCSRepPurchasePayment'),
+			'fields' => array('BPCSRepPurchasePayment.wallet_subtract')
+		));
+
+		// podivam se na typ platby a pokud mam odecitat z penezenky, provedu transakci v penezence
+		if (isset($payment['BPCSRepPurchasePayment']['wallet_subtract']) && $payment['BPCSRepPurchasePayment']['wallet_subtract']) {
+		
+			// penize za transakci se odectou z penezenky -- vytvorim transakci v penezenkce
+			$c_s_wallet_transaction = array(
+				'CSWalletTransaction' => array(
+					'amount' => -$amount,
+					'user_id' => $this->user['User']['id']
+				)
+			);
+		
+			$c_s_rep = $this->CSRepPurchase->CSRep->find('first', array(
+				'conditions' => array('CSRep.id' => $c_s_rep_id),
+				'contain' => array(
+					'CSRepAttribute' => array(
+						'fields' => array(
+							'CSRepAttribute.ico',
+							'CSRepAttribute.dic',
+							'CSRepAttribute.street',
+							'CSRepAttribute.street_number',
+							'CSRepAttribute.city',
+							'CSRepAttribute.zip'
+						)
+					)
+				),
+				'fields' => array(
+					'CSRep.id',
+					'CSRep.first_name',
+					'CSRep.last_name',
+				)
+			));
+			
+			if (!empty($c_s_rep)) {
+				$c_s_wallet_transaction['CSWalletTransaction']['c_s_rep_id'] = $c_s_rep_id;
+				$c_s_wallet_transaction['CSWalletTransaction']['rep_first_name'] = $c_s_rep['CSRep']['first_name'];
+				$c_s_wallet_transaction['CSWalletTransaction']['rep_last_name'] = $c_s_rep['CSRep']['last_name'];
+			}
+			
+			if (!empty($c_s_rep['CSRepAttribute'])) {
+				$c_s_wallet_transaction['CSWalletTransaction']['rep_street'] = $c_s_rep['CSRepAttribute']['street'];
+				$c_s_wallet_transaction['CSWalletTransaction']['rep_street_number'] = $c_s_rep['CSRepAttribute']['street_number'];
+				$c_s_wallet_transaction['CSWalletTransaction']['rep_city'] = $c_s_rep['CSRepAttribute']['city'];
+				$c_s_wallet_transaction['CSWalletTransaction']['rep_zip'] = $c_s_rep['CSRepAttribute']['zip'];
+				$c_s_wallet_transaction['CSWalletTransaction']['rep_ico'] = $c_s_rep['CSRepAttribute']['ico'];
+				$c_s_wallet_transaction['CSWalletTransaction']['rep_dic'] = $c_s_rep['CSRepAttribute']['dic'];
+			}
+	
+			$this->CSRepPurchase->CSRep->CSWalletTransaction->create();
+			if (!$this->CSRepPurchase->CSRep->CSWalletTransaction->save($c_s_wallet_transaction)) {
+				$data_source->rollback($this->CSRepPurchase);
+				$this->Session->setFlash('nepodarilo se ulozit transakci v penezence');
+				$this->redirect($url);
+			}
 		}
 		
 		$c_s_rep_purchase['CSRepPurchase'] = $c_s_rep_purchase[0]['CSRepPurchase'];

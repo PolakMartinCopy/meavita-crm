@@ -160,4 +160,9 @@ class ProductsController extends AppController {
 		echo $this->Product->autocomplete_list($term);
 		die();
 	}
+	
+	function user_ajax_list() {
+		echo $this->Product->get_list();
+		die();
+	}
 }

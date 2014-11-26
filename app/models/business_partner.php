@@ -59,11 +59,11 @@ class BusinessPartner extends AppModel {
 			)
 		),
 		'ico' => array(
-			'notEmpty' => array(
+/*			'notEmpty' => array(
 				'rule' => 'notEmpty',
 				'message' => 'IČ nesmí zůstat prázdné'
 			),
-/*			'isUnique' => array(
+			'isUnique' => array(
 				'rule' => 'isUnique',
 				'message' => 'Obchodní partner se zadaným IČ už v systému existuje'
 			) */
@@ -71,7 +71,7 @@ class BusinessPartner extends AppModel {
 		'dic' => array(
 			'notEmpty' => array(
 				'rule' => 'notEmpty',
-				'message' => 'DIČnesmí zůstat prázdné'
+				'message' => 'DIČ nesmí zůstat prázdné'
 			),
 		),
 		'icz' => array(
@@ -243,7 +243,7 @@ class BusinessPartner extends AppModel {
 			if (!empty($business_partner['BusinessPartner']['branch_name'])) {
 				$bp_name = $business_partner['BusinessPartner']['branch_name'] . ', ' . $bp_name;
 			}
-			$res[] = array($business_partner['BusinessPartner']['id'], $bp_name, '<a href="#" class="BusinessPartnerSelectLink" data-bp-id="' . $business_partner['BusinessPartner']['id'] . '" data-bp-name="' . $bp_name . '">Vybrat</a>');
+			$res[] = array($business_partner['BusinessPartner']['id'], '<a href="#" class="BusinessPartnerSelectLink" data-bp-id="' . $business_partner['BusinessPartner']['id'] . '" data-bp-name="' . $bp_name . '">' . $bp_name . '</a>');
 		}
 		return json_encode(array('data' => $res));
 	}

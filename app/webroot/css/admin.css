@@ -384,3 +384,7 @@ td.number, th.number {
 td.price, th.price {
 	white-space: nowrap;
 }
+
+.ui-widget {
+	font-size: 10px;
+}

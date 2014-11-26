@@ -243,11 +243,14 @@ class CSStoringsController extends AppController {
 						'CSTransactionItem.id',
 						'CSTransactionItem.quantity',
 						'CSTransactionItem.price_total',
-						'CSTransactionItem.description',
 						'CSTransactionItem.product_variant_id',
 						'CSTransactionItem.product_name',
 						'CSTransactionItem.exchange_rate',
-						'CSTransactionItem.currency_id'
+						'CSTransactionItem.currency_id',
+						'CSTransactionItem.business_partner_id'
+					),
+					'BusinessPartner' => array(
+						'fields' => array('BusinessPartner.name')
 					)
 				)
 			),
@@ -285,7 +288,7 @@ class CSStoringsController extends AppController {
 		
 		if (isset($this->data)) {
 			$data_source = $this->CSStoring->getDataSource();
-			$data_source->commit($this->CSStoring);
+			$data_source->begin($this->CSStoring);
 			if (isset($this->data['CSTransactionItem'])) {
 				// odnastavim prazdne radky
 				foreach ($this->data['CSTransactionItem'] as $index => &$transaction_item) {
@@ -364,6 +367,7 @@ class CSStoringsController extends AppController {
 				$transaction_item['product_variant_lot'] = $transaction_item['ProductVariant']['lot'];
 				$transaction_item['product_variant_exp'] = $transaction_item['ProductVariant']['exp'];
 				$transaction_item['product_id'] = $transaction_item['Product']['id'];
+				$transaction_item['business_partner_name'] = (isset($transaction_item['BusinessPartner']['name']) ? $transaction_item['BusinessPartner']['name'] : null);
 			}
 		}
 		

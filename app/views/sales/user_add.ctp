@@ -67,7 +67,7 @@
 		rowData += '<input type="hidden" name="data[DeliveryNote][ProductVariantsTransaction][' + count + '][product_variant_id]" id="DeliveryNoteProductVariantsTransaction' + count + 'ProductVariantId" />';
 		rowData += '<input name="data[DeliveryNote][ProductVariantsTransaction][' + count + '][quantity]" type="text" size="3" id="DeliveryNoteProductVariantsTransaction' + count +'Quantity" />';
 		rowData += '</td>';
-		rowData += '<td><a href="#" class="addRowButton">+</a>&nbsp;<a href="#" class="removeRowButton">-</a></td>';
+		rowData += '<td><a href="#" class="addRowButton"></a>&nbsp;<a href="#" class="removeRowButton"></a></td>';
 		rowData += '</tr>';
 		return rowData;
 	}
@@ -121,7 +121,7 @@ echo $this->Form->create('Sale', $form_options)?>
 			<?php echo $this->Form->hidden('DeliveryNote.ProductVariantsTransaction.0.product_variant_id')?>
 			<?php echo $this->Form->input('DeliveryNote.ProductVariantsTransaction.0.quantity', array('label' => false, 'size' => 3))?>
 		</td>
-		<td><a href="#" class="addRowButton">+</a>&nbsp;<a href="#" class="removeRowButton">-</a></td>
+		<td><a href="#" class="addRowButton"></a>&nbsp;<a href="#" class="removeRowButton"></a></td>
 	</tr>
 	<?php } else { ?>
 	<?php 	foreach ($this->data['ProductVariantsTransaction'] as $index => $data) { ?>
@@ -140,7 +140,7 @@ echo $this->Form->create('Sale', $form_options)?>
 			<?php echo $this->Form->hidden('DeliveryNote.ProductVariantsTransaction.' . $index . '.product_variant_id')?>
 			<?php echo $this->Form->input('DeliveryNote.ProductVariantsTransaction.' . $index . '.quantity', array('label' => false, 'size' => 3))?>
 		</td>
-		<td><a href="#" class="addRowButton">+</a>&nbsp;<a href="#" class="removeRowButton">-</a></td>
+		<td><a href="#" class="addRowButton"></a>&nbsp;<a href="#" class="removeRowButton"></a></td>
 	</tr>
 	<?php } ?>
 	<?php } ?>

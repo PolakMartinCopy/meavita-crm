@@ -17,7 +17,7 @@ class AppController extends Controller {
 		
 		$this->Auth->authorize = 'actions';
 		$this->Auth->loginAction = '/user/users/login';
-		$this->Auth->loginRedirect = array('controller' => 'impositions', 'action' => 'index', 'prefix' => 'user', 'user' => true);
+		$this->Auth->loginRedirect = array('controller' => 'pages', 'action' => 'admin_home', 'prefix' => 'user', 'user' => true);
 		$this->Auth->logoutRedirect = array('controller' => 'users', 'action' => 'login');
 		
 		$this->Auth->actionPath = 'controllers/';

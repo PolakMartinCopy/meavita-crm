@@ -30,16 +30,18 @@
 <h1>Přidat obchodního partnera</h1>
 <ul>
 <?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/BusinessPartners/user_ares_search')) { ?>
-	<li><?php echo $html->link('Dohledat v systému ARES', array('controller' => 'business_partners', 'action' => 'ares_search'))?></li>
+	<li><?php echo $html->link('Dohledat v systému ARES', array('controller' => 'business_partners', 'action' => 'ares_search') + $this->passedArgs)?></li>
 <?php } ?>
 </ul>
 
-<?php echo $form->create('BusinessPartner', array('url' => array('controller' => 'business_partners', 'action' => 'add')))?>
+<?php echo $form->create('BusinessPartner', array('url' => array('controller' => 'business_partners', 'action' => 'add') + $this->passedArgs))?>
 <table class="left_heading">
+<?php if ($type_id == 2) { ?>
 	<tr>
-		<th>Název pobočky<?php if ($is_rep) { ?><sup>*</sup><?php } ?></th>
+		<th>Název pobočky<sup>*</sup></th>
 		<td><?php echo $this->Form->input('BusinessPartner.branch_name', array('label' => false))?></td>
 	</tr>
+<?php } ?>
 	<tr>
 		<th>Název firmy<sup>*</sup></th>
 		<td><?php echo $form->input('BusinessPartner.name', array('label' => false))?></td>
@@ -52,10 +54,12 @@
 		<th>DIČ<sup>*</sup></th>
 		<td><?php echo $form->input('BusinessPartner.dic', array('label' => false))?></td>
 	</tr>
+<?php if ($type_id == 2) { ?>	
 	<tr>
-		<th>IČZ<?php if ($is_rep) { ?><sup>*</sup><?php } ?></th>
+		<th>IČZ<sup>*</sup></th>
 		<td><?php echo $form->input('BusinessPartner.icz', array('label' => false))?></td>
 	</tr>
+<?php } ?>
 	<tr>
 		<th>Email</th>
 		<td><?php echo $form->input('BusinessPartner.email', array('label' => false))?></td>

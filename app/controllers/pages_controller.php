@@ -197,4 +197,74 @@ class PagesController extends AppController {
 		
 		$this->set(compact('quantity', 'total_price', 'purchases'));
 	}
+	
+	function user_admin_home() {
+		$this->set('active_tab', 'home');
+		
+		// statistiky (kolik PRODUKTU (ne varianty) nakoupili za obdobi)
+		App::import('Model', 'BPCSRepPurchase');
+		$this->BPCSRepPurchase = &new BPCSRepPurchase;
+		
+		// obsluha vyhledavaciho formulare
+		if (isset($this->params['named']['reset'])) {
+			$this->Session->delete('Search.AdminHomePurchaseForm');
+			$this->redirect(array('controller' => 'pages', 'action' => 'admin_home'));
+		}
+		
+		$conditions = array();
+		// pokud chci vysledky vyhledavani
+		if (isset($this->data['AdminHomePurchaseForm']['BPCSRepPurchase']['search_form']) && $this->data['AdminHomePurchaseForm']['BPCSRepPurchase']['search_form'] == 1){
+			$this->Session->write('Search.AdminHomePurchaseForm', $this->data['AdminHomePurchaseForm']);
+			$conditions = $this->BPCSRepPurchase->do_form_search($conditions, $this->data['AdminHomePurchaseForm']);
+		} elseif ($this->Session->check('Search.AdminHomePurchaseForm')) {
+			$this->data['AdminHomePurchaseForm'] = $this->Session->read('Search.AdminHomePurchaseForm');
+			$conditions = $this->BPCSRepPurchase->do_form_search($conditions, $this->data['AdminHomePurchaseForm']);
+		} else {
+			$this->data['AdminHomePurchaseForm']['BPCSRepPurchase']['date_from'] = '01.' . date('m.Y');
+			$this->data['AdminHomePurchaseForm']['BPCSRepPurchase']['date_to'] = date('t.m.Y');
+			$this->data['AdminHomePurchaseForm']['BPCSRepPurchase']['month'] = date('m') - 1;
+			$conditions = $this->BPCSRepPurchase->do_form_search($conditions, $this->data['AdminHomePurchaseForm']);
+		}
+		
+		$quantity = 'SUM(`BPCSRepTransactionItem`.`quantity`)';
+		$total_price = 'SUM(BPCSRepTransactionItem.quantity * BPCSRepTransactionItem.price_vat)';
+		$rep_name = $this->BPCSRepPurchase->CSRep->name_field;
+
+		$purchases = $this->BPCSRepPurchase->find('all', array(
+			'conditions' => $conditions,
+			'contain' => array(),
+			'joins' => array(
+				array(
+					'table' => 'b_p_c_s_rep_transaction_items',
+					'alias' => 'BPCSRepTransactionItem',
+					'type' => 'INNER',
+					'conditions' => array('BPCSRepPurchase.id = BPCSRepTransactionItem.b_p_c_s_rep_purchase_id')
+				),
+				array(
+					'table' => 'product_variants',
+					'alias' => 'ProductVariant',
+					'type' => 'INNER',
+					'conditions' => array('BPCSRepTransactionItem.product_variant_id = ProductVariant.id')
+				),
+				array(
+					'table' => 'products',
+					'alias' => 'Product',
+					'type' => 'INNER',
+					'conditions' => array('Product.id = ProductVariant.product_id')
+				),
+				array(
+					'table' => 'users',
+					'alias' => 'CSRep',
+					'type' => 'INNER',
+					'conditions' => array('CSRep.id = BPCSRepPurchase.c_s_rep_id AND CSRep.user_type_id=5')
+				)
+			),
+			'fields' => array('Product.id', 'Product.name', $quantity, $total_price, $rep_name),
+			'group' => array('Product.id')
+		));
+		
+		$months = array(0 => 'Leden', 'Únor', 'Březen', 'Duben', 'Květen', 'Červen', 'Červenec', 'Srpen', 'Září', 'Říjen', 'Listopad', 'Prosinec');
+		
+		$this->set(compact('quantity', 'total_price', 'rep_name', 'purchases', 'months'));
+	}
 }

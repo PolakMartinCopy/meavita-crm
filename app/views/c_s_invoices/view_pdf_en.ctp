@@ -38,9 +38,93 @@ $tcpdf->Cell($rw, 0, 'Inv. ' . $invoice['CSInvoice']['code'], 0, 1, 'C', false);
 // mezera
 $tcpdf->Cell($w, 5, "", 0, 1, 'L', false);
 
-$tcpdf->SetFont($textfont,'B', 8);
+$tcpdf->SetFont($textfont,'', 8);
+
+// nachystam si datum vystaveni
+$date_of_issue = explode(' ', $invoice['CSInvoice']['date_of_issue']);
+$date_of_issue = $date_of_issue[0];
+$date_of_issue_info = db2cal_date($date_of_issue);
+// info o adrese
+$street_info = '';
+// info o meste
+$city_info = '';
+if (!empty($invoice['Address'])) {
+	$street_info = $invoice['Address']['street'] . ' ' . $invoice['Address']['number'];
+	if (!empty($invoice['Address']['o_number'])) {
+		$street_info .= '/' . $invoice['Address']['o_number'];
+	}
+
+	$city_info = array();
+	if (!empty($invoice['Address']['zip'])) {
+		$city_info[] = $invoice['Address']['zip'];
+	}
+	if (!empty($invoice['Address']['city'])) {
+		$city_info[] = $invoice['Address']['city'];
+	}
+	$city_info = implode(', ', $city_info);
+}
+
+$header_table = '
+	<table cellspacing="0" cellpadding="1" border="0">
+		<tr>
+			<td colspan="2"><strong>Supplier (from):</strong></td>
+			<td colspan="2">&nbsp;</td>
+		</tr>
+		<tr>
+			<td style="width:' . $llw . 'mm">Company name:</td>
+			<td style="width:' . $lrw . 'mm">MeaVita s.r.o.</td>
+			<td style="width:' . $rlw . 'mm">Date:</td>
+			<td style="width:' . $rrw . 'mm">' . $date_of_issue_info . '</td>
+		</tr>
+		<tr>
+			<td>Address:</td>
+			<td>Fillova 260/1</td>
+			<td>Order no.:</td>
+			<td>' . $invoice['CSInvoice']['order_number'] . '</td>
+		</tr>
+		<tr>
+			<td>City, postal code:</td>
+			<td>638 00 Brno-Lesna</td>
+			<td>Country of origin:</td>
+			<td>EU</td>
+		</tr>
+		<tr>
+			<td colspan="4">&nbsp;</td>
+		</tr>
+		<tr>
+			<td>ID (IČ):</td>
+			<td>29248400</td>
+			<td colspan="2"><strong>Customer (to):</strong></td>
+		</tr>
+		<tr>
+			<td>VAT reg. no. (DIČ):</td>
+			<td>CZ29248400</td>
+			<td>Company name:</td>
+			<td>' . $invoice['BusinessPartner']['name'] . '</td>
+		</tr>
+		<tr>
+			<td>Phone:</td>
+			<td>420 602 773 453</td>
+			<td>Address:</td>
+			<td>' . $street_info . '</td>
+		</tr>
+		<tr>
+			<td>E-mail:</td>
+			<td>meavita@meavita.cz</td>
+			<td>City, postal code:</td>
+			<td>' . $city_info . '</td>
+		</tr>
+		<tr>
+			<td colspan="2">&nbsp;</td>
+			<td>VAT reg. no. (DIČ):</td>
+			<td>' . $invoice['BusinessPartner']['dic'] . '</td>
+		</tr>
+	</table>
+';
+$tcpdf->writeHTML($header_table, true, false, false, false, '');
+
+/*
 $tcpdf->Cell($lw, 0, 'Supplier (from):', 0, 0, 'L', false);
-$tcpdf->Cell($rw, 0, '', 0, 1, 'L', false);
 
 $tcpdf->SetFont($textfont,'', 8);
 $tcpdf->Cell($llw, 0, 'Company name:', 0, 0, 'L', false);
@@ -74,24 +158,6 @@ $tcpdf->Cell($lrw, 0, 'CZ29248400', 0, 0, 'L', false);
 $tcpdf->Cell($rlw, 0, 'Company name:', 0, 0, 'L', false);
 $tcpdf->Cell($rrw, 0, $invoice['BusinessPartner']['name'], 0, 1, 'L', false);
 
-$street_info = '';
-$city_info = '';
-if (!empty($invoice['Address'])) {
-	$street_info = $invoice['Address']['street'] . ' ' . $invoice['Address']['number'];
-	if (!empty($invoice['Address']['o_number'])) {
-		$street_info .= '/' . $invoice['Address']['o_number'];
-	}
-	
-	$city_info = array();
-	if (!empty($invoice['Address']['zip'])) {
-		$city_info[] = $invoice['Address']['zip'];
-	}
-	if (!empty($invoice['Address']['city'])) {
-		$city_info[] = $invoice['Address']['city'];
-	}
-	$city_info = implode(', ', $city_info);
-}
-
 $tcpdf->Cell($llw, 0, 'Phone:', 0, 0, 'L', false);
 $tcpdf->Cell($lrw, 0, '420 602 773 453', 0, 0, 'L', false);
 $tcpdf->Cell($rlw, 0, 'Address:', 0, 0, 'L', false);
@@ -103,9 +169,9 @@ $tcpdf->Cell($rlw, 0, 'City, postal code:', 0, 0, 'L', false);
 $tcpdf->Cell($rrw, 0, $city_info, 0, 1, 'L', false);
 
 $tcpdf->Cell($lw, 0, '', 0, 0, 'L', false);
-$tcpdf->Cell($rlw, 0, 'DIČ:', 0, 0, 'L', false);
+$tcpdf->Cell($rlw, 0, 'VAT reg. no. (DIČ):', 0, 0, 'L', false);
 $tcpdf->Cell($rrw, 0, $invoice['BusinessPartner']['dic'], 0, 1, 'L', false);
-
+*/
 $tcpdf->Cell($w, 5, "", 0, 1, 'L', false);
 
 $payment_tbl = '

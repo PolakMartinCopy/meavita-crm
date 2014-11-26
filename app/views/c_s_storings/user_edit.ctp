@@ -3,7 +3,7 @@
 	var currencies = <?php echo json_encode($currencies)?>;
 </script>
 <script type="text/javascript" src="/js/c_s_storing_add_edit.js"></script>
-<?php echo $this->element('c_s_storings/add_edit_new_product_management')?>
+<?php //echo $this->element('c_s_storings/add_edit_new_product_management')?>
 
 <h1>Upravit naskladnění</h1>
 <?php 

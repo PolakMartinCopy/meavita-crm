@@ -1,55 +1,6 @@
-<link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
-<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.2/css/jquery.dataTables.css">
-<script type="text/javascript" src="//cdn.datatables.net/1.10.2/js/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="//cdn.datatables.net/plug-ins/725b2a2115b/integration/jqueryui/dataTables.jqueryui.js"></script>
-
-<div id="BusinessPartnerSelectDiv" title="Vyber obchodního partnera">
-	<table id="BusinessPartnerSelectTable">
-		<thead>
-			<tr>
-				<th>ID</th>
-				<th>Název</th>
-				<th>&nbsp;</th>
-			</tr>
-		</thead>
-		
-		<tfoot>
-			<tr>
-				<th>ID</th>
-				<th>Název</th>
-				<th>&nbsp;</th>
-			</tr>
-		</tfoot>
-	</table>
-</div>
-
-<div id="ProductVariantSelectDiv" title="Vyber produktu">
-	<table id="ProductVariantSelectTable">
-		<thead>
-			<tr>
-				<th>Název</th>
-				<th>LOT</th>
-				<th>EXP</th>
-				<th>Mn.</th>
-				<th>Cena</th>
-				<th>Cena s DPH</th>
-				<th>&nbsp;</th>
-			</tr>
-		</thead>
-		
-		<tfoot>
-			<tr>
-				<th>Název</th>
-				<th>LOT</th>
-				<th>EXP</th>
-				<th>Mn.</th>
-				<th>Cena</th>
-				<th>Cena s DPH</th>
-				<th>&nbsp;</th>
-			</tr>
-		</tfoot>
-	</table>
-</div>
+<script type="text/javascript" src="/js/business-partner-select.js"></script>
+<?php echo $this->element('select_divs/business_partner')?>
+<?php echo $this->element('select_divs/product_variant')?>
 
 <table class="left_heading">
 	<tr>
@@ -100,7 +51,7 @@
 		<th><abbr title="Skladová cena za jeden kus zboží bez DPH">Skladová cena bez DPH</abbr></th>
 		<th><abbr title="Skladová cena za jeden kus zboží včetně DPH">Skladová cena</abbr></th>
 		<th>Mn. na faktuře</th>
-		<th><abbr title="Celková cena za jeden kus">Cena za kus bez DPH</abbr></th>
+		<th><abbr title="Cena za jeden kus">Cena za kus bez DPH</abbr></th>
 		<th>&nbsp;</th>
 	</tr>
 <?php if (empty($this->data['CSTransactionItem'])) { ?>
@@ -125,7 +76,9 @@
 <?php 	foreach ($this->data['CSTransactionItem'] as $index => $data) { ?>
 	<tr rel="<?php echo $index?>" class="product_row">
 		<td width="52%"><?php
-			echo $this->Form->input('CSTransactionItem.' .$index . '.product_name', array('label' => false, 'size' => 70, 'div' => false));
+			if (isset($this->data['CSTransactionItem'][$index]['product_name'])) {
+				echo $this->Form->input('CSTransactionItem.' .$index . '.product_name', array('label' => false, 'size' => 70, 'div' => false));
+			}
 			echo $this->Html->link('vybrat', '#', array('id' => 'ProductVariant' . $index . 'SelectShow', 'class' => 'ProductVariantSelectShow', 'data-row-number' => $index));
 			echo $this->Form->hidden('CSTransactionItem.' . $index . '.product_variant_id');
 			echo $this->Form->error('CSTransactionItem.' . $index . '.product_variant_id');
@@ -179,3 +132,4 @@
 <?php 	}?>
 <?php }?>
 </table>
+<script type="text/javascript" src="/js/product-variant-add-table-management.js"></script>

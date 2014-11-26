@@ -30,7 +30,6 @@ $tcpdf->AddPage();
 
 $tcpdf->SetFillColor(255,255,255);
 $linestyle = array('width' => 0.1, 'cap' => 'butt', 'join' => 'miter', 'dash' => '', 'phase' => 0, 'color' => array(0, 0, 0));
-//$tcpdf->Line(10, 20, 200, 20, $linestyle);
 
 $tcpdf->SetFont($textfont, 'B', 14);
 $tcpdf->Cell($lw, 0, 'Faktura č. ', 0, 0, 'L', false);
@@ -39,17 +38,119 @@ $tcpdf->Cell($rw, 0, $invoice['CSInvoice']['code'], 0, 1, 'C', false);
 // mezera
 $tcpdf->Cell($w, 5, "", 0, 1, 'L', false);
 
-$tcpdf->SetFont($textfont,'B', 8);
-$tcpdf->Cell($lw, 0, 'Dodavatel', 0, 0, 'L', false);
+$tcpdf->SetFont($textfont,'', 8);
+
+// nachystam si datum vystaveni
+$date_of_issue = explode(' ', $invoice['CSInvoice']['date_of_issue']);
+$date_of_issue = $date_of_issue[0];
+$date_of_issue_info = db2cal_date($date_of_issue);
+// info o adrese
+$street_info = '';
+// info o meste
+$city_info = '';
+if (!empty($invoice['Address'])) {
+	$street_info = $invoice['Address']['street'] . ' ' . $invoice['Address']['number'];
+	if (!empty($invoice['Address']['o_number'])) {
+		$street_info .= '/' . $invoice['Address']['o_number'];
+	}
+
+	$city_info = array();
+	if (!empty($invoice['Address']['zip'])) {
+		$city_info[] = $invoice['Address']['zip'];
+	}
+	if (!empty($invoice['Address']['city'])) {
+		$city_info[] = $invoice['Address']['city'];
+	}
+	$city_info = implode(', ', $city_info);
+}
+
+$contact_person_info = '';
+if (!empty($invoice['ContactPerson'])) {
+	$contact_person_info = $invoice['ContactPerson']['first_name'] . ' ' . $invoice['ContactPerson']['last_name'];
+	if (!empty($invoice['ContactPerson']['prefix'])) {
+		$contact_person_info = $invoice['ContactPerson']['prefix'] . ' ' . $contact_person_info;
+	}
+	if (!empty($invoice['ContactPerson']['suffix'])) {
+		$contact_person_info = $contact_person_info . ' ' . $invoice['ContactPerson']['suffix'];
+	}
+}
+
+$header_table = '
+	<table cellspacing="0" cellpadding="1" border="0">
+		<tr>
+			<td colspan="2"><strong>Dodavatel:</strong></td>
+			<td colspan="2">&nbsp;</td>
+		</tr>
+		<tr>
+			<td style="width:' . $llw . 'mm">Název:</td>
+			<td style="width:' . $lrw . 'mm">MeaVita s.r.o.</td>
+			<td style="width:' . $rlw . 'mm">Datum vystavení:</td>
+			<td style="width:' . $rrw . 'mm">' . $date_of_issue_info . '</td>
+		</tr>
+		<tr>
+			<td>Adresa:</td>
+			<td>Fillova 260/1</td>
+			<td><strong>Datum splatnosti:</strong></td>
+			<td><strong>' . db2cal_date($invoice['CSInvoice']['due_date']) . '</strong></td>
+		</tr>
+		<tr>
+			<td>Místo, PSČ:</td>
+			<td>Brno, 602 00</td>
+			<td>Datum zdanitelného plnění:</td>
+			<td>' . $date_of_issue_info . '</td>
+		</tr>
+		<tr>
+			<td colspan="4">&nbsp;</td>
+		</tr>
+		<tr>
+			<td>IČO:</td>
+			<td>29248400</td>
+			<td colspan="2"><strong>Odběratel:</strong></td>
+		</tr>
+		<tr>
+			<td>DIČ:</td>
+			<td>CZ29248400</td>
+			<td><strong>Název:</strong></td>
+			<td><strong>' . $invoice['BusinessPartner']['name'] . '</strong></td>
+		</tr>
+		<tr>
+			<td>Telefon::</td>
+			<td><strong>+420 722 779 110</strong></td>
+			<td>Adresa:</td>
+			<td>' . $street_info . '</td>
+		</tr>
+		<tr>
+			<td>E-mail:</td>
+			<td><strong>objednavky@meavita.cz</strong></td>
+			<td>PSČ, Místo:</td>
+			<td>' . $city_info . '</td>
+		</tr>
+		<tr>
+			<td colspan="2">&nbsp;</td>
+			<td>Kontaktní osoba:</td>
+			<td><strong>' . $contact_person_info . '</strong></td>
+		</tr>
+		<tr>
+			<td colspan="2">&nbsp;</td>
+			<td>IČO:</td>
+			<td>' . $invoice['BusinessPartner']['ico'] . '</td>
+		</tr>
+		<tr>
+			<td colspan="2">&nbsp;</td>
+			<td>DIČ:</td>
+			<td>' . $invoice['BusinessPartner']['dic'] . '</td>
+		</tr>
+	</table>
+';
+$tcpdf->writeHTML($header_table, true, false, false, false, '');
+
+/*$tcpdf->Cell($lw, 0, 'Dodavatel', 0, 0, 'L', false);
 $tcpdf->Cell($rw, 0, '', 0, 1, 'L', false);
 
 $tcpdf->SetFont($textfont,'', 8);
 $tcpdf->Cell($llw, 0, 'Název:', 0, 0, 'L', false);
 $tcpdf->Cell($lrw, 0, 'MeaVita s.r.o.', 0, 0, 'L', false);
 $tcpdf->Cell($rlw, 0, 'Datum vystavení:', 0, 0, 'L', false);
-$date_of_issue = explode(' ', $invoice['CSInvoice']['date_of_issue']);
-$date_of_issue = $date_of_issue[0];
-$date_of_issue_info = db2cal_date($date_of_issue);
 $tcpdf->Cell($rrw, 0, $date_of_issue_info, 0, 1, 'L', false);
 
 $tcpdf->Cell($llw, 0, 'Adresa:', 0, 0, 'L', false);
@@ -77,24 +178,6 @@ $tcpdf->Cell($lrw, 0, 'CZ29248400', 0, 0, 'L', false);
 $tcpdf->SetFont($textfont,'B', 8);
 $tcpdf->Cell($rlw, 0, 'Název:', 0, 0, 'L', false);
 $tcpdf->Cell($rrw, 0, $invoice['BusinessPartner']['name'], 0, 1, 'L', false);
-
-$street_info = '';
-$city_info = '';
-if (!empty($invoice['Address'])) {
-	$street_info = $invoice['Address']['street'] . ' ' . $invoice['Address']['number'];
-	if (!empty($invoice['Address']['o_number'])) {
-		$street_info .= '/' . $invoice['Address']['o_number'];
-	}
-	
-	$city_info = array();
-	if (!empty($invoice['Address']['zip'])) {
-		$city_info[] = $invoice['Address']['zip'];
-	}
-	if (!empty($invoice['Address']['city'])) {
-		$city_info[] = $invoice['Address']['city'];
-	}
-	$city_info = implode(', ', $city_info);
-}
 
 $tcpdf->SetFont($textfont,'', 8);
 $tcpdf->Cell($llw, 0, 'Telefon:', 0, 0, 'L', false);
@@ -134,7 +217,7 @@ $tcpdf->Cell($rrw, 0, $invoice['BusinessPartner']['ico'], 0, 1, 'L', false);
 $tcpdf->Cell($lw, 0, '', 0, 0, 'L', false);
 $tcpdf->Cell($rlw, 0, 'DIČ:', 0, 0, 'L', false);
 $tcpdf->Cell($rrw, 0, $invoice['BusinessPartner']['dic'], 0, 1, 'L', false);
-
+*/
 $tcpdf->Cell($w, 5, "", 0, 1, 'L', false);
 
 $payment_tbl = '

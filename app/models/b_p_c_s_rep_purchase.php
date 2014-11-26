@@ -9,6 +9,7 @@ class BPCSRepPurchase extends AppModel {
 			'foreignKey' => 'c_s_rep_id'
 		),
 		'BusinessPartner',
+		'BPCSRepPurchasePayment'
 	);
 	
 	var $hasOne = array(

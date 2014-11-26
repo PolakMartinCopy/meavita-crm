@@ -100,4 +100,21 @@ class Product extends AppModel {
 		}
 		return json_encode($autocomplete_list);
 	}
+	
+	function get_list() {
+		$conditions = array();
+	
+		$products = $this->find('all', array(
+			'conditions' => $conditions,
+			'order' => array('name' => 'asc'),
+			'contain' => array(),
+			'fields' => array('Product.id', 'Product.name')
+		));
+	
+		$res = array();
+		foreach ($products as $product) {
+			$res[] = array($product['Product']['id'], '<a href="#" class="ProductSelectLink" data-p-id="' . $product['Product']['id'] . '" data-p-name="' . $product['Product']['name'] . '">' . $product['Product']['name'] . '</a>');
+		}
+		return json_encode(array('data' => $res));
+	}
 }

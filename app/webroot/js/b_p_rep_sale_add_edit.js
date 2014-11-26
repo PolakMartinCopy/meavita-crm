@@ -79,7 +79,7 @@
 		rowData += '<th><abbr title="Celková cena za položku včetně DPH">Cena</abbr></th>';
 		rowData += '<td><input name="data[BPRepTransactionItem][' + count + '][price_total]" type="text" size="5" maxlength="10" id="BPRepTransactionItem' + count + 'Price" />';
 		rowData += '</td>';
-		rowData += '<td><a href="#" class="addRowButton">+</a>&nbsp;<a href="#" class="removeRowButton">-</a></td>';
+		rowData += '<td><a href="#" class="addRowButton"></a>&nbsp;<a href="#" class="removeRowButton"></a></td>';
 		rowData += '</tr>';
 		return rowData;
 	}

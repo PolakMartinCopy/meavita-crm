@@ -174,12 +174,11 @@ class CSCreditNotesController extends AppController {
 			if (isset($this->data['CSTransactionItem'])) {
 				// odnastavim prazdne radky
 				foreach ($this->data['CSTransactionItem'] as $index => &$transaction_item) {
-					if (empty($transaction_item['product_variant_id']) && empty($transaction_item['product_name']) && empty($transaction_item['quantity']) && empty($transaction_item['price_total'])) {
+					if (empty($transaction_item['product_variant_id']) && empty($transaction_item['product_name']) && empty($transaction_item['quantity']) && empty($transaction_item['price'])) {
 						unset($this->data['CSTransactionItem'][$index]);
 					} else {
 						$transaction_item['currency_id'] = $this->data['CSCreditNote']['currency_id'];
 						$transaction_item['exchange_rate']  = $exchange_rate;
-						$transaction_item['price'] = null;
 						$transaction_item['price_vat'] = null;
 						// dopocitam cenu s dani ke kazde polozce nakupu,
 						if (isset($transaction_item['product_variant_id']) && isset($transaction_item['price_total']) && isset($transaction_item['quantity']) && $transaction_item['quantity'] != 0) {
@@ -203,8 +202,7 @@ class CSCreditNotesController extends AppController {
 								'fields' => array('TaxClass.id', 'TaxClass.value')
 							));
 
-							$transaction_item['price_vat'] = round($transaction_item['price_total'] / $transaction_item['quantity'], 2);
-							$transaction_item['price'] = round($transaction_item['price_vat'] / (1 + $tax_class['TaxClass']['value'] / 100), 2);
+							$transaction_item['price_vat'] = round($transaction_item['price'] + ($transaction_item['price'] * $tax_class['TaxClass']['value'] / 100), 2);
 						}
 					}
 				}

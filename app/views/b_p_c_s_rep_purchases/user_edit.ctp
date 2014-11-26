@@ -79,7 +79,7 @@
 		rowData += '<th><abbr title="Celková cena za položku včetně DPH">Cena</abbr></th>';
 		rowData += '<td><input name="data[BPCSRepTransactionItem][' + count + '][price_total]" type="text" size="5" maxlength="10" id="BPCSRepTransactionItem' + count + 'Price" />';
 		rowData += '</td>';
-		rowData += '<td><a href="#" class="addRowButton">+</a>&nbsp;<a href="#" class="removeRowButton">-</a></td>';
+		rowData += '<td><a href="#" class="addRowButton"></a>&nbsp;<a href="#" class="removeRowButton"></a></td>';
 		rowData += '</tr>';
 		return rowData;
 	}
@@ -119,6 +119,10 @@ echo $this->Form->create('BPCSRepPurchase', $form_options);
 		<th>Datum</th>
 		<td><?php echo $this->Form->input('BPCSRepPurchase.date', array('label' => false, 'type' => 'text'))?></td>
 	</tr>
+	<tr>
+		<th>Platba</th>
+		<td colspan="10"><?php echo $this->Form->input('BPCSRepPurchase.b_p_c_s_rep_purchase_payment_id', array('label' => false, 'options' => $payments))?></td>
+	</tr>
 	<?php 	foreach ($this->data['BPCSRepTransactionItem'] as $index => $data) { ?>
 	<tr rel="<?php echo $index?>">
 		<th>Zboží</th>
@@ -137,7 +141,7 @@ echo $this->Form->create('BPCSRepPurchase', $form_options);
 		<td><?php
 			echo $this->Form->input('BPCSRepTransactionItem.' . $index . '.price_total', array('label' => false, 'size' => 5, 'class' => 'BPCSRepTransactionItemPrice'));
 		?></td>
-		<td><a href="#" class="addRowButton">+</a>&nbsp;<a href="#" class="removeRowButton">-</a></td>
+		<td><a href="#" class="addRowButton"></a>&nbsp;<a href="#" class="removeRowButton"></a></td>
 	</tr>
 	<?php } ?>
 </table>

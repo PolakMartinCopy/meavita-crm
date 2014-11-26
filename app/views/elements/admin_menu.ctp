@@ -8,6 +8,9 @@
 <?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/Pages/user_c_s_rep_home')) { ?>
 	<li><?php echo $html->link('Domů', array('controller' => 'pages', 'action' => 'c_s_rep_home'), array('class' => ($active_tab == 'home' ? 'active' : '')))?></li>
 <?php }
+	if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/Pages/user_admin_home')) { ?>
+	<li><?php echo $html->link('Domů', array('controller' => 'pages', 'action' => 'admin_home'), array('class' => ($active_tab == 'home' ? 'active' : '')))?></li>
+<?php }
 	if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/BusinessPartners/user_index')) { ?>
 	<li><?php echo $html->link('Obch. partneři', array('controller' => 'business_partners', 'action' => 'index'), array('class' => ($active_tab == 'business_partners' ? 'active' : '')))?>
 		<ul>
@@ -150,7 +153,7 @@
 			<li><?php echo $this->Html->link('Naskladnění', array('controller' => 'c_s_storings', 'action' => 'index'), array('class' => $active_tab == 'c_s_storings' ? 'active' : ''))?></li>
 <?php } ?>
 <?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/CSInvoices/user_index')) { ?>
-			<li><?php echo $this->Html->link('Faktury', array('controller' => 'c_s_invoices', 'action' => 'index'), array('class' => $active_tab == 'c_s_invoices' ? 'active' : ''))?></li>
+			<li><?php echo $this->Html->link('Faktury', array('controller' => 'c_s_invoices', 'action' => 'index'), array('class' => $active_tab == 'c_s_invoices' ? 'active' : '')); ?></li>
 <?php } ?>
 <?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/CSCreditNotes/user_index')) { ?>
 			<li><?php echo $this->Html->link('Dobropisy', array('controller' => 'c_s_credit_notes', 'action' => 'index'), array('class' => $active_tab == 'c_s_credit_notes' ? 'active' : ''))?></li>

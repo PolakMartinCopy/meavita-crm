@@ -217,11 +217,12 @@ class CSWalletTransaction extends AppModel {
 	// penize, ktere ma rep v dosud neschvalenych nakupech - neschvalene nakupy jsou takove nakupy, kde jeste rep nepozadal o schvaleni
 	// anebo kde uz pozadal, ale achvaleni jeste neprobehlo
 	function get_unconfirmed_amount($rep_id = null) {
-		// bez pozadavku na schvaleni
+		// bez pozadavku na schvaleni, platba hotove
 		$no_confirm_requirement = $this->CSRep->BPCSRepPurchase->find('all', array(
 			'conditions' => array(
 				'BPCSRepPurchase.confirm_requirement' => false,
-				'BPCSRepPurchase.c_s_rep_id' => $rep_id
+				'BPCSRepPurchase.c_s_rep_id' => $rep_id,
+				'BPCSRepPurchasePayment.wallet_subtract' => true
 			),
 			'contain' => array(),
 			'fields' => array('SUM(BPCSRepTransactionItem.quantity * BPCSRepTransactionItem.price_vat)'),
@@ -229,19 +230,27 @@ class CSWalletTransaction extends AppModel {
 				array(
 					'table' => 'b_p_c_s_rep_transaction_items',
 					'alias' => 'BPCSRepTransactionItem',
-					'fields' => array('INNER'),
+					'type' => 'INNER',
 					'conditions' => array('BPCSRepTransactionItem.b_p_c_s_rep_purchase_id = BPCSRepPurchase.id')
+				),
+				array(
+					'table' => 'b_p_c_s_rep_purchase_payments',
+					'alias' => 'BPCSRepPurchasePayment',
+					'type' => 'INNER',
+					'conditions' => array('BPCSRepPurchase.b_p_c_s_rep_purchase_payment_id = BPCSRepPurchasePayment.id')
 				)
 			)
 		));
 		
 		$no_confirm_requirement = $no_confirm_requirement[0][0]['SUM(BPCSRepTransactionItem.quantity * BPCSRepTransactionItem.price_vat)'];
 		
+		// pozadal o schvaleni, ale to jeste neprobehlo, platba hotove
 		$confirm_requirement = $this->CSRep->BPCSRepPurchase->find('all', array(
 			'conditions' => array(
 				'BPCSRepPurchase.confirm_requirement' => true,
 				'BPCSRepPurchase.c_s_rep_id' => $rep_id,
-				'CSRepPurchase.confirmed' => false
+				'CSRepPurchase.confirmed' => false,
+				'BPCSRepPurchasePayment.wallet_subtract' => true
 			),
 			'contain' => array(),
 			'fields' => array('SUM(BPCSRepTransactionItem.quantity * BPCSRepTransactionItem.price_vat)'),
@@ -249,15 +258,21 @@ class CSWalletTransaction extends AppModel {
 				array(
 					'table' => 'b_p_c_s_rep_transaction_items',
 					'alias' => 'BPCSRepTransactionItem',
-					'fields' => array('INNER'),
+					'type' => 'INNER',
 					'conditions' => array('BPCSRepTransactionItem.b_p_c_s_rep_purchase_id = BPCSRepPurchase.id')
 				),
 				array(
 					'table' => 'c_s_rep_purchases',
 					'alias' => 'CSRepPurchase',
-					'fields' => array('INNER'),
+					'type' => 'INNER',
 					'conditions' => array('CSRepPurchase.b_p_c_s_rep_purchase_id = BPCSRepPurchase.id')
 				),
+				array(
+					'table' => 'b_p_c_s_rep_purchase_payments',
+					'alias' => 'BPCSRepPurchasePayment',
+					'type' => 'INNER',
+					'conditions' => array('BPCSRepPurchase.b_p_c_s_rep_purchase_payment_id = BPCSRepPurchasePayment.id')
+				)
 			)
 		));
 		

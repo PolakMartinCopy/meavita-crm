@@ -78,7 +78,7 @@
 		rowData += '<td><input name="data[MCTransactionItem][' + count + '][description]" type="text" size="50" id="MCTransactionItem' + count + 'Description"></td>';
 		rowData += '<td><input name="data[MCTransactionItem][' + count + '][quantity]" type="text" size="2" maxlength="11" id="MCTransactionItem' + count + 'Quantity" /></td>';
 		rowData += '<td><input name="data[MCTransactionItem][' + count + '][price_total]" type="text" size="5" maxlength="11" id="MCTransactionItem' + count + 'Price" class="price"/></td>';
-		rowData += '<td><a href="#" class="addRowButton">+</a>&nbsp;<a href="#" class="removeRowButton">-</a></td>';
+		rowData += '<td><a href="#" class="addRowButton"></a>&nbsp;<a href="#" class="removeRowButton"></a></td>';
 		rowData += '</tr>';
 		return rowData;
 	}

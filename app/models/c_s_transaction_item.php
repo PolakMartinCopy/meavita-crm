@@ -20,6 +20,12 @@ class CSTransactionItem extends AppModel {
 				'message' => 'Zadejte název'
 			)	
 		),
+		'product_variant_id' => array(
+			'notEmpty' => array(
+				'rule' => 'notEmpty',
+				'message' => 'Zadejte zboží'
+			)
+		),
 		'quantity' => array(
 			'notEmpty' => array(
 				'rule' => 'notEmpty',
@@ -57,7 +63,9 @@ class CSTransactionItem extends AppModel {
 			$this->data['CSTransactionItem']['price_vat'] = str_replace(',', '.', $this->data['CSTransactionItem']['price_vat']);
 		}
 		
-		$this->data['CSTransactionItem']['product_en_name'] = $this->data['CSTransactionItem']['product_name'];
+		if (isset($this->data['CSTransactionItem']['product_name'])) {
+			$this->data['CSTransactionItem']['product_en_name'] = $this->data['CSTransactionItem']['product_name'];
+		}
 		// najdu produkt a doplnim si en_name k polozce
 		if (isset($this->data['CSTransactionItem']['product_variant_id']) && !empty($this->data['CSTransactionItem']['product_variant_id'])) {
 			$product = $this->ProductVariant->find('first', array(

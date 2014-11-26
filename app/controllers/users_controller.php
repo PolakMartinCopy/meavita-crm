@@ -671,6 +671,8 @@ class UsersController extends AppController {
 		$this->Acl->deny('user', 'controllers/Tools/user_exchange_rate_download');
 		// user nemuze videt home c s repa
 		$this->Acl->deny('user', 'controllers/Pages/user_c_s_rep_home');
+		// ani adminu
+		$this->Acl->deny('user', 'controllers/Pages/user_admin_home');
 		// user nemuze korigovat sklad
 		$this->Acl->deny('user', 'controllers/CSCorrections');
 		
@@ -722,6 +724,7 @@ class UsersController extends AppController {
 		$this->Acl->allow('rep', 'controllers/ProductVariants/user_autocomplete_list');
 		$this->Acl->allow('rep', 'controllers/ProductVariants/user_ajax_list');
 		$this->Acl->allow('rep', 'controllers/Products/user_autocomplete_list');
+		$this->Acl->allow('rep', 'controllers/Products/user_ajax_list');
 		
 		// povolim veci okolo ukolu
 		$this->Acl->allow('rep', 'controllers/Impositions');
@@ -788,6 +791,7 @@ class UsersController extends AppController {
 		$this->Acl->allow('c_s_rep', 'controllers/ProductVariants/user_autocomplete_list');
 		$this->Acl->allow('c_s_rep', 'controllers/ProductVariants/user_ajax_list');
 		$this->Acl->allow('c_s_rep', 'controllers/Products/user_autocomplete_list');
+		$this->Acl->allow('c_s_rep', 'controllers/Products/user_ajax_list');
 		
 		// povolim veci okolo ukolu
 		$this->Acl->allow('c_s_rep', 'controllers/Impositions');

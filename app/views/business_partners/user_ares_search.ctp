@@ -1,5 +1,5 @@
 <h1>Vyhledat obchodního partnera v systému Ares</h1>
-<?php echo $form->create('BusinessPartner', array('url' => array('controller' => 'business_partners', 'action' => 'ares_search')))?>
+<?php echo $form->create('BusinessPartner', array('url' => array('controller' => 'business_partners', 'action' => 'ares_search') + $this->passedArgs))?>
 <table class="left_heading">
 	<tr>
 		<th>Obchodní firma</th>
@@ -53,7 +53,7 @@
 	</tr>
 	<?php foreach ($search_results as $search_result) { ?>
 	<tr>
-		<?php echo $form->create('BusinessPartner', array('controller' => 'business_partners', 'action' => 'add'))?>
+		<?php echo $form->create('BusinessPartner', array('url' => array('controller' => 'business_partners', 'action' => 'add') + $this->passedArgs))?>
 		<td><?php
 			$ico = '&nbsp;';
 			if (isset($search_result['ico'])) {

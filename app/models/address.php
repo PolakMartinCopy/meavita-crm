@@ -19,13 +19,13 @@ class Address extends AppModel {
 				'message' => 'Pole Město nesmí zůstat prázdné'
 			)
 		),
-		'number' => array(
+/*		'number' => array(
 			'notEmpty' => array(
 				'rule' => 'notEmpty',
 				'message' => 'Pole Číslo popisné nesmí zůstat prázdné'
 			)
 		),
-/*		'zip' => array(
+		'zip' => array(
 			'numeric' => array(
 				'rule' => 'numeric',
 				'allowEmpty' => false,

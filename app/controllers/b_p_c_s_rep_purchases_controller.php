@@ -269,6 +269,9 @@ class BPCSRepPurchasesController extends AppController {
 		}
 		
 		$this->set('user', $this->user);
+		
+		$payments = $this->BPCSRepPurchase->BPCSRepPurchasePayment->find('list');
+		$this->set('payments', $payments);
 	}
 	
 	function user_edit($id = null) {
@@ -417,6 +420,9 @@ class BPCSRepPurchasesController extends AppController {
 			}
 			$this->data['BPCSRepPurchase']['date'] = db2cal_date($this->data['BPCSRepPurchase']['date']);
 		}
+		
+		$payments = $this->BPCSRepPurchase->BPCSRepPurchasePayment->find('list');
+		$this->set('payments', $payments);
 		
 	}
 	

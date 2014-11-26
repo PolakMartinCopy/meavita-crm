@@ -1222,10 +1222,12 @@ class BusinessPartnersController extends AppController {
 					'CSInvoice.due_date',
 					'CSInvoice.order_number',
 					'CSInvoice.code',
+					'CSInvoice.amount',
 					'CSInvoice.amount_vat',
 			
 					'CSTransactionItem.id',
 					'CSTransactionItem.product_name',
+					'CSTransactionItem.price',
 					'CSTransactionItem.price_vat',
 					'CSTransactionItem.quantity',
 						
@@ -2980,12 +2982,32 @@ class BusinessPartnersController extends AppController {
 		}
 	}
 	
-	function user_add() {
+	function user_choose_type() {
+		if (isset($this->data)) {
+			$this->redirect(array('controller' => 'business_partners', 'action' => 'add', $this->data['BusinessPartner']['business_partner_type_id']));
+		}
+		$types = array(1 => 'Společnost', 'Lékař / lékárna');
+		$this->set('types', $types);
+		
+		$this->data['BusinessPartner']['business_partner_type_id'] = 1;
+		if ($this->Tool->is_rep($this->user['User']['user_type_id'])) {
+			$this->data['BusinessPartner']['business_partner_type_id'] = 2;
+		}
+	}
+	
+	function user_add($type_id = null) {
+		if (!isset($type_id)) {
+			$this->Session->setFlash('Zvolte prosím typ obchodního partnera.');
+			$this->redirect(array('controller' => 'business_partners', 'action' => 'choose_type'));
+		}
+		
 		$user_id = $this->user['User']['id'];
 		$this->set('user_id', $user_id);
 		
 		$is_rep = $this->Tool->is_rep($this->user['User']['user_type_id']);
 		$this->set('is_rep', $is_rep);
+		
+		$this->set('type_id', $type_id);
 		
 		if (isset($this->data)) {
 			if (!isset($this->data['BusinessPartner']['ares_search'])) {
@@ -3006,10 +3028,6 @@ class BusinessPartnersController extends AppController {
 				} else {
 					$this->data['ContactPerson'][0]['is_main'] = true;
 					unset($this->BusinessPartner->ContactPerson->validate['business_partner_id']);
-				}
-				if (!$is_rep) {
-					unset($this->BusinessPartner->validate['icz']);
-					unset($this->BusinessPartner->validate['branch_name']);
 				}
 				if ($this->BusinessPartner->saveAll($this->data, array('validate' => 'first'))) {
 					$this->Session->setFlash('Obchodní partner byl vytvořen');

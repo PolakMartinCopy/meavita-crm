@@ -98,18 +98,18 @@ $("#search_form_show_c_s_rep_home_purchases").click(function () {
 			$sum_total_price += $product[0][$total_price];
 		?><tr>
 			<td><?php echo $product['Product']['name']?></td>
-			<td><?php echo $product[0][$quantity]?></td>
-			<td><?php echo format_price($product[0][$total_price])?></td>
-			<td><?php echo format_price($product[0][$total_price] / $product[0][$quantity])?></td>
+			<td class="number"><?php echo $product[0][$quantity]?></td>
+			<td class="number price"><?php echo format_price($product[0][$total_price])?></td>
+			<td class="number price"><?php echo format_price($product[0][$total_price] / $product[0][$quantity])?></td>
 		</tr>
 		<?php } ?>
 	</tbody>
 	<tfoot>
 		<tr>
 			<th>&nbsp;</th>
-			<th><?php echo $sum_quantity?></th>
-			<th><?php echo format_price($sum_total_price)?></th>
-			<th><?php echo format_price($sum_total_price / $sum_quantity)?></th>
+			<th class="number"><?php echo $sum_quantity?></th>
+			<th class="number price"><?php echo format_price($sum_total_price)?></th>
+			<th class="number price"><?php echo format_price($sum_total_price / $sum_quantity)?></th>
 		</tr>
 	</tfoot>
 </table>

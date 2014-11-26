@@ -63,7 +63,7 @@
 		rowData += '<th>Množství</th>';
 		rowData += '<td><input name="data[ProductsTransaction][' + count + '][quantity]" type="text" size="3" maxlength="10" id="ProductsTransaction' + count + 'Quantity" />';
 		rowData += '</td>';
-		rowData += '<td><a href="#" class="addRowButton">+</a>&nbsp;<a href="#" class="removeRowButton">-</a></td>';
+		rowData += '<td><a href="#" class="addRowButton"></a>&nbsp;<a href="#" class="removeRowButton"></a></td>';
 		rowData += '</tr>';
 		return rowData;
 	}
@@ -108,7 +108,7 @@ echo $this->Form->create($model, $form_options)?>
 		</td>
 		<th>Množství</th>
 		<td><?php echo $this->Form->input('ProductsTransaction.0.quantity', array('label' => false, 'size' => 3))?></td>
-		<td><a href="#" class="addRowButton">+</a>&nbsp;<a href="#" class="removeRowButton">-</a></td>
+		<td><a href="#" class="addRowButton"></a>&nbsp;<a href="#" class="removeRowButton"></a></td>
 	</tr>
 	<?php } else { ?>
 	<?php 	foreach ($this->data['ProductsTransaction'] as $index => $data) { ?>
@@ -122,7 +122,7 @@ echo $this->Form->create($model, $form_options)?>
 		</td>
 		<th>Množství</th>
 		<td><?php echo $this->Form->input('ProductsTransaction.' . $index . '.quantity', array('label' => false, 'size' => 3))?></td>
-		<td><a href="#" class="addRowButton">+</a>&nbsp;<a href="#" class="removeRowButton">-</a></td>
+		<td><a href="#" class="addRowButton"></a>&nbsp;<a href="#" class="removeRowButton"></a></td>
 	</tr>
 	<?php } ?>
 	<?php } ?>

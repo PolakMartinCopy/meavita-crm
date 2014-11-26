@@ -121,7 +121,11 @@ echo $this->Form->create('BPCSRepPurchase', $form_options);
 	</tr>
 	<tr>
 		<th>Datum</th>
-		<td><?php echo $this->Form->input('BPCSRepPurchase.date', array('label' => false, 'type' => 'text'))?></td>
+		<td colspan="10"><?php echo $this->Form->input('BPCSRepPurchase.date', array('label' => false, 'type' => 'text'))?></td>
+	</tr>
+	<tr>
+		<th>Platba</th>
+		<td colspan="10"><?php echo $this->Form->input('BPCSRepPurchase.b_p_c_s_rep_purchase_payment_id', array('label' => false, 'options' => $payments))?></td>
 	</tr>
 	<?php if (empty($this->data['BPCSRepTransactionItem'])) { ?>
 	<tr rel="0">

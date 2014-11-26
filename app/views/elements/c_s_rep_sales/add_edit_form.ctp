@@ -25,7 +25,7 @@
 		<td><?php
 			echo $this->Form->input('CSRepTransactionItem.0.price_total', array('label' => false, 'size' => 5, 'class' => 'CSRepTransactionItemPrice', 'disabled' => (isset($disabled) ? true : false)));
 		?></td>
-		<td><a href="#" class="addRowButton">+</a>&nbsp;<a href="#" class="removeRowButton">-</a></td>
+		<td><a href="#" class="addRowButton"></a>&nbsp;<a href="#" class="removeRowButton"></a></td>
 	</tr>
 	<?php } else { ?>
 	<?php 	foreach ($this->data['CSRepTransactionItem'] as $index => $data) { ?>
@@ -44,7 +44,7 @@
 		?></td>
 		<td>
 			<?php if (!isset($disabled)) { ?>
-			<a href="#" class="addRowButton">+</a>&nbsp;<a href="#" class="removeRowButton">-</a></td>
+			<a href="#" class="addRowButton"></a>&nbsp;<a href="#" class="removeRowButton"></a></td>
 			<?php }?>
 	</tr>
 	<?php } ?>

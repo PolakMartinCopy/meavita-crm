@@ -29,7 +29,7 @@
 		<td><?php
 			echo $this->Form->input('MCRepTransactionItem.0.price', array('label' => false, 'size' => 5, 'class' => 'MCRepTransactionItemPrice'));
 		?></td>
-		<td><a href="#" class="addRowButton">+</a>&nbsp;<a href="#" class="removeRowButton">-</a></td>
+		<td><a href="#" class="addRowButton"></a>&nbsp;<a href="#" class="removeRowButton"></a></td>
 	</tr>
 	<?php } else { ?>
 	<?php 	foreach ($this->data['MCRepTransactionItem'] as $index => $data) { ?>
@@ -50,7 +50,7 @@
 		<td><?php
 			echo $this->Form->input('MCRepTransactionItem.' . $index . '.price', array('label' => false, 'size' => 5, 'class' => 'MCRepTransactionItemPrice'));
 		?></td>
-		<td><a href="#" class="addRowButton">+</a>&nbsp;<a href="#" class="removeRowButton">-</a></td>
+		<td><a href="#" class="addRowButton"></a>&nbsp;<a href="#" class="removeRowButton"></a></td>
 	</tr>
 	<?php } ?>
 	<?php } ?>

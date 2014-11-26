@@ -7,7 +7,10 @@
 	<link href="/favicon.ico" type="image/x-icon" rel="icon" />
 	<link href="/favicon.ico" type="image/x-icon" rel="shortcut icon" />
 	<link rel="stylesheet" type="text/css" href="/css/debug.css" />
-	<link rel="stylesheet" type="text/css" href="/css/black-tie/jquery-ui-1.8.10.custom.css" />
+<!--	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/black-tie/jquery-ui.css"> -->
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+	<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.2/css/jquery.dataTables.css">
+<!-- 	<link rel="stylesheet" type="text/css" href="/css/black-tie/jquery-ui-1.8.10.custom.css" /> -->
 	<link rel="stylesheet" type="text/css" href="/css/admin.css" />
 	
 	<script type="text/javascript" src="//code.jquery.com/jquery-1.11.1.min.js"></script>
@@ -15,6 +18,9 @@
 	<script type="text/javascript" src="/js/jquery.ui.datepicker-cs.js"></script>
 <!-- 	<script type="text/javascript" src="/js/jquery-ui-1.8.11.custom.min.js"></script>
 	<script type="text/javascript" src="/js/jquery.cookie.js"></script> -->
+	
+	<script type="text/javascript" src="//cdn.datatables.net/1.10.2/js/jquery.dataTables.min.js"></script>
+	<script type="text/javascript" src="//cdn.datatables.net/plug-ins/725b2a2115b/integration/jqueryui/dataTables.jqueryui.js"></script>
 	
 	<script type="text/javascript">
 		function showloader() {
