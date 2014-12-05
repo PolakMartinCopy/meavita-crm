@@ -529,6 +529,7 @@ class BPCSRepPurchasesController extends AppController {
 				}
 			}
 			$data_source->commit($this->BPCSRepPurchase);
+			$this->Session->setFlash('Žádosti o schválení byly úspěšně odeslány.');
 		}
 		$this->redirect(array('action' => 'index'));
 	}

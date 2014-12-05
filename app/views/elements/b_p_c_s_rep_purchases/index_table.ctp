@@ -110,10 +110,8 @@ echo $this->Form->create('BPCSRepPurchase', array('url' => array('action' => 're
 	$(document).ready(function() {
 		$('#SelectAllCheckbox').change(function(e) {
 			e.preventDefault();
-	        if($(this).is(":checked")) {
-				$('.BatchConfirmCheckbox').attr('checked', true);
-				$('#SelectAllCheckbox').attr('checked', false);
-	        }
+			$('.BatchConfirmCheckbox').prop('checked', true);
+			$('#SelectAllCheckbox').removeAttr('checked');
 		});
 	});
 </script>
