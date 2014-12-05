@@ -99,7 +99,7 @@ echo $this->Form->create('BPCSRepPurchase', array('url' => array('action' => 're
 	</tfoot>
 </table>
 <?php 
-	echo $this->Form->submit('Schválit');
+	echo $this->Form->submit('Schválit označené');
 	echo $this->Form->end();
 ?>
 <?php echo $this->Paginator->prev('« Předchozí', null, null, array('class' => 'disabled')); ?>
