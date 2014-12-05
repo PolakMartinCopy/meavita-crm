@@ -497,5 +497,40 @@ class BPCSRepPurchasesController extends AppController {
 		}
 		$this->redirect($url);
 	}
+	
+	function user_require_confirmation_batch() {
+		if (isset($this->data)) {
+			// zahajim transakci
+			$data_source = $this->BPCSRepPurchase->getDataSource();
+			// projdu nakupy
+			foreach ($this->data['BPCSRepPurchase'] as $purchase_id => $confirm) {
+				$confirm = $confirm['confirm'];
+				// pokud chci odeslat pozadavek na schvaleni
+				if ($confirm) {
+					// vytvori pozadavek na schvaleni nakupu (prevod od repa do skladu)
+					if ($this->BPCSRepPurchase->createCSRepPurchase($purchase_id)) {
+						// oznaci nakup jako "odeslany ke schvaleni"
+						$purchase = array(
+							'BPCSRepPurchase' => array(
+								'id' => $purchase_id,
+								'confirm_requirement' => true
+							)
+						);
+						if (!$this->BPCSRepPurchase->save($purchase)) {
+							$data_source->rollback($this->BPCSRepPurchase);
+							$this->Session->setFlash('Nákupy se nepodařilo označit jako "odeslaný ke schválení"');
+							$this->redirect(array('action' => 'index'));
+						}
+					} else {
+						$data_source->rollback($this->BPCSRepPurchase);
+						$this->Session->setFlash('Nepodařilo se vytvořit požadavky na schválení.');
+						$this->redirect(array('action' => 'index'));
+					}
+				}
+			}
+			$data_source->commit($this->BPCSRepPurchase);
+		}
+		$this->redirect(array('action' => 'index'));
+	}
 }
 ?>
