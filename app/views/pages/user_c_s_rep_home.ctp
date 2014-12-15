@@ -27,11 +27,12 @@
 			<td colspan="6">Datum</td>
 		</tr>
 		<tr>
+			<th>Měsíc</th>
+			<td><?php echo $this->Form->input('CSRepHomePurchaseForm.BPCSRepPurchase.month', array('label' => false, 'type' => 'select', 'options' => $months))?>
 			<th>Datum od</th>
 			<td><?php echo $this->Form->input('CSRepHomePurchaseForm.BPCSRepPurchase.date_from', array('label' => false))?></td>
 			<th>Datum do</th>
 			<td><?php echo $this->Form->input('CSRepHomePurchaseForm.BPCSRepPurchase.date_to', array('label' => false))?></td>
-			<td colspan="2">&nbsp;</td>
 		</tr>
 		<tr>
 			<td colspan="6">
@@ -64,7 +65,53 @@
 				dates.not( this ).datepicker( "option", option, date );
 			}
 		});
+
+		// obsluha selectu pro vyber mesice (pro vyberu mesice nastavim pocatecni a koncove datum v polich pro datepicker
+		var monthId = model + 'Month';
+
+		$('#' + monthId).change(function() {
+			// ktery mesic jsem zvolil
+			var month = $(this).val();
+			month = parseInt(month);
+
+			var date = new Date();
+			// aktualni mesic v roce
+			var actualMonth = date.getMonth();
+			// aktualni rok
+			var actualYear = date.getFullYear();
+			// pokud je zvoleny mesic vyssi nez aktualni mesic, chci data z predchoziho roku
+			if (month > actualMonth) {
+				actualYear = actualYear - 1;
+			}
+			// prvni den v mesici
+			var firstDay = '01';
+			// posledni den v mesici
+			var monthStart = new Date(actualYear, month, 1);
+			var monthEnd = new Date(actualYear, month + 1, 1);
+
+			var lastDay = parseInt((monthEnd - monthStart) / (1000 * 60 * 60 * 24));
+
+			// k mesici prictu jedna, protoze v JS jsou mesice cislovane od 0
+			month = month + 1;
+			month = month + "";
+			// pokud je treba, pridam pred cislo mesice trailing zero
+			if (month.length == 1) {
+				month = '0' + month;
+			}
+
+			// sestavim data
+			var dateFrom = firstDay + '.' + month + '.' + actualYear;
+			var dateTo = lastDay + '.' + month + '.' + actualYear;
+
+			// nastavim pocatecni datum intervalu
+			$('#' + dateFromId).val(dateFrom);
+			
+			// nastavim koncove datum intervalu
+			$('#' + dateToId).val(dateTo);
+		});
 	});
+
+
 	$( "#datepicker" ).datepicker( $.datepicker.regional[ "cs" ] );
 </script>
 

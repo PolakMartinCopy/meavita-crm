@@ -162,6 +162,7 @@ class PagesController extends AppController {
 		} else {
 			$this->data['CSRepHomePurchaseForm']['BPCSRepPurchase']['date_from'] = '01.' . date('m.Y');
 			$this->data['CSRepHomePurchaseForm']['BPCSRepPurchase']['date_to'] = date('t.m.Y');
+			$this->data['CSRepHomePurchaseForm']['BPCSRepPurchase']['month'] = date('m') - 1;
 			$conditions = $this->BPCSRepPurchase->do_form_search($conditions, $this->data['CSRepHomePurchaseForm']);
 		}
 		
@@ -195,7 +196,9 @@ class PagesController extends AppController {
 			'group' => array('Product.id')
 		));
 		
-		$this->set(compact('quantity', 'total_price', 'purchases'));
+		$months = array(0 => 'Leden', 'Únor', 'Březen', 'Duben', 'Květen', 'Červen', 'Červenec', 'Srpen', 'Září', 'Říjen', 'Listopad', 'Prosinec');
+		
+		$this->set(compact('quantity', 'total_price', 'purchases', 'months'));
 	}
 	
 	function user_admin_home() {
