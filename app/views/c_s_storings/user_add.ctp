@@ -23,7 +23,7 @@
 		});
 	});
 </script>
-<?php //echo $this->element('c_s_storings/add_edit_new_product_management')?>
+
 <h1>Naskladnit zboží</h1>
 <?php
 	echo $this->Form->create('CSStoring');

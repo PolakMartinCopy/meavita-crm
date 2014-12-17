@@ -3,7 +3,26 @@
 	var currencies = <?php echo json_encode($currencies)?>;
 </script>
 <script type="text/javascript" src="/js/c_s_storing_add_edit.js"></script>
-<?php //echo $this->element('c_s_storings/add_edit_new_product_management')?>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		// pri zmene promenne z KC na EUR a opacne menit kurz v polich
+		$(document).delegate('.CSTransactionItemCurrency', 'change', function(e) {
+			var id = $(this).attr('id');
+			var val = $('#' + id + ' option:selected').val();
+			var exchangeRateFieldId = id;
+			var exchangeRate = <?php echo $exchange_rate?>;
+			exchangeRateFieldId = exchangeRateFieldId.replace('CurrencyId', 'ExchangeRate');
+			// kurz nastavim defaultne na 1
+			$('#' + exchangeRateFieldId).val(1);
+
+			// pokud je zvoleno EUR (val == 2) a mam aktualni kurz, nastavim ho
+			if (val == 2 && exchangeRate) {
+				$('#' + exchangeRateFieldId).val(exchangeRate);
+			}
+		});
+	});
+</script>
 
 <h1>Upravit naskladnění</h1>
 <?php 

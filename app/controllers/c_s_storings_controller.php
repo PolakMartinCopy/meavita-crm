@@ -375,6 +375,16 @@ class CSStoringsController extends AppController {
 			'order' => array('Currency.order' => 'asc')
 		));
 		$this->set(compact('currencies'));
+		
+		App::import('Model', 'Setting');
+		$this->Setting = &new Setting;
+		App::import('Model', 'Tool');
+		$this->Tool = &new Tool;
+		$exchange_rate = false;
+		if ($this->Tool->is_exchange_rate_downloaded()) {
+			$exchange_rate = $this->Setting->findValue('EXCHANGE_RATE');
+		}
+		$this->set('exchange_rate', $exchange_rate);
 	}
 	
 	function user_delete($id = null) {

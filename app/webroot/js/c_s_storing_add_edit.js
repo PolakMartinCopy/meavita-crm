@@ -117,14 +117,7 @@ $(function() {
 		tableRow.after(productRow(rowCount));
 		// zvysim pocitadlo radku
 		rowCount++;
-		
-/*		$(".new_product_link").fancybox({
-			'scrolling'		: 'no',
-			'titleShow'		: false,
-			'onClosed'		: function() {
-			    $("#login_error").hide();
-			}
-		}); */
+
 	});
 
 	$('table').delegate('.removeRowButton', 'click', function(e) {
@@ -132,55 +125,7 @@ $(function() {
 		var tableRow = $(this).closest('tr');
 		tableRow.remove();
 	});
-	
-/*	// promenna, kde si zapamatuju cislo radku, do ktereho chci vlozit novy produkt
-	var row = null;
-	
-	$('.new_product_link').fancybox({
-		'scrolling'		: 'no',
-		'titleShow'		: false,
-		'onClosed'		: function() {
-		    $("#login_error").hide();
-		}
-	});
 
-	$('table').delegate('.new_product_link', 'click', function(e) {
-		row = $(this).closest('tr').attr('rel');
-	});
-
-	$("#new_product_form").bind("submit", function(e) {
-		e.preventDefault();
-		// validate
-		if ($("#ProductName").val().length < 1) {
-		    $("#login_error").show();
-		    $.fancybox.resize();
-		    return false;
-		}
-
-		$.fancybox.showActivity();
-
-		// save
-		$.ajax({
-			type : 'POST',
-			cache : false,
-			url : '/user/product_variants/ajax_add',
-			data : $(this).serializeArray(),
-			dataType: 'json',
-			success: function(data) {
-				alert(data.message);
-				// pokud se vlozeni do ciselniku podarilo, naplnim formularova pole vlozenymi hodnotami
-				if (data.success) {
-					var productVariantId = data.productVariantId;
-					$('#CSTransactionItem' + row + 'ProductVariantId').val(productVariantId);
-					$('#CSTransactionItem' + row + 'ProductName').val($('#ProductName').val());
-				}
-			}
-		});
-		
-		$.fancybox.close();
-
-		return false;
-	}); */
 });
 
 function productRow(count) {
@@ -198,7 +143,7 @@ function productRow(count) {
 	rowData += '<a href="#" id="BusinessPartner' + count + 'SelectShow" class="BusinessPartnerSelectShow" data-row-number="' + count + '">vybrat</a>';
 	rowData += '<input type="hidden" name="data[CSTransactionItem][' + count + '][business_partner_id]" id="CSTransactionItem' + count + 'BusinessPartnerId" />';
 	rowData += '</td>';
-	rowData += '<td style="width:5%"><input name="data[CSTransactionItem][' + count + '][quantity]" type="text" size="2" maxlength="11" id="CSTransactionItem' + count + 'Quantity" /></td>';
+	rowData += '<td style="width:5%" align="right"><input name="data[CSTransactionItem][' + count + '][quantity]" type="text" size="2" maxlength="11" id="CSTransactionItem' + count + 'Quantity" /></td>';
 	rowData += '<td style="width:12%"><input name="data[CSTransactionItem][' + count + '][price_total]" type="text" size="20" maxlength="11" id="CSTransactionItem' + count + 'Price" /></td>';
 	rowData += '<td style="width:5%">';
 	rowData += '<select name="data[CSTransactionItem][' + count + '][currency_id]" id="CSTransactionItem' + count + 'CurrencyId" class="CSTransactionItemCurrency">';
