@@ -60,10 +60,10 @@ echo $this->Form->create('BPCSRepPurchase', array('url' => array('action' => 're
 			<td><?php echo yes_no($b_p_c_s_rep_purchase['CSRepPurchase']['confirmed'])?></td>
 			<td><?php
 				$links = array();
-				if ((!$b_p_c_s_rep_purchase['CSRepPurchase']['confirmed'] && !$b_p_c_s_rep_purchase['BPCSRepPurchase']['confirm_requirement']) && isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/BPCSRepPurchases/user_edit')) { 
+				if ((!$b_p_c_s_rep_purchase['CSRepPurchase']['confirmed']) && isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/BPCSRepPurchases/user_edit')) { 
 					$links[] = $this->Html->link('Upravit', array('controller' => 'b_p_c_s_rep_purchases', 'action' => 'edit', $b_p_c_s_rep_purchase['BPCSRepPurchase']['id']) + $this->passedArgs);
 				}
-				if ((!$b_p_c_s_rep_purchase['CSRepPurchase']['confirmed'] && !$b_p_c_s_rep_purchase['BPCSRepPurchase']['confirm_requirement']) && isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/BPCSRepPurchases/user_delete')) {
+				if ((!$b_p_c_s_rep_purchase['CSRepPurchase']['confirmed']) && isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/BPCSRepPurchases/user_delete')) {
 					$links[] = $this->Html->link('Smazat', array('controller' => 'b_p_c_s_rep_purchases', 'action' => 'delete', $b_p_c_s_rep_purchase['BPCSRepPurchase']['id']) + $this->passedArgs, array(), 'Opravdu chcete transakci smazat?');
 				}
 				if ((!$b_p_c_s_rep_purchase['CSRepPurchase']['confirmed'] && !$b_p_c_s_rep_purchase['BPCSRepPurchase']['confirm_requirement']) && isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/BPCSRepPurchases/user_require_confirmation')) {
@@ -99,7 +99,7 @@ echo $this->Form->create('BPCSRepPurchase', array('url' => array('action' => 're
 	</tfoot>
 </table>
 <?php 
-	echo $this->Form->submit('Schválit označené');
+	echo $this->Form->submit('Schválit označené', array('class' => 'btn_highlight'));
 	echo $this->Form->end();
 ?>
 <?php echo $this->Paginator->prev('« Předchozí', null, null, array('class' => 'disabled')); ?>
