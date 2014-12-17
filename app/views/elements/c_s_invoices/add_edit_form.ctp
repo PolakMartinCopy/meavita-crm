@@ -5,7 +5,7 @@
 <table class="left_heading">
 	<tr>
 		<th>Komu:</th>
-		<td colspan="4"><?php 
+		<td><?php 
 			if (isset($business_partner)) {
 				echo $this->Form->input('CSInvoice.business_partner_name', array('label' => false, 'size' => 50, 'disabled' => true));
 			} else {
@@ -20,9 +20,13 @@
 	</tr>
 	<tr>
 		<th>Datum splatnosti</th>
-		<td colspan="4">
+		<td>
 			<?php echo $this->Form->input('CSInvoice.due_date', array('label' => false, 'type' => 'text', 'div' => false))?>
 		</td>
+	</tr>
+	<tr>
+		<th>Datum zdanitelného plnění</th>
+		<td><?php echo $this->Form->input('CSInvoice.taxable_filling_date', array('label' => false, 'type' => 'text', 'div' => false))?></td>
 	</tr>
 	<tr>
 		<th>Číslo objednávky</th>

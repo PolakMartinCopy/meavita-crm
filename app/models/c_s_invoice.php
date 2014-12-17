@@ -77,15 +77,18 @@ class CSInvoice extends AppModel {
 	
 	function beforeSave() {
 		// uprava tvaru data z dd.mm.YYYY na YYYY-mm-dd
-		if (isset($this->data['CSInvoice']['due_date']) && preg_match('/\d{2}\.\d{2}\.\d{4}/', $this->data['CSInvoice']['due_date'])) {
-			$date = explode('.', $this->data['CSInvoice']['due_date']);
-	
-			if (!isset($date[2]) || !isset($date[1]) || !isset($date[0])) {
-				return false;
+		$date_attributes = array('due_date', 'taxable_filling_date');
+		foreach ($date_attributes as $attribute) {
+			if (isset($this->data['CSInvoice'][$attribute]) && preg_match('/\d{2}\.\d{2}\.\d{4}/', $this->data['CSInvoice'][$attribute])) {
+				$date = explode('.', $this->data['CSInvoice'][$attribute]);
+		
+				if (!isset($date[2]) || !isset($date[1]) || !isset($date[0])) {
+					return false;
+				}
+				$this->data['CSInvoice'][$attribute] = $date[2] . '-' . $date[1] . '-' . $date[0];
 			}
-			$this->data['CSInvoice']['due_date'] = $date[2] . '-' . $date[1] . '-' . $date[0];
 		}
-	
+		
 		return true;
 	}
 	

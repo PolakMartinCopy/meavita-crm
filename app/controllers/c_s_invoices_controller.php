@@ -222,6 +222,7 @@ class CSInvoicesController extends AppController {
 		} else {
 			$this->data['CSInvoice']['date_of_issue'] = date('Y-m-d H:i:s');
 			$this->data['CSInvoice']['due_date'] = date('d.m.Y', strtotime('+2 weeks'));
+			$this->data['CSInvoice']['taxable_filling_date'] = date('d.m.Y');
 			$this->data['CSInvoice']['year'] = date('Y');
 			$this->data['CSInvoice']['month'] = date('m');
 		}
@@ -280,6 +281,7 @@ class CSInvoicesController extends AppController {
 				'CSInvoice.id',
 				'CSInvoice.date_of_issue',
 				'CSInvoice.due_date',
+				'CSInvoice.taxable_filling_date',
 				'CSInvoice.order_number',
 				'CSInvoice.business_partner_id',
 				'CSInvoice.note',
@@ -399,6 +401,7 @@ class CSInvoicesController extends AppController {
 			$transaction[$model]['business_partner_name'] = $transaction['BusinessPartner']['name'];
 			$transaction[$model]['date_of_issue'] = db2cal_date($transaction[$model]['date_of_issue']);
 			$transaction[$model]['due_date'] = db2cal_date($transaction[$model]['due_date']);
+			$transaction[$model]['taxable_filling_date'] = db2cal_date($transaction[$model]['taxable_filling_date']);
 			$this->data = $transaction;
 		}
 		
@@ -566,15 +569,21 @@ class CSInvoicesController extends AppController {
 		$this->set('tax_classes', $tax_classes);
 
 		$this->layout = 'pdf'; //this will use the pdf.ctp layout
-		if ($xls) {
-			$this->layout = 'xls';
-		}
-		if ($invoice['Language']['shortcut'] == 'en' && !$xls) {
-			$this->render('view_pdf_en');
-		} elseif ($invoice['Language']['shortcut'] == 'en' && $xls) {
-			$this->render('view_xls_en');
-		} elseif ($invoice['Language']['shortcut'] == 'cs' && $xls) {
-			$this->render('view_xls');
+//debug($this->params['named']); die();
+		if (isset($this->params['named']['test'])) {
+			$this->render('frames');
+		} else {
+
+			if ($xls) {
+				$this->layout = 'xls';
+			}
+			if ($invoice['Language']['shortcut'] == 'en' && !$xls) {
+				$this->render('view_pdf_en');
+			} elseif ($invoice['Language']['shortcut'] == 'en' && $xls) {
+				$this->render('view_xls_en');
+			} elseif ($invoice['Language']['shortcut'] == 'cs' && $xls) {
+				$this->render('view_xls');
+			}
 		}
 	}
 	
