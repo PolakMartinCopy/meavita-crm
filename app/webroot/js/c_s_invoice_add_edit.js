@@ -1,5 +1,5 @@
 $(function() {
-	$("#CSInvoiceDueDate").datepicker({
+	$("#CSInvoiceDueDate,#CSInvoiceTaxableFillingDate").datepicker({
 		changeMonth: false,
 		numberOfMonths: 1
 	});
@@ -8,5 +8,5 @@ $(function() {
 		languageId = $(this).val();
 	});
 	
-	var modelName = 'CSInvoice';
+	window.modelName = 'CSInvoice';
 });

@@ -39,13 +39,13 @@ $(function() {
 		$('#BusinessPartnerSelectDiv').dialog('close');
 		
 		// odstranim elementy obsahujici info o zvolenem OP (pokud nejaky je)
-		$('#' + modelName + 'BusinessPartnerName').remove();
-		$('#' + modelName + 'BusinessPartnerId').remove();
+		$('#' + window.modelName + 'BusinessPartnerName').remove();
+		$('#' + window.modelName + 'BusinessPartnerId').remove();
 		
 		// pred odkaz pro vlozeni obchodniho partnera dam input, kam vlozim nazev OP
-		$('#BusinessPartnerSelectShow').before('<input type="text" size="50" value="' + businessPartnerName + '" id="' + modelName + 'BusinessPartnerName" name="data[' + modelName + '][business_partner_name]"/>');
+		$('#BusinessPartnerSelectShow').before('<input type="text" size="50" value="' + businessPartnerName + '" id="' + window.modelName + 'BusinessPartnerName" name="data[' + window.modelName + '][business_partner_name]"/>');
 		
 		// k tomuto inputu dam hidden field pro zapamatovani id obchodniho partnera
-		$('#BusinessPartnerSelectShow').before('<input type="hidden" value="' + businessPartnerId + '" id="' + modelName + 'BusinessPartnerId" name="data[' + modelName + '][business_partner_id]"/>');
+		$('#BusinessPartnerSelectShow').before('<input type="hidden" value="' + businessPartnerId + '" id="' + window.modelName + 'BusinessPartnerId" name="data[' + window.modelName + '][business_partner_id]"/>');
 	}); 
 });   
