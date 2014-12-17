@@ -197,10 +197,10 @@ class BPCSRepPurchase extends AppModel {
 		// nakup lze upravovat, pokud neni odeslan pozadavek na schvaleni
 		$purchase = $this->find('first', array(
 			'conditions' => array('BPCSRepPurchase.id' => $id),
-			'contain' => array(),
-			'fields' => array('BPCSRepPurchase.confirm_requirement')
+			'contain' => array('CSRepPurchase'),
+			'fields' => array('CSRepPurchase.confirmed')
 		));
-		return !$purchase['BPCSRepPurchase']['confirm_requirement'];
+		return !$purchase['CSRepPurchase']['confirmed'];
 	}
 	
 	function createCSRepPurchase($id) {
