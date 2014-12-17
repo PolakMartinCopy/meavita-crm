@@ -404,3 +404,7 @@ input.btn_highlight {
 	white-space: nowrap;
 	padding: 3px;
 }
+
+#ProductVariantSelectTable tbody td {
+	white-space: nowrap;
+}

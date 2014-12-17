@@ -25,10 +25,10 @@ $(function() {
     	'ajax': '/user/product_variants/ajax_list/',
 		'fnInitComplete': function() {
 	        $('#ProductVariantSelectTable tbody tr').each(function() {
-	        	// sloupec s nazvem produktu nechci zalamovat
-	        	$(this).find('td:eq(0)').attr('nowrap', 'nowrap');
-	        	// sloupec s cenou chci zarovnat doprava
-	            $(this).find('td:eq(6)').attr('align', 'right');
+	        	// sloupce s cenou a mnozstvim chci zarovnat doprava
+	        	$(this).find('td:eq(3)').attr('align', 'right');
+	        	$(this).find('td:eq(4)').attr('align', 'right');
+	            $(this).find('td:eq(5)').attr('align', 'right');
 	        });
 	    },
     	'info': false,
