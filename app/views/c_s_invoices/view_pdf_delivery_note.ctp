@@ -170,17 +170,14 @@ $foot_tbl = '
 <table cellspacing="0" cellpadding="1" border="1">
 	<tr>
 		<td style="width:100mm">Typ balení:</td>
-		<td style="width:90mm" rowspan="2"><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/></td>
+		<td style="width:90mm" rowspan="2" align="center"><img src="' . WWW_ROOT . '/img/podpis2.jpg" width="150"/><br/>Razítko a podpis dodavatele</td>
 	</tr>
 	<tr>
-		<td><br/><br/><br/><br/><br/></td>
-	</tr>
-	<tr>
-		<td><strong>Car licence plate:</strong><br/><br/><br/><br/><br/><br/></td>
-		<td rowspan="2" align="center"><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>podpis zákazníka/razítko<br/>Podpisem zákazník potvrzuje, že zboží bylo doručeno v neporušeném stavu.</td>
+		<td>' . str_replace("\n", '<br/>', $invoice['CSInvoice']['package_type']) . '</td>
 	</tr>
 	<tr>
 		<td><strong>Převzal (jméno + příjmení):</strong><br/><br/><br/><br/><br/><br/></td>
+		<td align="center"><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>podpis zákazníka/razítko<br/>Podpisem zákazník potvrzuje, že zboží bylo doručeno v neporušeném stavu.</td>
 	</tr>
 </table>
 ';

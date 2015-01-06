@@ -25,25 +25,31 @@ class CSInvoice extends AppModel {
 		'date_of_issue' => array(
 			'notEmpty' => array(
 				'rule' => 'notEmpty',
-				'message' => 'Zadejte datum vystavení faktury'
+				'message' => 'Zadejte datum vystavení'
 			)
 		),
 		'due_date' => array(
 			'notEmpty' => array(
 				'rule' => 'notEmpty',
-				'message' => 'Zadejte datum splatnosti faktury'
+				'message' => 'Zadejte datum splatnosti'
+			)
+		),
+		'taxable_filling_date' => array(
+			'notEmpty' => array(
+				'rule' => 'notEmpty',
+				'message' => 'Zadejte datum zdanitelného plnění'
 			)
 		),
 		'amount' => array(
 			'notEmpty' => array(
 				'rule' => 'notEmpty',
-				'message' => 'Zadejte celkovou částku za fakturu'
+				'message' => 'Zadejte celkovou částku'
 			)
 		),
 		'business_partner_id' => array(
 			'notEmpty' => array(
 				'rule' => 'notEmpty',
-				'message' => 'Zadejte obchodního partnera na faktuře'
+				'message' => 'Zadejte obchodního partnera'
 			)
 		),
 		'user_id' => array(
@@ -51,12 +57,20 @@ class CSInvoice extends AppModel {
 				'rule' => 'notEmpty',
 				'message' => 'Zadejte, kdo vystavil fakturu'
 			)
+		),
+		'payment_type' => array(
+			'notEmpty' => array(
+				'rule' => 'notEmpty',
+				'message' => 'Zadejte typ platby'
+			)				
 		)
 	);
 	
 	var $export_file = 'files/c_s_invoices.csv';
 	
 	var $deleted = null;
+	
+	var $cs_payment_types = array(0 => 'převodem', 1 => 'hotově');
 	
 	function beforeValidate() {
 		if (isset($this->data['CSTransactionItem'])) {
@@ -89,6 +103,11 @@ class CSInvoice extends AppModel {
 			}
 		}
 		
+		if (array_key_exists('payment_type', $this->data['CSInvoice'])) {
+			if (is_numeric($this->data['CSInvoice']['payment_type'])) {
+				$this->data['CSInvoice']['payment_type'] = $this->cs_payment_types[$this->data['CSInvoice']['payment_type']];
+			}
+		}
 		return true;
 	}
 	

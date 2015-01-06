@@ -286,7 +286,9 @@ class CSInvoicesController extends AppController {
 				'CSInvoice.business_partner_id',
 				'CSInvoice.note',
 				'CSInvoice.language_id',
-				'CSInvoice.currency_id'
+				'CSInvoice.currency_id',
+				'CSInvoice.payment_type',
+				'CSInvoice.package_type'
 			)
 		));
 
@@ -402,6 +404,9 @@ class CSInvoicesController extends AppController {
 			$transaction[$model]['date_of_issue'] = db2cal_date($transaction[$model]['date_of_issue']);
 			$transaction[$model]['due_date'] = db2cal_date($transaction[$model]['due_date']);
 			$transaction[$model]['taxable_filling_date'] = db2cal_date($transaction[$model]['taxable_filling_date']);
+			if ($transaction[$model]['language_id'] == 1) {
+				$transaction[$model]['payment_type'] = array_search($transaction[$model]['payment_type'], $this->CSInvoice->cs_payment_types);
+			}
 			$this->data = $transaction;
 		}
 		
@@ -510,11 +515,13 @@ class CSInvoicesController extends AppController {
 				'CSInvoice.id',
 				'CSInvoice.date_of_issue',
 				'CSInvoice.due_date',
+				'CSInvoice.taxable_filling_date',
 				'CSInvoice.amount',
 				'CSInvoice.amount_vat',
 				'CSInvoice.code',
 				'CSInvoice.note',
 				'CSInvoice.order_number',
+				'CSInvoice.payment_type',
 					
 				'BusinessPartner.id', 'BusinessPartner.name', 'BusinessPartner.ico', 'BusinessPartner.dic',
 				'Address.id', 'Address.street', 'Address.number', 'Address.o_number', 'Address.city', 'Address.zip',
@@ -569,6 +576,58 @@ class CSInvoicesController extends AppController {
 		$this->set('tax_classes', $tax_classes);
 
 		$this->layout = 'pdf'; //this will use the pdf.ctp layout
+		
+		// datum vystaveni
+		$date_of_issue = explode(' ', $invoice['CSInvoice']['date_of_issue']);
+		$date_of_issue = $date_of_issue[0];
+		$date_of_issue = db2cal_date($date_of_issue);
+		// datum splatnosti
+		$due_date = db2cal_date($invoice['CSInvoice']['due_date']);
+		// datum zdanitelneho plneni
+		$taxable_filling_date = db2cal_date($invoice['CSInvoice']['taxable_filling_date']);
+		// nazev odberatele
+		$customer_name = $invoice['BusinessPartner']['name'];
+		// ulice odberatele
+		$customer_street = '';
+		// mesto odberatele
+		$customer_city = '';
+		if (!empty($invoice['Address'])) {
+			$customer_street = $invoice['Address']['street'];
+			if (!empty($customer_street)) $customer_street .= ' ';
+			$customer_street .= $invoice['Address']['number'];
+			if (!empty($invoice['Address']['o_number'])) {
+				$customer_street .= '/' . $invoice['Address']['o_number'];
+			}
+		
+			$customer_city = $invoice['Address']['zip'];
+			if (!empty($customer_city)) $customer_city .= ' ';
+			$customer_city .= $invoice['Address']['city'];
+		}
+		// kontaktni osoba odberatele
+		$contact_person = '';
+		if (!empty($invoice['ContactPerson'])) {
+			$contact_person = $invoice['ContactPerson']['first_name'];
+			if (!empty($contact_person)) $contact_person .= ' ';
+			$contact_person .= $invoice['ContactPerson']['last_name'];
+			if (!empty($invoice['ContactPerson']['prefix'])) {
+				$contact_person = $invoice['ContactPerson']['prefix'] . ' ' . $contact_person;
+			}
+			if (!empty($invoice['ContactPerson']['suffix'])) {
+				$contact_person .= ' ' . $invoice['ContactPerson']['suffix'];
+			}
+		}
+		// ico odberatele
+		$customer_ico = $invoice['BusinessPartner']['ico'];
+		// dic odberatele
+		$customer_dic = $invoice['BusinessPartner']['dic'];
+		// forma uhrady
+		$payment_type = $invoice['CSInvoice']['payment_type'];
+		// variabilni symbol
+		$variable_symbol = $invoice['CSInvoice']['code'];
+		// poznamka
+		$note = $invoice['CSInvoice']['note'];
+		// vsechny nachystane atributy poslu do pohledu
+		$this->set(compact('date_of_issue', 'due_date', 'taxable_filling_date', 'customer_name', 'customer_street', 'customer_city', 'contact_person', 'customer_ico', 'customer_dic', 'payment_type', 'variable_symbol', 'note'));
 //debug($this->params['named']); die();
 		if (isset($this->params['named']['test'])) {
 			$this->render('frames');
@@ -665,6 +724,7 @@ class CSInvoicesController extends AppController {
 				'CSInvoice.code',
 				'CSInvoice.note',
 				'CSInvoice.order_number',
+				'CSInvoice.package_type',
 					
 				'BusinessPartner.id', 'BusinessPartner.name', 'BusinessPartner.ico', 'BusinessPartner.dic',
 				'Address.id', 'Address.street', 'Address.number', 'Address.o_number', 'Address.city', 'Address.zip'
@@ -681,6 +741,11 @@ class CSInvoicesController extends AppController {
 		if ($invoice['Language']['shortcut'] == 'en') {
 			$this->render('view_pdf_delivery_note_en');
 		}
+	}
+	
+	function ajax_cs_payment_types() {
+		echo json_encode($this->CSInvoice->cs_payment_types);
+		die();
 	}
 }
 ?>

@@ -407,4 +407,5 @@ input.btn_highlight {
 
 #ProductVariantSelectTable tbody td {
 	white-space: nowrap;
+	text-align: right;
 }

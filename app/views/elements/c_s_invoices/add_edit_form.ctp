@@ -4,7 +4,7 @@
 
 <table class="left_heading">
 	<tr>
-		<th>Komu:</th>
+		<th>Komu<sup>*</sup></th>
 		<td><?php 
 			if (isset($business_partner)) {
 				echo $this->Form->input('CSInvoice.business_partner_name', array('label' => false, 'size' => 50, 'disabled' => true));
@@ -19,13 +19,13 @@
 		?></td>
 	</tr>
 	<tr>
-		<th>Datum splatnosti</th>
+		<th>Datum splatnosti<sup>*</sup></th>
 		<td>
 			<?php echo $this->Form->input('CSInvoice.due_date', array('label' => false, 'type' => 'text', 'div' => false))?>
 		</td>
 	</tr>
 	<tr>
-		<th>Datum zdanitelného plnění</th>
+		<th>Datum zdanitelného plnění<sup>*</sup></th>
 		<td><?php echo $this->Form->input('CSInvoice.taxable_filling_date', array('label' => false, 'type' => 'text', 'div' => false))?></td>
 	</tr>
 	<tr>
@@ -33,11 +33,19 @@
 		<td><?php echo $this->Form->input('CSInvoice.order_number', array('label' => false))?></td>
 	</tr>
 	<tr>
-		<th>Jazyk</th>
+		<th>Jazyk<sup>*</sup></th>
 		<td><?php echo $this->Form->input('CSInvoice.language_id', array('label' => false))?></td>
 	</tr>
 	<tr>
-		<th>Měna</th>
+		<th>Platba<sup>*</sup></th>
+		<td><?php echo $this->Form->input('CSInvoice.payment_type', array('label' => false))?></td>
+	</tr>
+	<tr>
+		<th>Typ balení</th>
+		<td><?php echo $this->Form->input('CSInvoice.package_type', array('label' => false, 'cols' => 50, 'rows' => 3))?></td>
+	</tr>
+	<tr>
+		<th>Měna<sup>*</sup></th>
 		<td><?php echo $this->Form->input('CSInvoice.currency_id', array('label' => false))?></td>
 	</tr>
 	<tr>
