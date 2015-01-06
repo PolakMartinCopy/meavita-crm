@@ -33,7 +33,7 @@ $linestyle = array('width' => 0.1, 'cap' => 'butt', 'join' => 'miter', 'dash' =>
 
 $tcpdf->SetFont($textfont, '', 8);
 
-$supplier_logo = '<img src="' . WWW_ROOT . '/img/meavita-small.png" width="100" height="25"/>';
+$supplier_logo = '<img src="img/meavita-small.png" width="100" height="25"/>';
 
 $supplier_table = '
 <table cellspacing="0" cellpadding="1" border="0" width="100%">
@@ -196,7 +196,7 @@ $tax_table .= '
 $signature_table = '
 <table cellspacing="0" cellpadding="1" border="0" style="width:100%">
 	<tr>
-		<td align="center" valign="middle"><img src="' . WWW_ROOT . '/img/podpis2.jpg" width="150"/></td>
+		<td align="center" valign="middle"><img src="img/podpis2.jpg" width="150"/></td>
 	</tr>
 	<tr>
 		<td align="center" valign="bottom">Signature, stamp</td>

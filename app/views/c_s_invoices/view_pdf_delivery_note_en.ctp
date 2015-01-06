@@ -171,7 +171,7 @@ $foot_tbl = '
 <table cellspacing="0" cellpadding="1" border="1">
 	<tr>
 		<td style="width:100mm">Package type:</td>
-		<td style="width:90mm" rowspan="2" align="center"><img src="' . WWW_ROOT . '/img/podpis2.jpg" width="150"/><br/>Supplier signature, stamp</td>
+		<td style="width:90mm" rowspan="2" align="center"><img src="img/podpis2.jpg" width="150"/><br/>Supplier signature, stamp</td>
 	</tr>
 	<tr>
 		<td>' . str_replace("\n", '<br/>', $invoice['CSInvoice']['package_type']) . '</td>
