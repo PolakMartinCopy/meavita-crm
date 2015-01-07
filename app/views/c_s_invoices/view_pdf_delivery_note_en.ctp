@@ -56,7 +56,7 @@ $tcpdf->Cell($rlw, 0, 'Order no.:', 0, 0, 'L', false);
 $tcpdf->Cell($rrw, 0, $invoice['CSInvoice']['order_number'], 0, 1, 'L', false);
 
 $tcpdf->Cell($llw, 0, 'City, postal code:', 0, 0, 'L', false);
-$tcpdf->Cell($lrw, 0, '638 00 Brno-Lesna', 0, 0, 'L', false);
+$tcpdf->Cell($lrw, 0, '638 00 Brno-Lesná', 0, 0, 'L', false);
 $tcpdf->Cell($rlw, 0, 'Country of origin:', 0, 0, 'L', false);
 $tcpdf->Cell($rrw, 0, 'EU', 0, 1, 'L', false);
 
@@ -99,7 +99,7 @@ $tcpdf->Cell($rlw, 0, 'Address:', 0, 0, 'L', false);
 $tcpdf->Cell($rrw, 0, $street_info, 0, 1, 'L', false);
 
 $tcpdf->Cell($llw, 0, 'E-mail:', 0, 0, 'L', false);
-$tcpdf->Cell($lrw, 0, 'meavita@meavita.cz', 0, 0, 'L', false);
+$tcpdf->Cell($lrw, 0, 'sales@meavita.cz', 0, 0, 'L', false);
 $tcpdf->Cell($rlw, 0, 'City, postal code:', 0, 0, 'L', false);
 $tcpdf->Cell($rrw, 0, $city_info, 0, 1, 'L', false);
 

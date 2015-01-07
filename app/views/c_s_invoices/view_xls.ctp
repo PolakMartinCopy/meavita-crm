@@ -99,7 +99,7 @@ $row++;
 $worksheet->mergeCells($row, 1, $row, 2);
 $worksheet->mergeCells($row, 3, $row, 4);
 $worksheet->write($row, 0, 'Místo, PSČ:', $content_common);
-$worksheet->write($row, 1, 'Brno, 602 00', $content_common);
+$worksheet->write($row, 1, 'Brno, 638 00', $content_common);
 $worksheet->write($row, 3, 'Datum zdanitelného plnění:', $content_common);
 $worksheet->write($row, 5, $date_of_issue_info, $content_common);
 

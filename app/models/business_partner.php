@@ -68,12 +68,12 @@ class BusinessPartner extends AppModel {
 				'message' => 'Obchodní partner se zadaným IČ už v systému existuje'
 			) */
 		),
-		'dic' => array(
+/*		'dic' => array(
 			'notEmpty' => array(
 				'rule' => 'notEmpty',
 				'message' => 'DIČ nesmí zůstat prázdné'
 			),
-		),
+		),*/
 		'icz' => array(
 			'notEmpty' => array(
 				'rule' => 'notEmpty',

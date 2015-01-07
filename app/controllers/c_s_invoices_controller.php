@@ -524,7 +524,7 @@ class CSInvoicesController extends AppController {
 				'CSInvoice.payment_type',
 					
 				'BusinessPartner.id', 'BusinessPartner.name', 'BusinessPartner.ico', 'BusinessPartner.dic',
-				'Address.id', 'Address.street', 'Address.number', 'Address.o_number', 'Address.city', 'Address.zip',
+				'Address.id', 'Address.name', 'Address.street', 'Address.number', 'Address.o_number', 'Address.city', 'Address.zip',
 				'ContactPerson.id', 'ContactPerson.first_name', 'ContactPerson.last_name', 'ContactPerson.prefix', 'ContactPerson.suffix'
 			)
 		));
@@ -534,6 +534,61 @@ class CSInvoicesController extends AppController {
 			$this->redirect(array('action' => 'index', 'user' => true));
 		}
 		
+		// do poznamky chci vlozit dorucovaci adresu, pokud se lisi od fakturacni
+		$delivery_address = $this->CSInvoice->BusinessPartner->Address->find('first', array(
+			'conditions' => array(
+				'Address.address_type_id' => 4,
+				'Address.business_partner_id' => $invoice['BusinessPartner']['id']
+			),
+			'contain' => array()
+		));
+		
+		if (
+			isset($delivery_address) && !empty($delivery_address) &&
+			(
+				$delivery_address['Address']['name'] != $invoice['Address']['name']
+				|| $delivery_address['Address']['street'] != $invoice['Address']['street']
+				|| $delivery_address['Address']['number'] != $invoice['Address']['number']
+				|| $delivery_address['Address']['o_number'] != $invoice['Address']['o_number']
+				|| $delivery_address['Address']['city'] != $invoice['Address']['city']
+				|| $delivery_address['Address']['zip'] != $invoice['Address']['zip']
+			)	
+		) {
+			$delivery_address_arr = array();
+			if (!empty($delivery_address['Address']['name'])) {
+				$delivery_address_arr[] = $delivery_address['Address']['name'];
+			}
+			$delivery_street = '';
+			if (!empty($delivery_address['Address']['street'])) {
+				$delivery_street .= $delivery_address['Address']['street'];
+			}
+			if (!empty($delivery_address['Address']['number'])) {
+				if (!empty($delivery_street)) {
+					$delivery_street .= ' ';
+				}
+				$delivery_street .= $delivery_address['Address']['number'];
+			}
+			if (!empty($delivery_address['Address']['o_number'])) {
+				if (!empty($delivery_street)) {
+					$delivery_street .= ' ';
+				}
+				$delivery_street .= $delivery_address['Address']['o_number'];
+			}
+			$delivery_address_arr[] = $delivery_street;
+			
+			$delivery_city = '';
+			if (!empty($delivery_address['Address']['zip'])) {
+				$delivery_city .= $delivery_address['Address']['zip'];
+			}
+			if (!empty($delivery_address['Address']['city'])) {
+				if (!empty($delivery_city)) {
+					$delivery_city .= ' ';
+				}
+				$delivery_city .= $delivery_address['Address']['city'];
+			}
+			$delivery_address_arr[] = $delivery_city;
+			$invoice['CSInvoice']['note'] .= '<br/>Doručovací adresa:<br/>' . implode('<br/>', $delivery_address_arr);
+		}
 		$this->set('invoice', $invoice);
 		
 		$tax_classes = $this->CSInvoice->CSTransactionItem->ProductVariant->Product->TaxClass->find('all', array(

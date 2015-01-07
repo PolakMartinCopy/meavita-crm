@@ -50,7 +50,7 @@ $supplier_table = '
 	</tr>
 	<tr>
 		<td>Místo, PSČ</td>
-		<td>Brno, 602 00</td>
+		<td>Brno, 638 00</td>
 	</tr>
 	<tr>
 		<td>IČO</td>

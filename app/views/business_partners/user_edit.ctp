@@ -44,7 +44,7 @@
 		<td><?php echo $form->input('BusinessPartner.ico', array('label' => false))?></td>
 	</tr>
 	<tr>
-		<th>DIČ<sup>*</sup></th>
+		<th>DIČ</th>
 		<td><?php echo $form->input('BusinessPartner.dic', array('label' => false))?></td>
 	</tr>
 	<tr>

@@ -50,7 +50,7 @@ $supplier_table = '
 	</tr>
 	<tr>
 		<td>City, postal code</td>
-		<td>Brno, 602 00</td>
+		<td>Brno, 638 00</td>
 	</tr>
 	<tr>
 		<td>ID (IČ)</td>
@@ -170,29 +170,6 @@ $products_table .= '
 </table>
 ';
 
-$tax_table = '';
-/* foreach ($tax_classes as $tax_class) {
-	$price_sum_info = '';
-	$vat_info = '';
-	if ($tax_class[0]['price_sum']) {
-		$price_sum_info = format_price($tax_class[0]['price_sum']) . ' ' . $invoice['Currency']['shortcut'];
-	}
-	if ($tax_class[0]['vat']) {
-		$vat_info = format_price($tax_class[0]['vat']) . ' ' . $invoice['Currency']['shortcut'];
-	}
-	$tax_table .= '
-		<tr>
-			<td align="right">' . $tax_class['TaxClass']['name'] . '</td>
-			<td align="right">' . $price_sum_info . '</td>
-			<td align="right">' . $vat_info . '</td>
-		</tr>
-';
-}
-
-$tax_table .= '
-	</table>
-'; */
-
 $signature_table = '
 <table cellspacing="0" cellpadding="1" border="0" style="width:100%">
 	<tr>
@@ -225,7 +202,7 @@ $main_table = '
 		<td colspan="2" style="border:0.5px solid black">' . $products_table . '</td>
 	</tr>
 	<tr>
-		<td style="border:0.5px solid black">' . $tax_table . '</td>
+		<td style="border:0.5px solid black" align="center">Delivery of goods to another EU member country.</td>
 		<td style="border:0.5px solid black">' . $signature_table . '</td>
 	</tr>
 </table>';

@@ -56,7 +56,7 @@ $tcpdf->Cell($rlw, 0, 'Č. objednávky:', 0, 0, 'L', false);
 $tcpdf->Cell($rrw, 0, $invoice['CSInvoice']['order_number'], 0, 1, 'L', false);
 
 $tcpdf->Cell($llw, 0, 'Místo, PSČ:', 0, 0, 'L', false);
-$tcpdf->Cell($lrw, 0, '638 00 Brno-Lesna', 0, 0, 'L', false);
+$tcpdf->Cell($lrw, 0, '638 00 Brno-Lesná', 0, 0, 'L', false);
 $tcpdf->Cell($rw, 0, '', 0, 0, 'L', false);
 
 $tcpdf->Cell($lw, 0, '', 0, 0, 'L', false);
@@ -117,7 +117,7 @@ $payment_tbl = '
 			<td style="width:' . $rrw . 'mm" rowspan="4">' . $invoice['CSInvoice']['note'] . '</td>
 		</tr>
 		<tr>
-			<td>Bankovní spojení::</td>
+			<td>Bankovní spojení:</td>
 			<td>Fio banka, a.s.</td>
 			<td>&nbsp;</td>
 		</tr>
@@ -127,8 +127,8 @@ $payment_tbl = '
 			<td>&nbsp;</td>
 		</tr>
 		<tr>
-			<td>Variabilní symbol::</td>
-			<td>141110</td>
+			<td>Variabilní symbol:</td>
+			<td>' . $invoice['CSInvoice']['code'] . '</td>
 			<td>&nbsp;</td>
 		</tr>
 	</table>
