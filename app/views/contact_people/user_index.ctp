@@ -10,6 +10,9 @@
 	<?php echo $form->create('ContactPerson', array('url' => array('controller' => 'contact_people', 'action' => 'index'))); ?>
 	<table class="left_heading">
 		<tr>
+			<td colspan="6">Kontaktní osoba</td>
+		</tr>
+		<tr>
 			<th>Jméno</th>
 			<td><?php echo $form->input('ContactPersonSearch2.ContactPerson.first_name', array('label' => false))?></td>
 			<th>Příjmení</th>
@@ -27,11 +30,19 @@
 		</tr>
 		<tr>
 			<th>Třída kampaní</th>
-			<td><?php echo $this->Form->input('ContactPersonSearch2.ContactPerson.mailing_campaign_id', array('label' => false, 'options' => $mailing_campaigns, 'empty' => true))?></td>
+			<td colspan="3><?php echo $this->Form->input('ContactPersonSearch2.ContactPerson.mailing_campaign_id', array('label' => false, 'options' => $mailing_campaigns, 'empty' => true))?></td>
+			<td colspan="2">&nbsp;</td>
+		</tr>
+		<tr>
+			<td colspan="6">Obchodní partner</td>
+		</tr>
+		<tr>
 			<th>Pobočka</th>
 			<td><?php echo $this->Form->input('ContactPersonSearch2.BusinessPartner.branch_name', array('label' => false))?></td>
-			<th>Obchodní partner</th>
+			<th>Název</th>
 			<td><?php echo $form->input('ContactPersonSearch2.BusinessPartner.name', array('label' => false))?></td>
+			<th>Vlastník</th>
+			<td><?php echo $this->Form->input('ContactPersonSearch2.BusinessPartner.owner_id', array('label' => false, 'options' => $owners, 'empty' => true))?></td>
 		</tr>
 		<tr>
 			<td colspan="6">

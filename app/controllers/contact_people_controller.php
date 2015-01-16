@@ -77,6 +77,15 @@ class ContactPeopleController extends AppController {
 			'contain' => array()
 		));
 		$this->set('mailing_campaigns', $mailing_campaigns);
+		
+		$owners = $this->ContactPerson->BusinessPartner->Owner->find('all', array(
+			'conditions' => array('Owner.active' => true),
+			'contain' => array(),
+			'fields' => array('Owner.id', 'Owner.first_name', 'Owner.last_name'),
+			'order' => array('Owner.last_name' => 'asc', 'Owner.first_name' => 'asc')
+		));
+		$owners = Set::combine($owners, '{n}.Owner.id', array('{0} {1}', '{n}.Owner.last_name', '{n}.Owner.first_name'));
+		$this->set('owners', $owners);
 	}
 	
 	function user_view($id = null) {

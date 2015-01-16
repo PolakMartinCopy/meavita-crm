@@ -53,6 +53,7 @@ class ContactPerson extends AppModel {
 			array('field' => 'ContactPerson.suffix', 'position' => '["ContactPerson"]["suffix"]', 'alias' => 'ContactPerson.suffix'),
 			array('field' => 'BusinessPartner.branch_name', 'position' => '["BusinessPartner"]["branch_name"]', 'alias' => 'BusinessPartner.branch_name'),
 			array('field' => 'BusinessPartner.name', 'position' => '["BusinessPartner"]["name"]', 'alias' => 'BusinessPartner.name'),
+			array('field' => 'BusinessPartner.email', 'position' => '["BusinessPartner"]["email"]', 'alias' => 'BusinessPartner.email'),
 			array('field' => 'ContactPerson.phone', 'position' => '["ContactPerson"]["phone"]', 'alias' => 'ContactPerson.phone'),
 			array('field' => 'ContactPerson.cellular', 'position' => '["ContactPerson"]["cellular"]', 'alias' => 'ContactPerson.cellular'),
 			array('field' => 'ContactPerson.email', 'position' => '["ContactPerson"]["email"]', 'alias' => 'ContactPerson.email'),
@@ -148,6 +149,9 @@ class ContactPerson extends AppModel {
 		}
 		if (array_key_exists('mailing_campaign_id', $data['ContactPerson']) && $data['ContactPerson']['mailing_campaign_id'] != null) {
 			$conditions['ContactPerson.mailing_campaign_id'] = $data['ContactPerson']['mailing_campaign_id'];
+		}
+		if (array_key_exists('owner_id', $data['BusinessPartner']) && $data['BusinessPartner']['owner_id'] != null) {
+			$conditions['BusinessPartner.owner_id'] = $data['BusinessPartner']['owner_id'];
 		}
 		
 		return $conditions;
