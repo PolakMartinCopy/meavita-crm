@@ -17,8 +17,9 @@ class CSInvoice extends AppModel {
 		)
 	);
 	
+	// ceske faktury maji v prefixu 1, anglicke 2
 	var $virtualFields = array(
-		'code' => 'CONCAT(1, CSInvoice.year, CSInvoice.month, CSInvoice.order)'
+		'code' => 'CONCAT(IF(CSInvoice.language_id=1, 1, 2), CSInvoice.year, CSInvoice.month, CSInvoice.order)'
 	);
 	
 	var $validate = array(
@@ -115,11 +116,12 @@ class CSInvoice extends AppModel {
 		// pokud vytvarim novou fakturu
 		if ($created) {
 			$order = 1;
-			// najdu posledni fakturu v danem mesice a roce a urcim cislo faktury v tomto obdobi
+			// najdu posledni fakturu v danem mesice a roce pro dany jazyk (ceske a en faktury maji kazda svou radu) a urcim cislo faktury v tomto obdobi
 			$last_invoice = $this->find('first', array(
 				'conditions' => array(
 					'CSInvoice.year' => $this->data['CSInvoice']['year'],
-					'CSInvoice.month' => $this->data['CSInvoice']['month']	
+					'CSInvoice.month' => $this->data['CSInvoice']['month'],
+					'CSInvoice.language_id' => $this->data['CSInvoice']['language_id']
 				),
 				'contain' => array(),
 				'fields' => array('CSInvoice.id', 'CSInvoice.order'),

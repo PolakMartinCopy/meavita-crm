@@ -165,6 +165,8 @@ class CSInvoicesController extends AppController {
 		if (isset($this->data)) {
 
 			if (isset($this->data['CSTransactionItem'])) {
+				// zjistim si, jak budu zaokrouhlovat (podle zadane meny)
+				$round = $this->CSInvoice->Currency->get_round($this->data['CSInvoice']['currency_id']);
 				// odnastavim prazdne radky
 				foreach ($this->data['CSTransactionItem'] as $index => &$transaction_item) {
 					if (empty($transaction_item['product_variant_id']) && empty($transaction_item['product_name']) && empty($transaction_item['quantity']) && empty($transaction_item['price'])) {
@@ -192,8 +194,8 @@ class CSInvoicesController extends AppController {
 								),
 								'fields' => array('TaxClass.id', 'TaxClass.value')
 							));
-
-							$transaction_item['price_vat'] = round($transaction_item['price'] + ($transaction_item['price'] * $tax_class['TaxClass']['value'] / 100), 2);
+							// z ceny bez DPH vypocitam cenu S DPH, kterou chci zaokrouhlenou (podle definice v DB)
+							$transaction_item['price_vat'] = round($transaction_item['price'] + ($transaction_item['price'] * $tax_class['TaxClass']['value'] / 100), $round);
 						}
 					}
 				}
@@ -301,6 +303,8 @@ class CSInvoicesController extends AppController {
 		
 		if (isset($this->data)) {
 			if (isset($this->data['CSTransactionItem'])) {
+				// zjistim si, jak budu zaokrouhlovat (podle zadane meny)
+				$round = $this->CSInvoice->Currency->get_round($this->data['CSInvoice']['currency_id']);
 				foreach ($this->data['CSTransactionItem'] as $index => &$transaction_item) {
 					if (empty($transaction_item['product_variant_id']) && empty($transaction_item['product_name']) && empty($transaction_item['quantity']) && empty($transaction_item['price'])) {
 						unset($this->data['CSTransactionItem'][$index]);
@@ -329,7 +333,7 @@ class CSInvoicesController extends AppController {
 								'fields' => array('TaxClass.id', 'TaxClass.value')
 							));
 
-							$transaction_item['price_vat'] = round($transaction_item['price'] + ($transaction_item['price'] * $tax_class['TaxClass']['value'] / 100), 2);
+							$transaction_item['price_vat'] = round($transaction_item['price'] + ($transaction_item['price'] * $tax_class['TaxClass']['value'] / 100), $round);
 						}
 					}
 				}
