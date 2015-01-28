@@ -60,7 +60,7 @@ function switchPaymentType2Cs(value) {
 }
 
 function switchPaymentType2En() {
-	var input = '<input name="data[CSInvoice][payment_type]" maxlength="20" id="' + tmpFieldId + '" type="text" />';
+	var input = '<input name="data[CSInvoice][payment_type]" maxlength="50" id="' + tmpFieldId + '" type="text" />';
 	$('#' + fieldId).after(input);
 	$('#' + fieldId).remove();
 	$('#' + tmpFieldId).attr('id', fieldId);
