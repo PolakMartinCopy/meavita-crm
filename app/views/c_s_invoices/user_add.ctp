@@ -14,7 +14,6 @@
 
 	echo $this->Form->create('CSInvoice', $form_options);
 	echo $this->element('c_s_invoices/add_edit_form');
-	echo $this->Form->hidden('CSInvoice.date_of_issue');
 	echo $this->Form->hidden('CSInvoice.year');
 	echo $this->Form->hidden('CSInvoice.month');
 	echo $this->Form->hidden('CSInvoice.user_id', array('value' => $user['User']['id']));

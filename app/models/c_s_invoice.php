@@ -92,7 +92,7 @@ class CSInvoice extends AppModel {
 	
 	function beforeSave() {
 		// uprava tvaru data z dd.mm.YYYY na YYYY-mm-dd
-		$date_attributes = array('due_date', 'taxable_filling_date');
+		$date_attributes = array('date_of_issue', 'due_date', 'taxable_filling_date');
 		foreach ($date_attributes as $attribute) {
 			if (isset($this->data['CSInvoice'][$attribute]) && preg_match('/\d{2}\.\d{2}\.\d{4}/', $this->data['CSInvoice'][$attribute])) {
 				$date = explode('.', $this->data['CSInvoice'][$attribute]);

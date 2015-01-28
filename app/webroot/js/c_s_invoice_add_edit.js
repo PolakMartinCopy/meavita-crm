@@ -23,7 +23,7 @@ $(function() {
 		switchPaymentType2Cs(value);
 	}
 	
-	$("#CSInvoiceDueDate,#CSInvoiceTaxableFillingDate").datepicker({
+	$("#CSInvoiceDueDate,#CSInvoiceTaxableFillingDate,#CSInvoiceDateOfIssue").datepicker({
 		changeMonth: false,
 		numberOfMonths: 1
 	});

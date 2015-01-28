@@ -19,10 +19,12 @@
 		?></td>
 	</tr>
 	<tr>
+		<th>Datum vystavení<sup>*</sup></th>
+		<td><?php echo $this->Form->input('CSInvoice.date_of_issue', array('label' => false, 'type' => 'text', 'div' => false))?></td>
+	</tr>
+	<tr>
 		<th>Datum splatnosti<sup>*</sup></th>
-		<td>
-			<?php echo $this->Form->input('CSInvoice.due_date', array('label' => false, 'type' => 'text', 'div' => false))?>
-		</td>
+		<td><?php echo $this->Form->input('CSInvoice.due_date', array('label' => false, 'type' => 'text', 'div' => false))?></td>
 	</tr>
 	<tr>
 		<th>Datum zdanitelného plnění<sup>*</sup></th>

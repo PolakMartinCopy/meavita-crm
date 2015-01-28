@@ -132,7 +132,8 @@ class CSInvoicesController extends AppController {
 				'BusinessPartner.name',
 			),
 			'order' => array(
-				'CSInvoice.date_of_issue' => 'desc'
+				'CSInvoice.date_of_issue' => 'desc',
+				'CSInvoice.code' => 'desc'
 			)
 		);
 		$invoices = $this->paginate();
@@ -222,7 +223,7 @@ class CSInvoicesController extends AppController {
 				$this->Session->setFlash('Požadavek k vystavení faktury neobsahuje žádné produkty a nelze jej proto uložit');
 			}
 		} else {
-			$this->data['CSInvoice']['date_of_issue'] = date('Y-m-d H:i:s');
+			$this->data['CSInvoice']['date_of_issue'] = date('d.m.Y');
 			$this->data['CSInvoice']['due_date'] = date('d.m.Y', strtotime('+2 weeks'));
 			$this->data['CSInvoice']['taxable_filling_date'] = date('d.m.Y');
 			$this->data['CSInvoice']['year'] = date('Y');
