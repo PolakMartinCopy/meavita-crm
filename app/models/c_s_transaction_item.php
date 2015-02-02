@@ -182,5 +182,13 @@ class CSTransactionItem extends AppModel {
 		}
 		return true;
 	}
+	
+	function get_price_vat($price, $vat, $round) {
+		$price = str_replace(',', '.', $price);
+		$price_vat = $price * ((100 + $vat) / 100);
+		// zaokrouhleni
+		$price_vat = ceil($price_vat * pow(10, $round)) / pow(10, $round);
+		return $price_vat;
+	}
 }
 ?>
