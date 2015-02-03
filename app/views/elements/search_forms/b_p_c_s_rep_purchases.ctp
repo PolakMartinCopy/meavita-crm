@@ -24,19 +24,19 @@
 		</tr>
 		<tr>
 			<th>Název pobočky</th>
-			<td><?php echo $this->Form->input('BPRepPurchaseForm.BusinessPartner.branch_name', array('label' => false))?></td>
+			<td><?php echo $this->Form->input('BPCSRepPurchaseForm.BusinessPartner.branch_name', array('label' => false))?></td>
 			<th>Název firmy</th>
-			<td><?php echo $this->Form->input('BPRepPurchaseForm.BusinessPartner.name', array('label' => false))?></td>
+			<td><?php echo $this->Form->input('BPCSRepPurchaseForm.BusinessPartner.name', array('label' => false))?></td>
 			<th>PSČ</th>
-			<td><?php echo $this->Form->input('BPRepPurchaseForm.Address.zip', array('label' => false))?></td>
+			<td><?php echo $this->Form->input('BPCSRepPurchaseForm.Address.zip', array('label' => false))?></td>
 		</tr>
 		<tr>
 			<th>IČO</th>
-			<td><?php echo $this->Form->input('BPRepPurchaseForm.BusinessPartner.ico', array('label' => false))?></td>
+			<td><?php echo $this->Form->input('BPCSRepPurchaseForm.BusinessPartner.ico', array('label' => false))?></td>
 			<th>DIČ</th>
-			<td><?php echo $this->Form->input('BPRepPurchaseForm.BusinessPartner.dic', array('label' => false))?></td>
+			<td><?php echo $this->Form->input('BPCSRepPurchaseForm.BusinessPartner.dic', array('label' => false))?></td>
 			<th>IČZ</th>
-			<td><?php echo $this->Form->input('BPRepPurchaseForm.BusinessPartner.icz', array('label' => false))?></td>
+			<td><?php echo $this->Form->input('BPCSRepPurchaseForm.BusinessPartner.icz', array('label' => false))?></td>
 		</tr>
 		<tr>
 			<td colspan="6">Zboží</td>
