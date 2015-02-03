@@ -20,7 +20,7 @@ class BPCSRepSale extends AppModel {
 	);
 	
 	var $virtualFields = array(
-		'code' => 'CONCAT(5, BPCSRepSale.year, BPCSRepSale.month, BPCSRepSale.order)',
+		'code' => 'IF(BPCSRepSale.year != "", CONCAT(5, BPCSRepSale.year, BPCSRepSale.month, BPCSRepSale.order), "")',
 		'quantity' => '`BPCSRepTransactionItem`.`quantity`',
 		'abs_quantity' => 'ABS(`BPCSRepTransactionItem`.`quantity`)',
 		'total_price' => '`BPCSRepTransactionItem`.`price_vat` * `BPCSRepTransactionItem`.`quantity`',
@@ -52,7 +52,7 @@ class BPCSRepSale extends AppModel {
 				'message' => 'Zadejte obchodního partnera'
 			)
 		),
-		'rep_id' => array(
+		'c_s_rep_id' => array(
 			'notEmpty' => array(
 				'rule' => 'notEmpty',
 				'message' => 'Zadejte repa'
@@ -112,7 +112,13 @@ class BPCSRepSale extends AppModel {
 	}
 	
 	function isEditable($id) {
-		return $this->hasAny(array('id' => $id, 'confirmed' => false));
+		// prodej lze upravovat, pokud neni poslan pozadavek na schvaleni
+		$sale = $this->find('first', array(
+			'conditions' => array('BPCSRepSale.id' => $id),
+			'contain' => array(),
+			'fields' => array('BPCSRepSale.confirm_requirement')
+		));
+		return !$sale['BPCSRepSale']['confirm_requirement'];
 	}
 	
 	function export_fields() {
@@ -209,39 +215,38 @@ class BPCSRepSale extends AppModel {
 		return $conditions;
 	}
 	
-	function get_order($id) {
+	function get_order($year, $month) {
 		$order = 1;
-		$b_p_c_s_rep_sale = $this->find('first', array(
-			'conditions' => array('BPCSRepSale.id' => $id),
-			'contain' => array(),
-			'fields' => array('BPCSRepSale.year', 'BPCSRepSale.month')	
-		));
+		
 		// najdu posledni fakturu v danem mesice a roce a urcim cislo faktury v tomto obdobi
 		$last = $this->find('first', array(
 			'conditions' => array(
-				'BPCSRepSale.year' => $b_p_c_s_rep_sale['BPCSRepSale']['year'],
-				'BPCSRepSale.month' => $b_p_c_s_rep_sale['BPCSRepSale']['month']
+				'BPCSRepSale.year' => $year,
+				'BPCSRepSale.month' => $month,
 			),
 			'contain' => array(),
 			'fields' => array('BPCSRepSale.id', 'BPCSRepSale.order'),
 			'order' => array('BPCSRepSale.order' => 'desc')
 		));
-				
-			if (!empty($last)) {
-				$order = $last['BPCSRepSale']['order'] + 1;
-			}
-				
-			if (strlen($order) == 1) {
-				$order = '00' . $order;
-			} elseif (strlen($order) == 2) {
-				$order = '0' . $order;
-			}
 
-			return $order;
+		if (!empty($last)) {
+			$order = $last['BPCSRepSale']['order'] + 1;
+		}
+				
+		if (strlen($order) == 1) {
+			$order = '00' . $order;
+		} elseif (strlen($order) == 2) {
+			$order = '0' . $order;
+		}
+
+		return $order;
 	}
 	
 	function get_unconfirmed() {
-		$conditions = array('BPCSRepSale.confirmed' => false);
+		$conditions = array(
+			'BPCSRepSale.confirm_requirement' => true,
+			'BPCSRepSale.confirmed' => false
+		);
 		$this->virtualFields['c_s_rep_name'] = $this->CSRep->name_field;
 		
 		$b_p_c_s_rep_sales = $this->find('all', array(

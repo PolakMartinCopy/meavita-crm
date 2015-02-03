@@ -20,14 +20,6 @@
 		?></td>
 	</tr>
 	<tr>
-		<th>Datum vystavení</th>
-		<td colspan="6"><?php echo $this->Form->input('BPCSRepSale.date_of_issue', array('label' => false, 'size' => 50, 'type' => 'text'))?></td>
-	</tr>
-	<tr>
-		<th>Datum splatnosti</th>
-		<td colspan="6"><?php echo $this->Form->input('BPCSRepSale.due_date', array('label' => false, 'size' => 50, 'type' => 'text'))?></td>
-	</tr>
-	<tr>
 		<th>Platba</th>
 		<td><?php echo $this->Form->input('BPCSRepSale.b_p_rep_sale_payment_id', array('label' => false, 'options' => $b_p_rep_sale_payments))?></td>
 	</tr>

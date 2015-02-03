@@ -1627,12 +1627,14 @@ class BusinessPartnersController extends AppController {
 				),
 				'fields' => array(
 					'BPCSRepSale.id',
+					'BPCSRepSale.code',
 					'BPCSRepSale.created',
 					'BPCSRepSale.abs_quantity',
 					'BPCSRepSale.abs_total_price',
 					'BPCSRepSale.total_price',
 					'BPCSRepSale.quantity',
 					'BPCSRepSale.c_s_rep_name',
+					'BPCSRepSale.confirm_requirement',
 					'BPCSRepSale.confirmed',
 			
 					'BPCSRepTransactionItem.id',

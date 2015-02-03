@@ -194,7 +194,7 @@ class BPCSRepPurchase extends AppModel {
 	}
 	
 	function isEditable($id) {
-		// nakup lze upravovat, pokud neni odeslan pozadavek na schvaleni
+		// nakup lze upravovat, pokud neni schvalen pozadavek na schvaleni (tzn i po odeslani pozadavku na schvaleni)
 		$purchase = $this->find('first', array(
 			'conditions' => array('BPCSRepPurchase.id' => $id),
 			'contain' => array('CSRepPurchase'),

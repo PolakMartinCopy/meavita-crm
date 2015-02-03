@@ -127,6 +127,7 @@ class BPCSRepSalesController extends AppController {
 				'BPCSRepSale.total_price',
 				'BPCSRepSale.quantity',
 				'BPCSRepSale.c_s_rep_name',
+				'BPCSRepSale.confirm_requirement',
 				'BPCSRepSale.confirmed',
 		
 				'BPCSRepTransactionItem.id',
@@ -188,7 +189,6 @@ class BPCSRepSalesController extends AppController {
 		if (isset($this->data)) {
 			if (isset($this->data['BPCSRepTransactionItem'])) {
 				// odstranim z formu prazdne radky pro vlozeni produktu
-
 				foreach ($this->data['BPCSRepTransactionItem'] as $index => &$b_p_c_s_rep_transaction_item) {
 					if (empty($b_p_c_s_rep_transaction_item['product_variant_id']) && empty($b_p_c_s_rep_transaction_item['quantity']) && empty($b_p_c_s_rep_transaction_item['price_total'])) {
 						unset($this->data['BPCSRepTransactionItem'][$index]);
@@ -227,20 +227,20 @@ class BPCSRepSalesController extends AppController {
 				if (empty($this->data['BPCSRepTransactionItem'])) {
 					$this->Session->setFlash('Prodej neobsahuje žádné produkty a nelze jej proto uložit');
 				} else {
-					//debug($this->data); die();
 					// pokud jsem prisel z karty repa
 					$url = array('controller' => 'b_p_c_s_rep_sales', 'action' => 'index');
 					if (isset($this->params['named']['c_s_rep_id'])) {
 						$url = array('controller' => 'c_s_reps', 'action' => 'view', $this->params['named']['c_s_rep_id'], 'tab' => 4);
 					}
-					
+					$data_source = $this->BPCSRepSale->getDataSource();
+					$data_source->begin($this->BPCSRepSale);
 					if ($this->BPCSRepSale->saveAll($this->data)) {
+						$data_source->commit($this->BPCSRepSale);
 						$this->Session->setFlash('Prodej byl uložen.');
 						$this->redirect($url);
-					} else {
-						$this->Session->setFlash('Prodej se nepodařilo uložit, opravte chyby ve formuláři a opakujte prosím akci');
-						$this->BPCSRepSale->delete($this->BPCSRepSale->id);
 					}
+					$data_source->rollback($this->BPCSRepSale);
+					$this->Session->setFlash('Prodej se nepodařilo uložit, opravte chyby ve formuláři a opakujte prosím akci');
 				}
 			} else {
 				$this->Session->setFlash('Prodej neobsahuje žádné produkty a nelze jej proto uložit');
@@ -462,6 +462,58 @@ class BPCSRepSalesController extends AppController {
 		$this->set('b_p_rep_sale_payments', $b_p_rep_sale_payments);
 	}
 	
+	function user_confirm_requirement($id = null) {
+		if (!$id) {
+			$this->Session->setFlash('Není zadáno, který prodej chcete schválit');
+			$this->redirect(array('controller' => 'b_p_c_s_rep_sales', 'action' => 'index'));
+		}
+		
+		if (!$this->BPCSRepSale->hasAny(array('BPCSRepSale.id' => $id))) {
+			$this->Session->setFlash('Prodej, který chcete schválit, neexistuje');
+			$this->redirect(array('controller' => 'b_p_c_s_rep_sales', 'action' => 'index'));
+		}
+		
+		$save = array(
+			'BPCSRepSale' => array(
+				'confirm_requirement' => true,
+				'id' => $id
+			)	
+		);
+		
+		if ($this->BPCSRepSale->save($save)) {
+			$this->Session->setFlash('Požádal jste o schválení prodeje');
+		} else {
+			$this->Session->setFlash('Nepodařilo se požádat o schválení prodeje');
+		}
+		$this->redirect(array('controller' => 'b_p_c_s_rep_sales', 'action' => 'index'));
+	}
+	
+	function user_return_confirm_requirement($id = null) {
+		if (!$id) {
+			$this->Session->setFlash('Není zadáno, u kterého prodeje chcete zrušit požadavek na schválení');
+			$this->redirect(array('controller' => 'b_p_c_s_rep_sales', 'action' => 'index'));
+		}
+		
+		if (!$this->BPCSRepSale->hasAny(array('BPCSRepSale.id' => $id))) {
+			$this->Session->setFlash('Prodej, u kterého chcete zrušit požadavek na schválení, neexistuje');
+			$this->redirect(array('controller' => 'b_p_c_s_rep_sales', 'action' => 'index'));
+		}
+		
+		$save = array(
+			'BPCSRepSale' => array(
+				'confirm_requirement' => false,
+				'id' => $id
+			)
+		);
+		
+		if ($this->BPCSRepSale->save($save)) {
+			$this->Session->setFlash('Požadavek na schválení byl zrušen');
+		} else {
+			$this->Session->setFlash('Nepodařilo se zrušit požadavek na schválení prodeje');
+		}
+		$this->redirect(array('controller' => 'b_p_c_s_rep_sales', 'action' => 'index'));
+	}
+	
 	function user_confirm($id = null) {
 		if (!$id) {
 			$this->Session->setFlash('Není zadáno, který prodej chcete schválit');
@@ -471,10 +523,12 @@ class BPCSRepSalesController extends AppController {
 		$b_p_c_s_rep_sale['BPCSRepSale']['id'] = $id;
 		$b_p_c_s_rep_sale['BPCSRepSale']['confirmed'] = true;
 		$b_p_c_s_rep_sale['BPCSRepSale']['user_id'] = $this->user['User']['id'];
+		$b_p_c_s_rep_sale['BPCSRepSale']['date_of_issue'] = date('Y-m-d H:i:s');
+		$b_p_c_s_rep_sale['BPCSRepSale']['due_date'] = date('Y-m-d', strtotime('+2 weeks'));
 		$b_p_c_s_rep_sale['BPCSRepSale']['year'] = date('Y');
 		$b_p_c_s_rep_sale['BPCSRepSale']['month'] = date('m');
-		$b_p_c_s_rep_sale['BPCSRepSale']['order'] = $this->BPCSRepSale->get_order($id);
-	
+		$b_p_c_s_rep_sale['BPCSRepSale']['order'] = $this->BPCSRepSale->get_order($b_p_c_s_rep_sale['BPCSRepSale']['year'], $b_p_c_s_rep_sale['BPCSRepSale']['month']);
+
 		$url = array('controller' => 'b_p_c_s_rep_sales', 'action' => 'index');
 		if (isset($this->params['named']['business_partner_id'])) {
 			$url = array('controller' => 'business_partners', 'action' => 'view', $this->params['named']['business_partner_id'], 'tab' => 19);
@@ -486,50 +540,8 @@ class BPCSRepSalesController extends AppController {
 	
 		$dataSource = $this->BPCSRepSale->getDataSource();
 		$dataSource->begin($this->BPCSRepSale);
-		
+
 		if ($this->BPCSRepSale->save($b_p_c_s_rep_sale)) {
-/*
-	 		$b_p_c_s_rep_transaction_items = $this->BPCSRepSale->BPCSRepTransactionItem->find('all', array(
-				'conditions' => array('BPCSRepTransactionItem.b_p_c_s_rep_sale_id' => $id),
-				'contain' => array('BPCSRepSale'),
-			));
-  			// prepocitam sklad
-			foreach ($b_p_c_s_rep_transaction_items as $b_p_c_s_rep_transaction_item) {
-				$c_s_rep_store_item = $this->BPCSRepSale->CSRep->CSRepStoreItem->find('first', array(
-					'conditions' => array(
-						'CSRepStoreItem.product_variant_id' => $b_p_c_s_rep_transaction_item['BPCSRepTransactionItem']['product_variant_id'],
-						'CSRepStoreItem.c_s_rep_id' => $b_p_c_s_rep_transaction_item['BPCSRepSale']['c_s_rep_id'],
-					),
-					'contain' => array(),
-					'fields' => array(
-						'CSRepStoreItem.id',
-						'CSRepStoreItem.product_variant_id',
-						'CSRepStoreItem.quantity',
-					)
-				));
-			
-				if (empty($c_s_rep_store_item)) {
-					$this->Session->setFlash('Zbozi nelze vyskladnit, protoze ho rep nema na sklade');
-					$this->redirect($url);
-				} else {
-					$quantity = $c_s_rep_store_item['CSRepStoreItem']['quantity'] - $b_p_c_s_rep_transaction_item['BPCSRepTransactionItem']['quantity'];
-					$c_s_rep_store_item['CSRepStoreItem']['quantity'] = $quantity;
-			
-					if ($quantity == 0) {
-						$c_s_rep_store_item['CSRepStoreItem']['price'] = 0;
-						$c_s_rep_store_item['CSRepStoreItem']['price_vat'] = 0;
-					}
-			
-					$this->BPCSRepSale->CSRep->CSRepStoreItem->create();
-				}
-			
-				if (!$this->BPCSRepSale->CSRep->CSRepStoreItem->save($c_s_rep_store_item)) {
-					$data_source->rollback($this->BPCSRepSale);
-					$this->Session->setFlash('nepodarilo se updatovat sklad repa');
-					$this->redirect($url);
-				}
-			} */
-			
 			// u repa si zapamatuju datum posledniho prodeje
 			$c_s_rep_attribute = $this->BPCSRepSale->find('first', array(
 				'conditions' => array('BPCSRepSale.id' => $id),
@@ -559,11 +571,80 @@ class BPCSRepSalesController extends AppController {
 				$this->redirect($url);
 			}
 			
+			// pokud se maji pricist penize do penezenky, vytvorim transakci v penezence
+			$payment = $this->BPCSRepSale->find('first', array(
+				'conditions' => array('BPCSRepSale.id' => $id),
+				'contain' => array('BPRepSalePayment'),
+				'fields' => array(
+					'BPCSRepSale.id',
+					'BPCSRepSale.amount_vat',
+					'BPCSRepSale.c_s_rep_id',
+					'BPRepSalePayment.wallet_change'
+				)
+			));
+
+			if (isset($payment['BPRepSalePayment']['wallet_change']) && $payment['BPRepSalePayment']['wallet_change']) {
+				// provedu transakci v penezence
+				$c_s_rep_id = $payment['BPCSRepSale']['c_s_rep_id'];
+				$amount = $payment['BPCSRepSale']['amount_vat'];
+				
+				// penize za transakci se prictou do penezenky -- vytvorim transakci v penezenkce
+				$c_s_wallet_transaction = array(
+					'CSWalletTransaction' => array(
+						'amount' => $amount,
+						'user_id' => $this->user['User']['id']
+					)
+				);
+				
+				$c_s_rep = $this->BPCSRepSale->CSRep->find('first', array(
+					'conditions' => array('CSRep.id' => $c_s_rep_id),
+					'contain' => array(
+						'CSRepAttribute' => array(
+							'fields' => array(
+								'CSRepAttribute.ico',
+								'CSRepAttribute.dic',
+								'CSRepAttribute.street',
+								'CSRepAttribute.street_number',
+								'CSRepAttribute.city',
+								'CSRepAttribute.zip'
+							)
+						)
+					),
+					'fields' => array(
+						'CSRep.id',
+						'CSRep.first_name',
+						'CSRep.last_name',
+					)
+				));
+					
+				if (!empty($c_s_rep)) {
+					$c_s_wallet_transaction['CSWalletTransaction']['c_s_rep_id'] = $c_s_rep_id;
+					$c_s_wallet_transaction['CSWalletTransaction']['rep_first_name'] = $c_s_rep['CSRep']['first_name'];
+					$c_s_wallet_transaction['CSWalletTransaction']['rep_last_name'] = $c_s_rep['CSRep']['last_name'];
+				}
+					
+				if (!empty($c_s_rep['CSRepAttribute'])) {
+					$c_s_wallet_transaction['CSWalletTransaction']['rep_street'] = $c_s_rep['CSRepAttribute']['street'];
+					$c_s_wallet_transaction['CSWalletTransaction']['rep_street_number'] = $c_s_rep['CSRepAttribute']['street_number'];
+					$c_s_wallet_transaction['CSWalletTransaction']['rep_city'] = $c_s_rep['CSRepAttribute']['city'];
+					$c_s_wallet_transaction['CSWalletTransaction']['rep_zip'] = $c_s_rep['CSRepAttribute']['zip'];
+					$c_s_wallet_transaction['CSWalletTransaction']['rep_ico'] = $c_s_rep['CSRepAttribute']['ico'];
+					$c_s_wallet_transaction['CSWalletTransaction']['rep_dic'] = $c_s_rep['CSRepAttribute']['dic'];
+				}
+
+				$this->BPCSRepSale->CSRep->CSWalletTransaction->create();
+				if (!$this->BPCSRepSale->CSRep->CSWalletTransaction->save($c_s_wallet_transaction)) {
+					$data_source->rollback($this->BPCSRepSale);
+					$this->Session->setFlash('Nepodařilo se uložit transakci v peněžence');
+					$this->redirect($url);
+				}
+			}
+			
 			$dataSource->commit($this->BPCSRepSale);
 			$this->redirect($url);
 		} else {
-			$this->Session->setFlash('Schválení nakupu se nepodařilo uložit');
-			$dataSource->rollback($this->BRRepSale);
+			$this->Session->setFlash('Schválení nákupu se nepodařilo uložit');
+			$dataSource->rollback($this->BPCSRepSale);
 			$this->redirect($url);
 		}
 	}
@@ -728,7 +809,7 @@ class BPCSRepSalesController extends AppController {
 
 	function user_invoice($id = null) {
 		if (!$id) {
-			$this->Session->setFlash('Není zadáno, který dodací list chcete zobrazit');
+			$this->Session->setFlash('Není zadáno, kterou fakturu chcete zobrazit');
 			$this->redirect(array('action' => 'index', 'user' => true));
 		}
 		
@@ -770,14 +851,21 @@ class BPCSRepSalesController extends AppController {
 					'type' => 'left',
 					'conditions' => array('BusinessPartner.id = Address.business_partner_id')
 				),
+				array(
+					'table' => 'b_p_rep_sale_payments',
+					'alias' => 'BPRepSalePayment',
+					'type' => 'left',
+					'conditions' => array('BPRepSalePayment.id = BPCSRepSale.b_p_rep_sale_payment_id')
+				)
 			),
 			'fields' => array(
 				'BPCSRepSale.id',
-				'BPCSRepSale.date_of_issue', 'BPCSRepSale.due_date', 'BPCSRepSale.code', 'BPCSRepSale.amount', 'BPCSRepSale.amount_vat',
+				'BPCSRepSale.date_of_issue', 'BPCSRepSale.due_date', 'BPCSRepSale.code', 'BPCSRepSale.amount', 'BPCSRepSale.amount_vat', 'BPCSRepSale.note',
+				'BPRepSalePayment.name',
 		
 				'User.id', 'User.first_name', 'User.last_name',
 				'BusinessPartner.id', 'BusinessPartner.name', 'BusinessPartner.ico', 'BusinessPartner.dic',
-				'Address.id', 'Address.street', 'Address.number', 'Address.city', 'Address.zip'
+				'Address.id', 'Address.street', 'Address.number', 'Address.city', 'Address.zip',
 			)
 		));
 		
@@ -788,6 +876,58 @@ class BPCSRepSalesController extends AppController {
 
 		$this->set('b_p_c_s_rep_sale', $b_p_c_s_rep_sale);
 		$this->layout = 'pdf'; //this will use the pdf.ctp layout
+		
+		// datum vystaveni
+		$date_of_issue = explode(' ', $b_p_c_s_rep_sale['BPCSRepSale']['date_of_issue']);
+		$date_of_issue = $date_of_issue[0];
+		$date_of_issue = db2cal_date($date_of_issue);
+		// datum splatnosti
+		$due_date = db2cal_date($b_p_c_s_rep_sale['BPCSRepSale']['due_date']);
+		// datum zdanitelneho plneni
+		$taxable_filling_date = $date_of_issue;
+		// nazev odberatele
+		$customer_name = $b_p_c_s_rep_sale['BusinessPartner']['name'];
+		// ulice odberatele
+		$customer_street = '';
+		// mesto odberatele
+		$customer_city = '';
+		if (!empty($b_p_c_s_rep_sale['Address'])) {
+			$customer_street = $b_p_c_s_rep_sale['Address']['street'];
+			if (!empty($customer_street)) $customer_street .= ' ';
+			$customer_street .= $b_p_c_s_rep_sale['Address']['number'];
+			if (!empty($invoice['Address']['o_number'])) {
+				$customer_street .= '/' . $b_p_c_s_rep_sale['Address']['o_number'];
+			}
+		
+			$customer_city = $b_p_c_s_rep_sale['Address']['zip'];
+			if (!empty($customer_city)) $customer_city .= ' ';
+			$customer_city .= $b_p_c_s_rep_sale['Address']['city'];
+		}
+		// kontaktni osoba odberatele
+		$contact_person = '';
+		if (!empty($b_p_c_s_rep_sale['ContactPerson'])) {
+			$contact_person = $b_p_c_s_rep_sale['ContactPerson']['first_name'];
+			if (!empty($contact_person)) $contact_person .= ' ';
+			$contact_person .= $b_p_c_s_rep_sale['ContactPerson']['last_name'];
+			if (!empty($invoice['ContactPerson']['prefix'])) {
+				$contact_person = $b_p_c_s_rep_sale['ContactPerson']['prefix'] . ' ' . $contact_person;
+			}
+			if (!empty($invoice['ContactPerson']['suffix'])) {
+				$contact_person .= ' ' . $b_p_c_s_rep_sale['ContactPerson']['suffix'];
+			}
+		}
+		// ico odberatele
+		$customer_ico = $b_p_c_s_rep_sale['BusinessPartner']['ico'];
+		// dic odberatele
+		$customer_dic = $b_p_c_s_rep_sale['BusinessPartner']['dic'];
+		// forma uhrady
+		$payment_type = $b_p_c_s_rep_sale['BPRepSalePayment']['name'];
+		// variabilni symbol
+		$variable_symbol = $b_p_c_s_rep_sale['BPCSRepSale']['code'];
+		// poznamka
+		$note = $b_p_c_s_rep_sale['BPCSRepSale']['note'];
+		// vsechny nachystane atributy poslu do pohledu
+		$this->set(compact('date_of_issue', 'due_date', 'taxable_filling_date', 'customer_name', 'customer_street', 'customer_city', 'contact_person', 'customer_ico', 'customer_dic', 'payment_type', 'variable_symbol', 'note'));
 	}
 	
 	function user_view_pdf($id = null) {
