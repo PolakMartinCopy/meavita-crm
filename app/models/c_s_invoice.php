@@ -193,7 +193,7 @@ class CSInvoice extends AppModel {
 			$conditions[$this->alias . '.due_date_to <='] = $date_to;
 		}
 		if (!empty($data[$this->alias]['code'])) {
-			$conditions[] = $this->alias . '.code LIKE \'%%' . $data[$this->alias]['code'] . '%%\'';
+			$conditions[] = $this->virtualFields['code'] . ' LIKE \'%%' . $data[$this->alias]['code'] . '%%\'';
 		}
 		if (!empty($data[$this->alias]['order_number'])) {
 			$conditions[] = $this->alias . '.order_number LIKE\'%%' . $data[$this->alias]['order_number'] . '$$\'';
