@@ -25,6 +25,7 @@ $(function() {
     	'ajax': '/user/product_variants/ajax_list/',
 		'fnInitComplete': function() {
 	        $('#ProductVariantSelectTable tbody tr').each(function() {
+	        	$(this).find('td:eq(0)').attr('style', 'text-align:left');
 	        	// sloupce s cenou a mnozstvim chci zarovnat doprava
 	        	$(this).find('td:eq(3)').attr('align', 'right');
 	        	$(this).find('td:eq(4)').attr('align', 'right');

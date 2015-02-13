@@ -640,6 +640,7 @@ class UsersController extends AppController {
 		// zakazu vsechno okolo centralniho skladu
 		$this->Acl->deny('user', 'controllers/CSCreditNotes');
 		$this->Acl->deny('user', 'controllers/CSInvoices');
+		$this->Acl->deny('user', 'controllers/CSIssueSlips');
 		$this->Acl->deny('user', 'controllers/Products');
 		$this->Acl->deny('user', 'controllers/ProductVariants');
 		$this->Acl->deny('user', 'controllers/CSStorings');

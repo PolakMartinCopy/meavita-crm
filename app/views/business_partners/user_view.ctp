@@ -2,9 +2,19 @@
 if (isset($this->params['named']['tab'])) {
 	$tab_pos = $this->params['named']['tab'];
 ?>
-	<script>
+	<script type="text/javascript">
 		$(function() {
-			$( "#tabs" ).tabs("select", "#tabs-<?php echo $tab_pos?>");
+			// podle id tabu musim zjistit jeho index a aktivovat tab
+			// potrebuju pole idcek elementu obsazenych v #tabs
+			selectedTabId = 'tabs-<?php echo $tab_pos?>';
+			$('#tabs ul li').each(function(i) {
+				tabId = $(this).attr('aria-controls');
+				if (tabId == selectedTabId) {
+					$("#tabs").tabs({
+						active: i
+					});
+				}
+			});
 		});
 	</script>
 <?php } ?>
@@ -45,16 +55,19 @@ if (isset($this->params['named']['tab'])) {
 		<li><a href="#tabs-12">Pohyby</a></li>
 <?php }*/?>
 <?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/CSStorings/index')) { ?>
-		<li><a href="#tabs-17">Mea Naskladnění</a>
+		<li><a href="#tabs-17">Naskladnění</a>
 <?php } ?>
 <?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/CSInvoices/index')) { ?>
-		<li><a href="#tabs-14">Mea Faktury</a>
+		<li><a href="#tabs-14">Faktury</a>
+<?php } ?>
+<?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/CSIssueSlips/index')) { ?>
+		<li><a href="#tabs-28">Výdejky</a>
 <?php } ?>
 <?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/CSCreditNotes/index')) { ?>
-		<li><a href="#tabs-15">Mea Dobropisy</a></li>
+		<li><a href="#tabs-15">Dobropisy</a></li>
 <?php } ?>
 <?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/CSTransactions/index')) { ?>
-		<li><a href="#tabs-16">Mea Pohyby</a>
+		<li><a href="#tabs-16">Pohyby</a>
 <?php } ?>
 <?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/BPCSRepPurchases/index')) { ?>
 		<li><a href="#tabs-22">Nákupy repové</a>
@@ -1569,7 +1582,7 @@ if (isset($this->params['named']['tab'])) {
 <?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/CSInvoices/index')) { ?>
 <?php /* TAB 14 CS Faktury ****************************************************************************************************************/ ?>
 	<div id="tabs-14">
-		<h2>CS Faktury</h2>
+		<h2>Faktury</h2>
 		<button id="search_form_show_c_s_invoices">vyhledávací formulář</button>
 		<?php
 			echo $this->element('search_forms/c_s_invoices', array('url' => array('controller' => 'business_partners', 'action' => 'view', $business_partner['BusinessPartner']['id'], 'tab' => 14)));
@@ -1605,10 +1618,48 @@ if (isset($this->params['named']['tab'])) {
 	</div>
 <?php } // konec bloku, ktery se zobrazi jen v pripade, ze uzivatel ma pravo pro zobrazeni faktur v centralnim sklade?>
 
+<?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/CSIssueSlips/index')) { ?>
+<?php /* TAB 28 CS Výdejky ****************************************************************************************************************/ ?>
+	<div id="tabs-28">
+		<h2>Výdejky</h2>
+		<button id="search_form_show_c_s_issue_slips">vyhledávací formulář</button>
+		<?php
+			echo $this->element('search_forms/c_s_issue_slips', array('url' => array('controller' => 'business_partners', 'action' => 'view', $business_partner['BusinessPartner']['id'], 'tab' => 28)));
+		
+			echo $form->create('CSV', array('url' => array('controller' => 'c_s_issue_slips', 'action' => 'xls_export')));
+			echo $form->hidden('data', array('value' => serialize($c_s_issue_slips_find)));
+			echo $form->hidden('fields', array('value' => serialize($c_s_issue_slips_export_fields)));
+			echo $form->submit('CSV');
+			echo $form->end();
+		
+			if (empty($c_s_issue_slips)) { ?>
+		<p><em>V systému nejsou žádné výdejky.</em></p>
+			<?php } else {
+				$paginator->options(array(
+					'url' => array('tab' => 28, 0 => $business_partner['BusinessPartner']['id'])
+				));
+					
+				$paginator->params['paging'] = $c_s_issue_slips_paging;
+				$paginator->__defaultModel = 'CSIssueSlip';
+		
+				echo $this->element('c_s_issue_slips/index_table');
+			} ?>
+	</div>
+	<script>
+	$("#search_form_show_c_s_issue_slips").click(function () {
+		if ($('#search_form_c_s_issue_slips').css('display') == "none"){
+			$("#search_form_c_s_issue_slips").show("slow");
+		} else {
+			$("#search_form_c_s_issue_slips").hide("slow");
+		}
+	});
+	</script>
+<?php } // konec bloku, ktery se zobrazi jen v pripade, ze uzivatel ma pravo pro zobrazeni faktur v centralnim sklade?>
+
 <?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/CSCreditNotes/index')) { ?>
 <?php /* TAB 15 CS Dobropisy ****************************************************************************************************************/ ?>
 	<div id="tabs-15">
-		<h2>CS Dobropisy</h2>
+		<h2>Dobropisy</h2>
 		<button id="search_form_show_c_s_credit_notes">vyhledávací formulář</button>
 		<?php
 			echo $this->element('search_forms/c_s_credit_notes', array('url' => array('controller' => 'business_partners', 'action' => 'view', $business_partner['BusinessPartner']['id'], 'tab' => 15)));
@@ -1646,7 +1697,7 @@ if (isset($this->params['named']['tab'])) {
 <?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/CSTransactions/index')) { ?>
 <?php /* TAB 16 CS Pohyby ****************************************************************************************************************/ ?>
 	<div id="tabs-16">
-		<h2>CS Pohyby</h2>
+		<h2>Pohyby</h2>
 		<button id="search_form_show_c_s_transactions">vyhledávací formulář</button>
 		<?php
 			echo $this->element('search_forms/c_s_transactions', array('url' => array('controller' => 'business_partners', 'action' => 'view', $business_partner['BusinessPartner']['id'], 'tab' => 16)));
@@ -1754,7 +1805,7 @@ if (isset($this->params['named']['tab'])) {
 <?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/CSRepTransactions/index')) { ?>
 <?php /* TAB 23 BC REP transakce - transakce mezi obchodnim partnerem a repy ****************************************************************************************************************/ ?>
 	<div id="tabs-23">
-		<h2>Transakce s Mea repy</h2>
+		<h2>Transakce s repy</h2>
 		<?php
 			echo $this->element('search_forms/c_s_rep_transactions', array('url' => array('controller' => 'business_partners', 'action' => 'view', $business_partner['BusinessPartner']['id'], 'tab' => 23)));
 			echo $form->create('CSV', array('url' => array('controller' => 'c_s_rep_transactions', 'action' => 'xls_export')));
@@ -1780,7 +1831,7 @@ if (isset($this->params['named']['tab'])) {
 <?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/MCStorings/index')) { ?>
 <?php /* TAB 24 MC Naskladneni ****************************************************************************************************************/ ?>
 	<div id="tabs-24">
-		<h2>CS Naskladnění</h2>
+		<h2>Naskladnění</h2>
 		<button id="search_form_show_m_c_storings">vyhledávací formulář</button>
 		<?php
 			echo $this->element('search_forms/m_c_storings', array('url' => array('controller' => 'business_partners', 'action' => 'view', $business_partner['BusinessPartner']['id'], 'tab' => 24)));
@@ -1819,7 +1870,7 @@ if (isset($this->params['named']['tab'])) {
 <?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/MCInvoices/index')) { ?>
 <?php /* TAB 25 MC Faktury ****************************************************************************************************************/ ?>
 	<div id="tabs-25">
-		<h2>MC Faktury</h2>
+		<h2>Faktury</h2>
 		<button id="search_form_show_m_c_invoices">vyhledávací formulář</button>
 		<?php
 			echo $this->element('search_forms/m_c_invoices', array('url' => array('controller' => 'business_partners', 'action' => 'view', $business_partner['BusinessPartner']['id'], 'tab' => 25)));
@@ -1858,7 +1909,7 @@ if (isset($this->params['named']['tab'])) {
 <?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/MCCreditNotes/index')) { ?>
 <?php /* TAB 26 MC Dobropisy ****************************************************************************************************************/ ?>
 	<div id="tabs-26">
-		<h2>MC Dobropisy</h2>
+		<h2>Dobropisy</h2>
 		<button id="search_form_show_m_c_credit_notes">vyhledávací formulář</button>
 		<?php
 			echo $this->element('search_forms/m_c_credit_notes', array('url' => array('controller' => 'business_partners', 'action' => 'view', $business_partner['BusinessPartner']['id'], 'tab' => 26)));
@@ -1896,7 +1947,7 @@ if (isset($this->params['named']['tab'])) {
 <?php if (isset($acl) && $acl->check(array('model' => 'User', 'foreign_key' => $session->read('Auth.User.id')), 'controllers/MCTransactions/index')) { ?>
 <?php /* TAB 27 CS Pohyby ****************************************************************************************************************/ ?>
 	<div id="tabs-27">
-		<h2>MC Pohyby</h2>
+		<h2>Pohyby</h2>
 		<button id="search_form_show_m_c_transactions">vyhledávací formulář</button>
 		<?php
 			echo $this->element('search_forms/m_c_transactions', array('url' => array('controller' => 'business_partners', 'action' => 'view', $business_partner['BusinessPartner']['id'], 'tab' => 27)));

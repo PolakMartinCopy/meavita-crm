@@ -46,7 +46,7 @@ function productRow(count) {
 	rowData += '<td style="width:5%">&nbsp;</td>';
 	rowData += '<td style="width:5%">&nbsp;</td>';
 	rowData += '<td style="width:5%"><input name="data[CSTransactionItem][' + count + '][quantity]" type="text" size="5" maxlength="11" id="CSTransactionItem' + count + 'Quantity" /></td>';
-	rowData += '<td style="width:12%"><input name="data[CSTransactionItem][' + count + '][price]" type="text" size="20" maxlength="11" id="CSTransactionItem' + count + 'Price" class="price"/></td>';
+	rowData += '<td style="width:12%"><input name="data[CSTransactionItem][' + count + '][price]" type="text" size="20" maxlength="11" id="CSTransactionItem' + count + 'Price" class="price"' + ((window.modelName == 'CSIssueSlip') ? ' disabled="disabled"' : "") + '/></td>';
 	rowData += '<td style="width:6%"><a href="#" class="addRowButton"></a>&nbsp;<a href="#" class="removeRowButton"></a></td>';
 	rowData += '</tr>';
 	return rowData;

@@ -112,6 +112,22 @@ UNION
 		LEFT JOIN business_partners AS BusinessPartner ON (BusinessPartner.id = CSTransactionItem.business_partner_id)
 UNION
 	SELECT
+		CSTransaction.id AS id, CSTransaction.created AS created, 1 AS confirmed, CSTransaction.date AS date_of_issue,
+		CSTransactionItem.id AS item_id, CSTransactionItem.price AS item_price, CSTransactionItem.product_name AS item_product_name, 'výdejka' AS type,
+		ProductVariant.id AS product_variant_id, ProductVariant.lot AS product_variant_lot, ProductVariant.exp AS product_variant_exp,
+		Product.id AS product_id, Product.vzp_code AS product_vzp_code, Product.group_code AS product_group_code, Product.referential_number AS product_referential_number,
+		BusinessPartner.id AS business_partner_id, BusinessPartner.name AS business_partner_name,
+		Unit.id AS unit_id, Unit.shortcut AS unit_shortcut,
+		null AS rep_id, null AS user_type_id, null as rep_first_name, null AS rep_last_name, null AS rep_ico, null AS rep_dic, null AS rep_street, null AS rep_city, null AS rep_zip,
+		(-CSTransactionItem.quantity) AS CSTransaction__quantity, (ABS(CSTransactionItem.quantity)) AS CSTransaction__abs_quantity, (CSTransactionItem.price * CSTransactionItem.quantity) AS CSTransaction__total_price, (ABS(CSTransactionItem.price * CSTransactionItem.quantity)) AS CSTransaction__abs_total_price, null AS CSTransaction__rep_name
+	FROM c_s_issue_slips AS CSTransaction
+		LEFT JOIN c_s_transaction_items AS CSTransactionItem ON (CSTransaction.id = CSTransactionItem.c_s_issue_slip_id)
+		LEFT JOIN product_variants AS ProductVariant ON (CSTransactionItem.product_variant_id = `ProductVariant`.`id`)
+		LEFT JOIN products AS Product ON (Product.id = ProductVariant.product_id)
+		LEFT JOIN units AS Unit ON (Product.unit_id = Unit.id)
+		LEFT JOIN business_partners AS BusinessPartner ON (BusinessPartner.id = CSTransactionItem.business_partner_id)
+UNION
+	SELECT
 		CSTransaction.id AS id, CSTransaction.created AS created, 1 AS confirmed, CSTransaction.date_of_issue AS date_of_issue,
 		CSTransactionItem.id AS item_id, CSTransactionItem.price AS item_price, CSTransactionItem.product_name AS item_product_name, 'dobropis' AS type,
 		ProductVariant.id AS product_variant_id, ProductVariant.lot AS product_variant_lot, ProductVariant.exp AS product_variant_exp,

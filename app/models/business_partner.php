@@ -34,6 +34,7 @@ class BusinessPartner extends AppModel {
 			'dependent' => true
 		),
 		'CSInvoice',
+		'CSIssueSlip',
 		'CSCreditNote',
 		'CSTransactionItem',
 		'BPCSRepSale',

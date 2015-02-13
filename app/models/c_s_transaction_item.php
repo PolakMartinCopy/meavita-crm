@@ -7,6 +7,7 @@ class CSTransactionItem extends AppModel {
 	var $belongsTo = array(
 		'ProductVariant',
 		'CSInvoice',
+		'CSIssueSlip',
 		'CSCreditNote',
 		'CSStoring',
 		'BusinessPartner',
@@ -116,6 +117,11 @@ class CSTransactionItem extends AppModel {
 					
 					$product_variant['ProductVariant']['meavita_quantity'] = $quantity;
 					$product_variant['ProductVariant']['meavita_price'] = $store_price;
+				// ukladam vydejku
+				} elseif (isset($this->data['CSTransactionItem']['c_s_issue_slip_id'])) {
+					// nepocitam zadnou cenu, slouzi pouze k odepsani zbozi ze skladu
+					$quantity = $product_variant['ProductVariant']['meavita_quantity'] - $this->data['CSTransactionItem']['quantity'];
+					$product_variant['ProductVariant']['meavita_quantity'] = $quantity;
 				}
 				$this->ProductVariant->save($product_variant);
 			}
@@ -165,6 +171,13 @@ class CSTransactionItem extends AppModel {
 			if (isset($this->deleted['CSTransactionItem']['product_variant_id'])) {
 				// ze skladu odectu, co bylo na dobropisu
 				$quantity = $this->deleted['ProductVariant']['meavita_quantity'] - $this->deleted['CSTransactionItem']['quantity'];
+				$store_price = $this->deleted['ProductVariant']['meavita_price'];
+			}
+		// mazu vydejku
+		} elseif (isset($this->deleted['CSTransactionItem']['c_s_issue_slip_id']) && $this->deleted['CSTransactionItem']['c_s_issue_slip_id']) {
+			if (isset($this->deleted['CSTransactionItem']['product_variant_id'])) {
+				// do skladu opet prictu, co bylo na fakture
+				$quantity = $this->deleted['ProductVariant']['meavita_quantity'] + $this->deleted['CSTransactionItem']['quantity'];
 				$store_price = $this->deleted['ProductVariant']['meavita_price'];
 			}
 		}

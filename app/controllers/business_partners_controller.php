@@ -1284,6 +1284,71 @@ class BusinessPartnersController extends AppController {
 		$this->set('c_s_invoices_export_fields', $c_s_invoices_export_fields);
 		$this->set('c_s_invoices_users', $c_s_invoices_users);
 		
+		// CS VYDEJKY
+		$c_s_issue_slips_paging = array();
+		$c_s_issue_slips_find = array();
+		$c_s_issue_slips_export_fields = array();
+		$c_s_issue_slips_users = array();
+		$issue_slips = array();
+		if ($this->Acl->check(array('model' => 'User', 'foreign_key' => $this->Session->read('Auth.User.id')), 'controllers/CSIssueSlips/index')) {
+			$c_s_issue_slips_conditions = array(
+				'CSIssueSlip.business_partner_id' => $id,
+			);
+				
+			if (isset($this->params['named']['reset']) && $this->params['named']['reset'] == 'c_s_issue_slips') {
+				$this->Session->delete('Search.CSIssueSlipForm');
+				$this->redirect(array('controller' => 'business_partners', 'action' => 'view', $business_partner['BusinessPartner']['id'], 'tab' => 28));
+			}
+				
+			// pokud chci vysledky vyhledavani
+			if ( isset($this->data['CSIssueSlipForm']['CSIssueSlip']['search_form']) && $this->data['CSIssueSlipForm']['CSIssueSlip']['search_form'] == 1 ){
+				$this->Session->write('Search.CSIssueSlipForm', $this->data['CSIssueSlipForm']);
+				$c_s_issue_slips_conditions = $this->BusinessPartner->CSIssueSlip->do_form_search($c_s_issue_slips_conditions, $this->data['CSIssueSlipForm']);
+			} elseif ($this->Session->check('Search.CSIssueSlipForm')) {
+				$this->data['CSIssueSlipForm'] = $this->Session->read('Search.CSIssueSlipForm');
+				$c_s_issue_slips_conditions = $this->BusinessPartner->CSIssueSlip->do_form_search($c_s_issue_slip_conditions, $this->data['CSIssueSlipForm']);
+			}
+				
+			unset($this->passedArgs['sort']);
+			unset($this->passedArgs['direction']);
+			if (isset($this->params['named']['tab']) && $this->params['named']['tab'] == 28) {
+				$this->passedArgs['sort'] = $sort_field;
+				$this->passedArgs['direction'] = $sort_direction;
+			}
+				
+			// aby mi to radilo i podle poli modelu, ktere nemam primo navazane na delivery note, musim si je naimportovat
+			App::import('Model', 'Product');
+			$this->BusinessPartner->CSIssueSlip->Product = new Product;
+			App::import('Model', 'ProductVariant');
+			$this->BusinessPartner->CSIssueSlip->ProductVariant = new ProductVariant;
+			App::import('Model', 'Unit');
+			$this->BusinessPartner->CSIssueSlip->Unit = new Unit;
+			$this->paginate['CSIssueSlip'] = $this->BusinessPartner->CSIssueSlip->index_paginate($c_s_issue_slips_conditions);
+			$issue_slips = $this->paginate('CSIssueSlip');
+			$c_s_issue_slips_paging = $this->params['paging'];
+			$c_s_issue_slips_find = $this->paginate['CSIssueSlip'];
+			unset($c_s_issue_slips_find['limit']);
+			unset($c_s_issue_slips_find['fields']);
+				
+			$c_s_issue_slips_export_fields = $this->BusinessPartner->CSIssueSlip->export_fields();
+				
+			// seznam uzivatelu pro select ve filtru
+			$c_s_issue_slips_users_conditions = array();
+			if ($this->user['User']['user_type_id'] == 3) {
+				$c_s_issue_slips_users_conditions = array('User.id' => $this->user['User']['id']);
+			}
+			$c_s_issue_slips_users = $this->BusinessPartner->CSIssueSlip->User->find('all', array(
+				'conditions' => $c_s_issue_slips_users_conditions,
+				'contain' => array(),
+				'fields' => array('User.id', 'User.first_name', 'User.last_name')
+			));
+			$c_s_issue_slips_users = Set::combine($c_s_issue_slips_users, '{n}.User.id', array('{0} {1}', '{n}.User.first_name', '{n}.User.last_name'));
+		}
+		$this->set('c_s_issue_slips_paging', $c_s_issue_slips_paging);
+		$this->set('c_s_issue_slips_find', $c_s_issue_slips_find);
+		$this->set('c_s_issue_slips_export_fields', $c_s_issue_slips_export_fields);
+		$this->set('c_s_issue_slips_users', $c_s_issue_slips_users);
+		
 		// CS DOBROPISY
 		$c_s_credit_notes_paging = array();
 		$c_s_credit_notes_find = array();
@@ -2905,6 +2970,7 @@ class BusinessPartnersController extends AppController {
 		$this->set('transactions', $transactions); */
 		$this->set('c_s_storings', $storings);
 		$this->set('c_s_invoices', $invoices);
+		$this->set('c_s_issue_slips', $issue_slips);
 		$this->set('c_s_credit_notes', $credit_notes);
 		$this->set('c_s_transactions', $c_s_transactions);
 		$this->set('b_p_c_s_rep_sales', $b_p_c_s_rep_sales);
