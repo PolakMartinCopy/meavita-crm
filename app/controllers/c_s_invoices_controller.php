@@ -166,8 +166,13 @@ class CSInvoicesController extends AppController {
 		if (isset($this->data)) {
 
 			if (isset($this->data['CSTransactionItem'])) {
-				// zjistim si, jak budu zaokrouhlovat (podle zadane meny)
-				$round = $this->CSInvoice->Currency->get_round($this->data['CSInvoice']['currency_id']);
+				// zjistim si, jak budu zaokrouhlovat, nemam u OP zadano, ze jeho faktury nechci zaokrouhlovat (nechame na 2 mista)
+				if (isset($this->data['CSInvoice']['business_partner_id']) && !empty($this->data['CSInvoice']['business_partner_id']) && in_array($this->data['CSInvoice']['business_partner_id'], $this->CSInvoice->BusinessPartner->do_not_round)) {
+					$round = 2;
+				} else {
+					// na kolik desetinnych mist chci zaokrouhlovat?
+					$round = $this->CSInvoice->Currency->get_round($this->data['CSInvoice']['currency_id']);
+				}
 
 				// odnastavim prazdne radky
 				foreach ($this->data['CSTransactionItem'] as $index => &$transaction_item) {
@@ -305,8 +310,13 @@ class CSInvoicesController extends AppController {
 		
 		if (isset($this->data)) {
 			if (isset($this->data['CSTransactionItem'])) {
-				// zjistim si, jak budu zaokrouhlovat (podle zadane meny)
-				$round = $this->CSInvoice->Currency->get_round($this->data['CSInvoice']['currency_id']);
+				// zjistim si, jak budu zaokrouhlovat, nemam u OP zadano, ze jeho faktury nechci zaokrouhlovat (nechame na 2 mista)
+				if (isset($this->data['CSInvoice']['business_partner_id']) && !empty($this->data['CSInvoice']['business_partner_id']) && in_array($this->data['CSInvoice']['business_partner_id'], $this->CSInvoice->BusinessPartner->do_not_round)) {
+					$round = 2;
+				} else {
+					// na kolik desetinnych mist chci zaokrouhlovat?
+					$round = $this->CSInvoice->Currency->get_round($this->data['CSInvoice']['currency_id']);
+				}
 				foreach ($this->data['CSTransactionItem'] as $index => &$transaction_item) {
 					if (empty($transaction_item['product_variant_id']) && empty($transaction_item['product_name']) && empty($transaction_item['quantity']) && empty($transaction_item['price'])) {
 						unset($this->data['CSTransactionItem'][$index]);

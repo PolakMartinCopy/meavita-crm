@@ -130,6 +130,11 @@ class BusinessPartner extends AppModel {
 		array('name' => 'Address.region', 'value' => 'Okres')
 	);
 	
+	// idcka obchodnich partneru, jejich faktury nechci zaokrouhlovat podle menu (napr Pharmacorp chci nechat bez zaokrouhleni
+	var $do_not_round = array(
+		0 => 183	// Pharmacorp	
+	);
+	
 	function do_form_search($conditions, $data){
 		if ( !empty($data['BusinessPartner']['branch_name']) ){
 			$conditions[] = 'BusinessPartner.branch_name LIKE \'%%' . $data['BusinessPartner']['branch_name'] . '%%\'';
