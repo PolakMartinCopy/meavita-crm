@@ -183,8 +183,8 @@ $signature_table = '
 $main_table = '
 <table cellspacing="0" cellpadding="5" border="0">
 	<tr>
-		<td align="left">Invoice</td>
-		<td align="center" style="font-size:32px">' . $invoice['CSInvoice']['code'] . '</td>
+		<td align="left" style="font-size:40px"><strong>Invoice</strong></td>
+		<td align="right" style="font-size:40px"><strong>' . $invoice['CSInvoice']['code'] . '</strong></td>
 	</tr>
 	<tr>
 		<td align="center" style="border-top:0.5px solid black;border-left:0.5px solid black;border-right:0.5px solid black;padding-top:5px">' . $supplier_logo . '</td>

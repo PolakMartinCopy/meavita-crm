@@ -673,6 +673,8 @@ class CSInvoicesController extends AppController {
 			if (!empty($customer_city)) $customer_city .= ' ';
 			$customer_city .= $invoice['Address']['city'];
 		}
+		$customer_street = trim($customer_street);
+		$customer_city = trim($customer_city);
 		// kontaktni osoba odberatele
 		$contact_person = '';
 		if (!empty($invoice['ContactPerson'])) {
@@ -795,6 +797,7 @@ class CSInvoicesController extends AppController {
 				'CSInvoice.note',
 				'CSInvoice.order_number',
 				'CSInvoice.package_type',
+				'CSInvoice.payment_type',
 					
 				'BusinessPartner.id', 'BusinessPartner.name', 'BusinessPartner.ico', 'BusinessPartner.dic',
 				'Address.id', 'Address.street', 'Address.number', 'Address.o_number', 'Address.city', 'Address.zip'
@@ -807,6 +810,41 @@ class CSInvoicesController extends AppController {
 		}
 		$this->set('invoice', $invoice);
 		$this->layout = 'pdf'; //this will use the pdf.ctp layout
+		
+		// datum vystaveni
+		$date_of_issue = explode(' ', $invoice['CSInvoice']['date_of_issue']);
+		$date_of_issue = $date_of_issue[0];
+		$date_of_issue = db2cal_date($date_of_issue);
+		// nazev odberatele
+		$customer_name = $invoice['BusinessPartner']['name'];
+		// ulice odberatele
+		$customer_street = '';
+		// mesto odberatele
+		$customer_city = '';
+		if (!empty($invoice['Address'])) {
+			$customer_street = $invoice['Address']['street'];
+			if (!empty($customer_street)) $customer_street .= ' ';
+			$customer_street .= $invoice['Address']['number'];
+			if (!empty($invoice['Address']['o_number'])) {
+				$customer_street .= '/' . $invoice['Address']['o_number'];
+			}
+		
+			$customer_city = $invoice['Address']['zip'];
+			if (!empty($customer_city)) $customer_city .= ' ';
+			$customer_city .= $invoice['Address']['city'];
+		}
+		$customer_street = trim($customer_street);
+		$customer_city = trim($customer_city);
+		// dic odberatele
+		$customer_dic = $invoice['BusinessPartner']['dic'];
+		// forma uhrady
+		$payment_type = $invoice['CSInvoice']['payment_type'];
+		// variabilni symbol
+		$variable_symbol = $invoice['CSInvoice']['code'];
+		// poznamka
+		$note = $invoice['CSInvoice']['note'];
+		// vsechny nachystane atributy poslu do pohledu
+		$this->set(compact('date_of_issue', 'due_date', 'taxable_filling_date', 'customer_name', 'customer_street', 'customer_city', 'customer_dic', 'payment_type', 'variable_symbol', 'note'));
 		
 		if ($invoice['Language']['shortcut'] == 'en') {
 			$this->render('view_pdf_delivery_note_en');
