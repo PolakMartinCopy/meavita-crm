@@ -606,7 +606,7 @@ class CSInvoicesController extends AppController {
 		}
 
 		// pokud je faktura eurova
-		if ($invoice['Currency']['id'] == 2) {
+		if ($invoice['Language']['id'] == 2) {
 			// chci seskupit polozky podle produktu, poscitat kusy (pocitam s tim, ze cena za jednotku se nemeni)
 			$invoice['CSTransactionItem'] = $this->CSInvoice->CSTransactionItem->unify($invoice['CSTransactionItem']);
 		}
