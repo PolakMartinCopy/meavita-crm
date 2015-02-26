@@ -19,7 +19,7 @@ class CSInvoice extends AppModel {
 	
 	// ceske faktury maji v prefixu 1, anglicke 2
 	var $virtualFields = array(
-		'code' => 'CONCAT(IF(CSInvoice.language_id=1, 1, 2), CSInvoice.year, CSInvoice.month, CSInvoice.order)'
+		'code' => 'CONCAT(IF(CSInvoice.language_id=1, "CZ", "20"), CSInvoice.year, CSInvoice.month, CSInvoice.order)'
 	);
 	
 	var $validate = array(

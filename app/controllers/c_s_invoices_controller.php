@@ -232,7 +232,7 @@ class CSInvoicesController extends AppController {
 			$this->data['CSInvoice']['date_of_issue'] = date('d.m.Y');
 			$this->data['CSInvoice']['due_date'] = date('d.m.Y', strtotime('+2 weeks'));
 			$this->data['CSInvoice']['taxable_filling_date'] = date('d.m.Y');
-			$this->data['CSInvoice']['year'] = date('Y');
+			$this->data['CSInvoice']['year'] = date('y');
 			$this->data['CSInvoice']['month'] = date('m');
 		}
 		
