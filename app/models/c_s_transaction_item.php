@@ -203,5 +203,43 @@ class CSTransactionItem extends AppModel {
 		$price_vat = ceil($price_vat * pow(10, $round)) / pow(10, $round);
 		return $price_vat;
 	}
+	
+	function unify($transaction_items) {
+		usort($transaction_items, array('CSTransactionItem', '__sort_transaction_items_by_en_name'));
+		
+		// seskupim polozky se stejnym nazvem
+		$res = array();
+		$new_transaction_item = null;
+		foreach ($transaction_items as $index => $transaction_item) {
+			if ($new_transaction_item) {
+				// pokud se po sobe jdouci 2 polozky rovnaji nazvem
+				if ($transaction_item['product_en_name'] == $new_transaction_item['product_en_name']) {
+					// nemelo by se stat, ze polozky maji ruznou cenu
+					if ($transaction_item['price'] != $new_transaction_item['price']) {
+						die('produkty se stejnym jmenem nemaji stejnou cenu!!!');
+					}
+					// sectu jejich pocty
+					$new_transaction_item['quantity'] += $transaction_item['quantity'];
+				} else {
+					$res[] = $new_transaction_item;
+					$new_transaction_item = $transaction_item;
+				}
+			} else {
+				$new_transaction_item = $transaction_item;
+			}
+		}
+		// pokud jsem prosel cele pole polozek, musim novy item vlozit do vystupu
+		$res[] = $new_transaction_item;
+		
+		return $res;
+	}
+	
+	// seradim podle nazvu polozky
+	private function __sort_transaction_items_by_en_name($a, $b) {
+		if ($a['product_en_name'] < $b['product_en_name']) { return -1; }
+		if ($a['product_en_name'] == $b['product_en_name']) { return 0; }
+		if ($a['product_en_name'] > $b['product_en_name']) { return 1; }
+		return false;
+	}
 }
 ?>

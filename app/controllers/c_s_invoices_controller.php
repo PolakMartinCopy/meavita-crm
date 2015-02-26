@@ -604,6 +604,13 @@ class CSInvoicesController extends AppController {
 			$delivery_address_arr[] = $delivery_city;
 			$invoice['CSInvoice']['note'] .= '<br/>Doručovací adresa:<br/>' . implode('<br/>', $delivery_address_arr);
 		}
+
+		// pokud je faktura eurova
+		if ($invoice['Currency']['id'] == 2) {
+			// chci seskupit polozky podle produktu, poscitat kusy (pocitam s tim, ze cena za jednotku se nemeni)
+			$invoice['CSTransactionItem'] = $this->CSInvoice->CSTransactionItem->unify($invoice['CSTransactionItem']);
+		}
+		
 		$this->set('invoice', $invoice);
 		
 		$tax_classes = $this->CSInvoice->CSTransactionItem->ProductVariant->Product->TaxClass->find('all', array(
