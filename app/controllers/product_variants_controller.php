@@ -376,8 +376,8 @@ class ProductVariantsController extends AppController {
 		die();
 	}
 	
-	function user_ajax_list() {
-		echo $this->ProductVariant->get_list();
+	function user_ajax_list($zero = true) {
+		echo $this->ProductVariant->get_list('meavita', $zero);
 		die();
 	}
 	

@@ -21,8 +21,14 @@ $(function() {
 	});
 	
 	// nastaveni tabulky pro vyhledani a oznaceni
+	// chci zobrazit k vyberu i produkty s nulovym poctem na sklade?
+	var ajaxUri = '/user/product_variants/ajax_list/';
+	// pri vkladani na fakturu ne
+	if (window.modelName == 'CSInvoice') {
+		ajaxUri = '/user/product_variants/ajax_list/0';
+	}
     $('#ProductVariantSelectTable').DataTable({
-    	'ajax': '/user/product_variants/ajax_list/',
+    	'ajax': ajaxUri,
 		'fnInitComplete': function() {
 	        $('#ProductVariantSelectTable tbody tr').each(function() {
 	        	$(this).find('td:eq(0)').attr('style', 'text-align:left');

@@ -135,11 +135,16 @@ class ProductVariant extends AppModel {
 		return json_encode($autocomplete_list);
 	}
 	
-	function get_list($section = 'meavita') {
+	function get_list($section = 'meavita', $zero = true) {
 		$conditions = array('ProductVariant.active' => true);
+
 		$quantity_field = $section . '_quantity';
 		$price_vat_field = $section . '_price';
 		
+		if (!$zero) {
+			$conditions['ProductVariant.' . $quantity_field . ' >'] = 0;
+		}
+
 		$product_variants = $this->find('all', array(
 			'conditions' => $conditions,
 			'contain' => array(),
