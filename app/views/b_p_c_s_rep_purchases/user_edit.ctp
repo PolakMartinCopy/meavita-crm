@@ -50,7 +50,14 @@
 			e.preventDefault();
 			// pridat radek s odpovidajicim indexem na konec tabulky s addRowButton
 			var tableRow = $(this).closest('tr');
-			tableRow.after(productRow(rowCount));
+			// musim zjistit maximalni index radku
+			maxRowIndex = 0;
+			$('.product-row').each(function(data) {
+				if ($(this).attr('rel') > maxRowIndex) {
+					maxRowIndex = $(this).attr('rel');
+				}
+			});
+			tableRow.after(productRow(maxRowIndex));
 			// zvysim pocitadlo radku
 			rowCount++;
 		});
@@ -64,7 +71,7 @@
 
 	function productRow(count) {
 		count++;
-		var rowData = '<tr rel="' + count + '">';
+		var rowData = '<tr class="product-row" rel="' + count + '">';
 		rowData += '<th>Zboží</th>';
 		rowData += '<td>';
 		rowData += '<input name="data[BPCSRepTransactionItem][' + count + '][product_name]" type="text" class="BPCSRepTransactionItemProductName" size="50" id="BPCSRepTransactionItem' + count + 'ProductName" />';
@@ -124,7 +131,7 @@ echo $this->Form->create('BPCSRepPurchase', $form_options);
 		<td colspan="10"><?php echo $this->Form->input('BPCSRepPurchase.b_p_c_s_rep_purchase_payment_id', array('label' => false, 'options' => $payments))?></td>
 	</tr>
 	<?php 	foreach ($this->data['BPCSRepTransactionItem'] as $index => $data) { ?>
-	<tr rel="<?php echo $index?>">
+	<tr class="product-row" rel="<?php echo $index?>">
 		<th>Zboží</th>
 		<td><?php
 			echo $this->Form->input('BPCSRepTransactionItem.' . $index . '.product_name', array('label' => false, 'class' => 'BPCSRepTransactionItemProductName', 'size' => 50));

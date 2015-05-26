@@ -328,7 +328,6 @@ class BPCSRepPurchasesController extends AppController {
 		}
 		
 		if (isset($this->data)) {
-
 			if (isset($this->data['BPCSRepTransactionItem'])) {
 				// odstranim z formu prazdne radky pro vlozeni produktu
 
@@ -385,7 +384,7 @@ class BPCSRepPurchasesController extends AppController {
 						'contain' => array(),
 						'fields' => array('BPCSRepTransactionItem.id')
 					));
-//debug($to_del_tis); die();
+
 					foreach ($to_del_tis as $to_del_ti) {
 						if (!$this->BPCSRepPurchase->BPCSRepTransactionItem->delete($to_del_ti['BPCSRepTransactionItem']['id'])) {
 							$data_source->rollback($this->BPCSRepPurchase);
@@ -394,14 +393,14 @@ class BPCSRepPurchasesController extends AppController {
 						}
 					}
 					if ($this->BPCSRepPurchase->saveAll($this->data)) {
-						if ($this->BPCSRepPurchase->createCSRepPurchase($this->BPCSRepPurchase->id)) {
+//						if ($this->BPCSRepPurchase->createCSRepPurchase($this->BPCSRepPurchase->id)) {
 							$data_source->commit($this->BPCSRepPurchase);
 							$this->Session->setFlash('Nákup byl uložen');
 							$this->redirect($url);
-						} else {
-							$this->Session->setFlash('Nepodařilo se uložit požadavek na převod do centrálního skladu');
-							$this->BPCSRepPurchase->delete($this->BPCSRepPurchase->id);
-						}
+//						} else {
+//							$this->Session->setFlash('Nepodařilo se uložit požadavek na převod do centrálního skladu');
+//							$this->BPCSRepPurchase->delete($this->BPCSRepPurchase->id);
+//						}
 					} else {
 						$data_source->rollback($this->BPCSRepPurchase);
 						debug($this->BPCSRepPurchase->validationErrors);
