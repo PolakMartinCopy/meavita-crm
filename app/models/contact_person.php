@@ -46,22 +46,23 @@ class ContactPerson extends AppModel {
 	);
 	
 	var $export_fields = array(
-			array('field' => 'ContactPerson.id', 'position' => '["ContactPerson"]["id"]', 'alias' => 'ContactPerson.id'),
-			array('field' => 'ContactPerson.first_name', 'position' => '["ContactPerson"]["first_name"]', 'alias' => 'ContactPerson.first_name'),
-			array('field' => 'ContactPerson.last_name', 'position' => '["ContactPerson"]["last_name"]', 'alias' => 'ContactPerson.last_name'),
-			array('field' => 'ContactPerson.prefix', 'position' => '["ContactPerson"]["prefix"]', 'alias' => 'ContactPerson.prefix'),
-			array('field' => 'ContactPerson.suffix', 'position' => '["ContactPerson"]["suffix"]', 'alias' => 'ContactPerson.suffix'),
-			array('field' => 'BusinessPartner.branch_name', 'position' => '["BusinessPartner"]["branch_name"]', 'alias' => 'BusinessPartner.branch_name'),
-			array('field' => 'BusinessPartner.name', 'position' => '["BusinessPartner"]["name"]', 'alias' => 'BusinessPartner.name'),
-			array('field' => 'BusinessPartner.email', 'position' => '["BusinessPartner"]["email"]', 'alias' => 'BusinessPartner.email'),
-			array('field' => 'ContactPerson.phone', 'position' => '["ContactPerson"]["phone"]', 'alias' => 'ContactPerson.phone'),
-			array('field' => 'ContactPerson.cellular', 'position' => '["ContactPerson"]["cellular"]', 'alias' => 'ContactPerson.cellular'),
-			array('field' => 'ContactPerson.email', 'position' => '["ContactPerson"]["email"]', 'alias' => 'ContactPerson.email'),
-			array('field' => 'ContactPerson.hobby', 'position' => '["ContactPerson"]["hobby"]', 'alias' => 'ContactPerson.hobby'),
-			array('field' => 'ContactPerson.active', 'position' => '["ContactPerson"]["active"]', 'alias' => 'ContactPerson.active'),
-			array('field' => 'ContactPerson.is_main', 'position' => '["ContactPerson"]["is_main"]', 'alias' => 'ContactPerson.is_main'),
-			array('field' => 'MailingCampaign.name', 'position' => '["MailingCampaign"]["name"]', 'alias' => 'MailingCampaign.name')
-		);
+		array('field' => 'ContactPerson.id', 'position' => '["ContactPerson"]["id"]', 'alias' => 'ContactPerson.id'),
+		array('field' => 'ContactPerson.first_name', 'position' => '["ContactPerson"]["first_name"]', 'alias' => 'ContactPerson.first_name'),
+		array('field' => 'ContactPerson.last_name', 'position' => '["ContactPerson"]["last_name"]', 'alias' => 'ContactPerson.last_name'),
+		array('field' => 'ContactPerson.prefix', 'position' => '["ContactPerson"]["prefix"]', 'alias' => 'ContactPerson.prefix'),
+		array('field' => 'ContactPerson.suffix', 'position' => '["ContactPerson"]["suffix"]', 'alias' => 'ContactPerson.suffix'),
+		array('field' => 'BusinessPartner.branch_name', 'position' => '["BusinessPartner"]["branch_name"]', 'alias' => 'BusinessPartner.branch_name'),
+		array('field' => 'BusinessPartner.name', 'position' => '["BusinessPartner"]["name"]', 'alias' => 'BusinessPartner.name'),
+		array('field' => 'BusinessPartner.email', 'position' => '["BusinessPartner"]["email"]', 'alias' => 'BusinessPartner.email'),
+		array('field' => 'ContactPerson.phone', 'position' => '["ContactPerson"]["phone"]', 'alias' => 'ContactPerson.phone'),
+		array('field' => 'ContactPerson.cellular', 'position' => '["ContactPerson"]["cellular"]', 'alias' => 'ContactPerson.cellular'),
+		array('field' => 'ContactPerson.email', 'position' => '["ContactPerson"]["email"]', 'alias' => 'ContactPerson.email'),
+		array('field' => 'ContactPerson.hobby', 'position' => '["ContactPerson"]["hobby"]', 'alias' => 'ContactPerson.hobby'),
+		array('field' => 'ContactPerson.active', 'position' => '["ContactPerson"]["active"]', 'alias' => 'ContactPerson.active'),
+		array('field' => 'ContactPerson.is_main', 'position' => '["ContactPerson"]["is_main"]', 'alias' => 'ContactPerson.is_main'),
+		array('field' => 'MailingCampaign.name', 'position' => '["MailingCampaign"]["name"]', 'alias' => 'MailingCampaign.name'),
+		array('field' => 'ContactPerson.owner_full_name', 'position' => '["ContactPerson"]["owner_full_name"]', 'alias' => 'ContactPerson.owner_full_name'),
+	);
 	
 	function delete($id) {
 		$save = array(

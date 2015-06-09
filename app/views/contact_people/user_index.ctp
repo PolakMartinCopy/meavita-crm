@@ -30,7 +30,7 @@
 		</tr>
 		<tr>
 			<th>Třída kampaní</th>
-			<td colspan="3><?php echo $this->Form->input('ContactPersonSearch2.ContactPerson.mailing_campaign_id', array('label' => false, 'options' => $mailing_campaigns, 'empty' => true))?></td>
+			<td colspan="3"><?php echo $this->Form->input('ContactPersonSearch2.ContactPerson.mailing_campaign_id', array('label' => false, 'options' => $mailing_campaigns, 'empty' => true))?></td>
 			<td colspan="2">&nbsp;</td>
 		</tr>
 		<tr>
@@ -71,6 +71,7 @@
 echo $form->create('CSV', array('url' => array('controller' => 'contact_people', 'action' => 'xls_export')));
 echo $form->hidden('data', array('value' => serialize($find)));
 echo $form->hidden('fields', array('value' => serialize($export_fields)));
+echo $this->Form->hidden('virtual_fields', array('value' => serialize($virtual_fields)));
 echo $form->submit('CSV');
 echo $form->end();
 

@@ -40,6 +40,7 @@ class ContactPeopleController extends AppController {
 			$conditions = $this->ContactPerson->do_form_search($conditions, $this->data['ContactPersonSearch2']);
 		}
 
+		$this->ContactPerson->virtualFields['owner_full_name'] = 'CONCAT(Owner.first_name, " ", Owner.last_name)';
 		$this->paginate['ContactPerson'] = array(
 			'conditions' => $conditions,
 			'limit' => 30,
@@ -58,11 +59,19 @@ class ContactPeopleController extends AppController {
 					'alias' => 'BusinessPartner',
 					'type' => 'INNER',
 					'conditions' => $business_partner_conditions
+				),
+				array(
+					'table' => 'users',
+					'alias' => 'Owner',
+					'type' => 'LEFT',
+					'conditions' => array('Owner.id = BusinessPartner.owner_id')
 				)
 			)
 		);
-		
+		$this->set('virtual_fields', $this->ContactPerson->virtualFields);		
 		$contact_people = $this->paginate('ContactPerson');
+		unset($this->ContactPerson->virtualFields['owner_full_name']);
+
 		$this->set('contact_people', $contact_people);
 		
 		$find = $this->paginate['ContactPerson'];
