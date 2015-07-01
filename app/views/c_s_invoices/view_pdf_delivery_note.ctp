@@ -118,7 +118,7 @@ $payment_table = '
 	</tr>
 	<tr>
 		<td>Číslo účtu:</td>
-		<td><strong>2200096026 / 2010</strong></td>
+		<td><strong>2100811168 / 2010</strong></td>
 	</tr>
 	<tr>
 		<td>Variabilní symbol:</td>

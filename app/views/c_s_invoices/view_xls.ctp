@@ -195,7 +195,7 @@ $worksheet->write($row, 3, $invoice['CSInvoice']['note'], $content_common);
 $row++;
 $worksheet->mergeCells($row, 1, $row, 2);
 $worksheet->write($row, 0, 'Číslo účtu:', $content_common);
-$worksheet->write($row, 1, '2200096026 / 2010', $content_common);
+$worksheet->write($row, 1, '2100811168 / 2010', $content_common);
 
 $row++;
 $worksheet->mergeCells($row, 1, $row, 2);
