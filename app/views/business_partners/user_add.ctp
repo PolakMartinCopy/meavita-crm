@@ -56,7 +56,7 @@
 	</tr>
 <?php if ($type_id == 2) { ?>	
 	<tr>
-		<th>IČZ<sup>*</sup></th>
+		<th>IČZ</th>
 		<td><?php echo $form->input('BusinessPartner.icz', array('label' => false))?></td>
 	</tr>
 <?php } ?>

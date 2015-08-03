@@ -48,7 +48,7 @@
 		<td><?php echo $form->input('BusinessPartner.dic', array('label' => false))?></td>
 	</tr>
 	<tr>
-		<th>IČZ<?php if ($is_rep) { ?><sup>*</sup><?php } ?></th>
+		<th>IČZ</th>
 		<td><?php echo $form->input('BusinessPartner.icz', array('label' => false))?></td>
 	</tr>
 	<tr>
