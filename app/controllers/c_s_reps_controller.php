@@ -101,10 +101,13 @@ class CSRepsController extends AppController {
 				unset($this->data['CSRep']['password']);
 			}
 		} else {
-			$this->data = $c_s_rep;
+			if (!isset($this->data)) {
+				$this->data = array();
+			}
+			$this->data = array_merge($this->data, $c_s_rep);
 			unset($this->data['CSRep']['password']);
 		}
-		
+
 		// TRANSAKCE S PENEZENKOU REPA
 		$c_s_wallet_transactions_paging = array();
 		$c_s_wallet_transactions_find = array();
@@ -314,7 +317,7 @@ class CSRepsController extends AppController {
 				$this->Session->delete('Search.BPCSRepPurchaseForm');
 				$this->redirect(array('controller' => 'c_s_reps', 'action' => 'view', $id, 'tab' => 4));
 			}
-		
+
 			// pokud chci vysledky vyhledavani
 			if (isset($this->data['BPCSRepPurchaseForm']['BPCSRepPurchase']['search_form']) && $this->data['BPCSRepPurchaseForm']['BPCSRepPurchase']['search_form'] == 1) {
 				$this->Session->write('Search.BPCSRepPurchaseForm', $this->data['BPCSRepPurchaseForm']);
@@ -857,9 +860,11 @@ class CSRepsController extends AppController {
 			$this->CSRep->CSRepPurchase->ProductVariant = new ProductVariant;
 			App::import('Model', 'CSRepAttribute');
 			$this->CSRep->CSRepPurchase->CSRepAttribute = new CSRepAttribute;
+			App::import('Model', 'BusinessPartner');
+			$this->CSRep->CSRepPurchase->BusinessPartner = new BusinessPartner;
 			
 			$this->CSRep->CSRepPurchase->virtualFields['c_s_rep_name'] = $this->CSRep->name_field;
-			
+			$this->CSRep->CSRepPurchase->virtualFields['business_partner_name'] = $this->CSRep->CSRepPurchase->BusinessPartner->name_field;
 			$this->paginate['CSRepPurchase'] = array(
 				'conditions' => $c_s_rep_purchases_conditions,
 				'limit' => 30,
@@ -906,6 +911,18 @@ class CSRepsController extends AppController {
 						'alias' => 'User',
 						'type' => 'left',
 						'conditions' => array('User.id = CSRepPurchase.user_id')
+					),
+					array(
+						'table' => 'b_p_c_s_rep_purchases',
+						'alias' => 'BPCSRepPurchase',
+						'type' => 'LEFT',
+						'conditions' => array('CSRepPurchase.b_p_c_s_rep_purchase_id = BPCSRepPurchase.id')
+					),
+					array(
+						'table' => 'business_partners',
+						'alias' => 'BusinessPartner',
+						'type' => 'LEFT',
+						'conditions' => array('BPCSRepPurchase.business_partner_id = BusinessPartner.id')
 					)
 				),
 				'fields' => array(
@@ -916,6 +933,7 @@ class CSRepsController extends AppController {
 					'CSRepPurchase.total_price',
 					'CSRepPurchase.quantity',
 					'CSRepPurchase.c_s_rep_name',
+					'CSRepPurchase.business_partner_name',
 					'CSRepPurchase.confirmed',
 			
 					'CSRepTransactionItem.id',

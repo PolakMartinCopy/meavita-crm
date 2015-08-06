@@ -182,7 +182,7 @@ if (isset($this->params['named']['tab'])) {
 	</div>
 	<?php /* TAB 5 ****************************************************************************************************************/ ?>
 	<div id="tabs-5">
-		<h2>Převody z MC</h2>
+		<h2>Převody z Meavity</h2>
 		<button id="search_form_show_c_s_rep_sales">vyhledávací formulář</button>
 		<?php
 			echo $this->element('search_forms/c_s_rep_sales', array('url' => array('controller' => 'c_s_reps', 'action' => 'view', $c_s_rep['CSRep']['id'], 'tab' => 5)));
@@ -213,7 +213,7 @@ if (isset($this->params['named']['tab'])) {
 	</div>
 	<?php /* TAB 7 ****************************************************************************************************************/ ?>
 	<div id="tabs-7">
-		<h2>Převody do MC</h2>
+		<h2>Převody do Meavity</h2>
 		<button id="search_form_show_c_s_rep_purchases">vyhledávací formulář</button>
 		<?php
 			echo $this->element('search_forms/c_s_rep_purchases', array('url' => array('controller' => 'c_s_reps', 'action' => 'view', $c_s_rep['CSRep']['id'], 'tab' => 7)));
