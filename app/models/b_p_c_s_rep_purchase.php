@@ -244,5 +244,145 @@ class BPCSRepPurchase extends AppModel {
 
 		return $c_s_rep_purchase;
 	}
+	
+	function getTotalPrice($conditions) {
+		$this->virtualFields['sum_total_price'] = 'SUM(' . $this->virtualFields['total_price'] . ')';
+		$price = $this->find('all', array(
+			'conditions' => $conditions,
+			'contain' => array(),
+			'joins' => array(
+				array(
+					'table' => 'b_p_c_s_rep_transaction_items',
+					'alias' => 'BPCSRepTransactionItem',
+					'type' => 'left',
+					'conditions' => array('BPCSRepPurchase.id = BPCSRepTransactionItem.b_p_c_s_rep_purchase_id')
+				),
+				array(
+					'table' => 'product_variants',
+					'alias' => 'ProductVariant',
+					'type' => 'left',
+					'conditions' => array('BPCSRepTransactionItem.product_variant_id = ProductVariant.id')
+				),
+				array(
+					'table' => 'products',
+					'alias' => 'Product',
+					'type' => 'left',
+					'conditions' => array('Product.id = ProductVariant.product_id')
+				),
+				array(
+					'table' => 'business_partners',
+					'alias' => 'BusinessPartner',
+					'type' => 'left',
+					'conditions' => array('BusinessPartner.id = BPCSRepPurchase.business_partner_id')
+				),
+				array(
+					'table' => 'addresses',
+					'alias' => 'Address',
+					'type' => 'left',
+					'conditions' => array('Address.business_partner_id = BusinessPartner.id')
+				),
+				array(
+					'table' => 'units',
+					'alias' => 'Unit',
+					'type' => 'left',
+					'conditions' => array('Product.unit_id = Unit.id')
+				),
+				array(
+					'table' => 'users',
+					'alias' => 'CSRep',
+					'type' => 'left',
+					'conditions' => array('BPCSRepPurchase.c_s_rep_id = CSRep.id')
+				),
+				array(
+					'table' => 'c_s_rep_attributes',
+					'alias' => 'CSRepAttribute',
+					'type' => 'left',
+					'conditions' => array('CSRep.id = CSRepAttribute.c_s_rep_id')
+				),
+				array(
+					'table' => 'c_s_rep_purchases',
+					'alias' => 'CSRepPurchase',
+					'type' => 'left',
+					'conditions' => array('CSRepPurchase.b_p_c_s_rep_purchase_id = BPCSRepPurchase.id')
+				)
+			),
+			'fields' => array('sum_total_price')
+		));
+		
+		if (empty($price)) {
+			return 0;
+		}
+		return $price[0]['BPCSRepPurchase']['sum_total_price'];
+	}
+	
+	function getTotalQuantity($conditions) {
+		$this->virtualFields['sum_quantity'] = 'SUM(' . $this->virtualFields['quantity'] . ')';
+		$quantity = $this->find('all', array(
+			'conditions' => $conditions,
+			'contain' => array(),
+			'joins' => array(
+				array(
+					'table' => 'b_p_c_s_rep_transaction_items',
+					'alias' => 'BPCSRepTransactionItem',
+					'type' => 'left',
+					'conditions' => array('BPCSRepPurchase.id = BPCSRepTransactionItem.b_p_c_s_rep_purchase_id')
+				),
+				array(
+					'table' => 'product_variants',
+					'alias' => 'ProductVariant',
+					'type' => 'left',
+					'conditions' => array('BPCSRepTransactionItem.product_variant_id = ProductVariant.id')
+				),
+				array(
+					'table' => 'products',
+					'alias' => 'Product',
+					'type' => 'left',
+					'conditions' => array('Product.id = ProductVariant.product_id')
+				),
+				array(
+					'table' => 'business_partners',
+					'alias' => 'BusinessPartner',
+					'type' => 'left',
+					'conditions' => array('BusinessPartner.id = BPCSRepPurchase.business_partner_id')
+				),
+				array(
+					'table' => 'addresses',
+					'alias' => 'Address',
+					'type' => 'left',
+					'conditions' => array('Address.business_partner_id = BusinessPartner.id')
+				),
+				array(
+					'table' => 'units',
+					'alias' => 'Unit',
+					'type' => 'left',
+					'conditions' => array('Product.unit_id = Unit.id')
+				),
+				array(
+					'table' => 'users',
+					'alias' => 'CSRep',
+					'type' => 'left',
+					'conditions' => array('BPCSRepPurchase.c_s_rep_id = CSRep.id')
+				),
+				array(
+					'table' => 'c_s_rep_attributes',
+					'alias' => 'CSRepAttribute',
+					'type' => 'left',
+					'conditions' => array('CSRep.id = CSRepAttribute.c_s_rep_id')
+				),
+				array(
+					'table' => 'c_s_rep_purchases',
+					'alias' => 'CSRepPurchase',
+					'type' => 'left',
+					'conditions' => array('CSRepPurchase.b_p_c_s_rep_purchase_id = BPCSRepPurchase.id')
+				)
+			),
+			'fields' => array('sum_quantity')
+		));
+
+		if (empty($quantity)) {
+			return 0;
+		}
+		return $quantity[0]['BPCSRepPurchase']['sum_quantity'];
+	}
 }
 ?>

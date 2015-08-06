@@ -30,9 +30,6 @@ echo $this->Form->create('BPCSRepPurchase', array('url' => array('action' => 're
 	<tbody>
 		<?php 
 		$odd = '';
-		$quantity = 0;
-		$price_vat = 0;
-		$total_price = 0;
 		$purchase_id = null;
 		foreach ($b_p_c_s_rep_purchases as $b_p_c_s_rep_purchase) {
 			$odd = ( $odd == ' class="odd"' ? '' : ' class="odd"' );
@@ -72,10 +69,7 @@ echo $this->Form->create('BPCSRepPurchase', array('url' => array('action' => 're
 				echo implode(' | ', $links);
 			?></td>
 		</tr>
-		<?php 
-			$quantity += $b_p_c_s_rep_purchase['BPCSRepPurchase']['abs_quantity'];
-			$total_price += $b_p_c_s_rep_purchase['BPCSRepPurchase']['abs_total_price'];
-		} ?>
+		<?php } ?>
 	</tbody>
 	<tfoot>
 		<tr>
@@ -85,12 +79,12 @@ echo $this->Form->create('BPCSRepPurchase', array('url' => array('action' => 're
 			<th>&nbsp;</th>
 			<th>&nbsp;</th>
 			<th>&nbsp;</th>
-			<th class="number"><?php echo $quantity?></th>
+			<th class="number"><?php echo $b_p_c_s_rep_purchases_sum_quantity?></th>
 			<th>&nbsp;</th>
 			<th>&nbsp;</th>
 			<th>&nbsp;</th>
-			<th class="number price"><?php echo format_price($total_price / $quantity)?></th>
-			<th class="number price"><?php echo format_price($total_price)?></th>
+			<th class="number price"><?php echo format_price($b_p_c_s_rep_purchases_sum_price / $b_p_c_s_rep_purchases_sum_quantity)?></th>
+			<th class="number price"><?php echo format_price($b_p_c_s_rep_purchases_sum_price)?></th>
 			<th>&nbsp;</th>
 			<th>&nbsp;</th>
 			<th>&nbsp;</th>

@@ -302,6 +302,8 @@ class CSRepsController extends AppController {
 		$b_p_c_s_rep_purchases_find = array();
 		$b_p_c_s_rep_purchases_export_fields = array();
 		$b_p_c_s_rep_purchases = array();
+		$b_p_c_s_rep_purchases_sum_quantity = 0;
+		$b_p_c_s_rep_purchases_sum_price = 0;
 		if ($this->Acl->check(array('model' => 'User', 'foreign_key' => $this->Session->read('Auth.User.id')), 'controllers/BPCSRepPurchases/index')) {
 			$b_p_c_s_rep_purchases_conditions = array(
 				'BPCSRepPurchase.c_s_rep_id' => $id,
@@ -466,12 +468,17 @@ class CSRepsController extends AppController {
 			unset($b_p_c_s_rep_purchases_find['fields']);
 		
 			$b_p_c_s_rep_purchases_export_fields = $this->CSRep->BPCSRepPurchase->export_fields();
-		
+			
+			$b_p_c_s_rep_purchases_sum_price = $this->CSRep->BPCSRepPurchase->getTotalPrice($b_p_c_s_rep_purchases_conditions);
+			$b_p_c_s_rep_purchases_sum_quantity = $this->CSRep->BPCSRepPurchase->getTotalQuantity($b_p_c_s_rep_purchases_conditions);
+			
 		}
 		$this->set('b_p_c_s_rep_purchases', $b_p_c_s_rep_purchases);
 		$this->set('b_p_c_s_rep_purchases_paging', $b_p_c_s_rep_purchases_paging);
 		$this->set('b_p_c_s_rep_purchases_find', $b_p_c_s_rep_purchases_find);
 		$this->set('b_p_c_s_rep_purchases_export_fields', $b_p_c_s_rep_purchases_export_fields);
+		$this->set('b_p_c_s_rep_purchases_sum_price', $b_p_c_s_rep_purchases_sum_price);
+		$this->set('b_p_c_s_rep_purchases_sum_quantity', $b_p_c_s_rep_purchases_sum_quantity);
 		
 		// PRODEJE REPA
 		$b_p_c_s_rep_sales_paging = array();

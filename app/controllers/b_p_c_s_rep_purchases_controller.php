@@ -170,6 +170,12 @@ class BPCSRepPurchasesController extends AppController {
 		
 		$export_fields = $this->BPCSRepPurchase->export_fields();
 		$this->set('export_fields', $export_fields);
+		
+		$b_p_c_s_rep_purchases_sum_price = $this->BPCSRepPurchase->getTotalPrice($conditions);
+		$b_p_c_s_rep_purchases_sum_quantity = $this->BPCSRepPurchase->getTotalQuantity($conditions);
+		
+		$this->set('b_p_c_s_rep_purchases_sum_price', $b_p_c_s_rep_purchases_sum_price);
+		$this->set('b_p_c_s_rep_purchases_sum_quantity', $b_p_c_s_rep_purchases_sum_quantity);
 	}
 	
 	function user_add() {
