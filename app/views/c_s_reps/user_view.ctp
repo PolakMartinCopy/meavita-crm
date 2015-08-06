@@ -2,9 +2,19 @@
 if (isset($this->params['named']['tab'])) {
 	$tab_pos = $this->params['named']['tab'];
 ?>
-	<script>
+	<script type="text/javascript">
 		$(function() {
-			$( "#tabs" ).tabs("select", "#tabs-<?php echo $tab_pos?>");
+			// podle id tabu musim zjistit jeho index a aktivovat tab
+			// potrebuju pole idcek elementu obsazenych v #tabs
+			selectedTabId = 'tabs-<?php echo $tab_pos?>';
+			$('#tabs ul li').each(function(i) {
+				tabId = $(this).attr('aria-controls');
+				if (tabId == selectedTabId) {
+					$("#tabs").tabs({
+						active: i
+					});
+				}
+			});
 		});
 	</script>
 <?php } ?>
