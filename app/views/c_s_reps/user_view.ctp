@@ -135,8 +135,13 @@ if (isset($this->params['named']['tab'])) {
 		
 		<?php if (empty($b_p_c_s_rep_purchases)) { ?>
 		<p><em>V systému nejsou žádné nákupy.</em></p>
-		<?php } else { ?>
-			<?php echo $this->element('b_p_c_s_rep_purchases/index_table')?>
+		<?php } else {
+				$paginator->options(array(
+					'url' => array('tab' => 4, 0 => $c_s_rep['CSRep']['id'])
+				));
+				$paginator->params['paging'] = $b_p_c_s_rep_purchases_paging;
+				$paginator->__defaultModel = 'BPCSRepPurchase';
+				echo $this->element('b_p_c_s_rep_purchases/index_table')?>
 		
 		<?php } ?>
 		<script>
@@ -167,7 +172,13 @@ if (isset($this->params['named']['tab'])) {
 		<?php if (empty($b_p_c_s_rep_sales)) { ?>
 		<p><em>V systému nejsou žádné prodeje.</em></p>
 		<?php } else { ?>
-			<?php echo $this->element('b_p_c_s_rep_sales/index_table')?>
+			<?php
+			$paginator->options(array(
+				'url' => array('tab' => 6, 0 => $c_s_rep['CSRep']['id'])
+			));
+			$paginator->params['paging'] = $b_p_c_s_rep_sales_paging;
+			$paginator->__defaultModel = 'BPCSRepSale';
+			echo $this->element('b_p_c_s_rep_sales/index_table')?>
 		
 		<?php } ?>
 		<script>
@@ -198,7 +209,13 @@ if (isset($this->params['named']['tab'])) {
 		<?php if (empty($c_s_rep_sales)) { ?>
 		<p><em>V systému nejsou žádné převody.</em></p>
 		<?php } else { ?>
-			<?php echo $this->element('c_s_rep_sales/index_table')?>
+			<?php
+			$paginator->options(array(
+				'url' => array('tab' => 5, 0 => $c_s_rep['CSRep']['id'])
+			));
+			$paginator->params['paging'] = $c_s_rep_sales_paging;
+			$paginator->__defaultModel = 'CSRepSale';
+			echo $this->element('c_s_rep_sales/index_table')?>
 		
 		<?php } ?>
 		<script>
@@ -228,8 +245,13 @@ if (isset($this->params['named']['tab'])) {
 		
 		<?php if (empty($c_s_rep_purchases)) { ?>
 		<p><em>V systému nejsou žádné převody.</em></p>
-		<?php } else { ?>
-			<?php echo $this->element('c_s_rep_purchases/index_table')?>
+		<?php } else {
+			$paginator->options(array(
+				'url' => array('tab' => 7, 0 => $c_s_rep['CSRep']['id'])
+			));
+			$paginator->params['paging'] = $c_s_rep_purchases_paging;
+			$paginator->__defaultModel = 'CSRepPurchase';
+			echo $this->element('c_s_rep_purchases/index_table')?>
 		
 		<?php } ?>
 		<script>
